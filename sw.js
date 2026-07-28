@@ -1,4 +1,4 @@
-const CACHE_NAME = "starnatural-v1";
+const CACHE_NAME = "naturalmedix-v1";
 const ASSETS = ["./", "./index.html", "./css/styles.css", "./js/app.js", "./manifest.json"];
 
 self.addEventListener("install", (e) => {
