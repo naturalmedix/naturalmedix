@@ -1,21 +1,21 @@
 const PRODUCTS = [
   {
     id: "vcol-colageno",
-    name: "VCOL",
+    name: "Chupa Panza",
     badge: "Estrella",
     description: "Colágeno Hidrolizado Premium enriquecido con biotina y vitamina C.",
-    price: 15600,
-    originalPrice: 22300,
-    unit: "Frasco x 360mL"
+    price: 11000,
+    originalPrice: 22000,
+    unit: "Frasco x 100 Capsulas 500mg"
   },
   {
     id: "origen-disco",
-    name: "ORIGEN",
+    name: "Fenogreco",
     badge: "Línea Nutricional",
     description: "Alimento funcional prensado a base de fibra natural y extractos botánicos.",
-    price: 17800,
-    originalPrice: 25450,
-    unit: "Frasco x 15 Discos"
+    price: 11000,
+    originalPrice: 22000,
+    unit: "Frasco x 100 Capsulas 500mg"
   }
 ];
 
