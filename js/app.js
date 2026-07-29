@@ -3,7 +3,7 @@ const PRODUCTS = [
     id: "vcol-premium",
     name: "VCOL",
     badge: "Estrella",
-    brand: "Star Natural", // Reemplazar con el fabricante real si no es Star Natural
+    brand: "Natural Medix", // Reemplazar con el fabricante real si no es Natural Medix
     netContent: "Cont. Neto: 360mL (Apiox. 12 Porciones)",
     invima: "Pendiente", // Actualizar cuando tengas el Invima real
     expiry: "Marzo 2028", // Ajustar según tu inventario actual
@@ -249,7 +249,7 @@ async function handleWompiCheckout() {
 
         // Mensaje detallado para tu WhatsApp con CC y Correo
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+`✅ *¡NUEVO PEDIDO PAGADO EN Natural Medix!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
