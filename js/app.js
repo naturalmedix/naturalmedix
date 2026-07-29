@@ -183,7 +183,7 @@ async function handleWompiCheckout() {
         legalId: idNum,
         legalIdType: 'CC' // Puedes cambiarlo según corresponda
       },
-      redirectUrl: 'https://starnatural.app/'
+      redirectUrl: 'https://naturalmedix.app/'
     });
 
     checkout.open(function ( result ) {
