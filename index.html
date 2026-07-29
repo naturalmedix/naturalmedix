@@ -83,10 +83,16 @@
         
         <!-- Datos de Envío -->
         <div class="shipping-form">
-          <h4>Datos para la Entrega</h4>
-          <input type="text" id="customer-name" placeholder="Nombre completo" required>
-          <input type="tel" id="customer-phone" placeholder="Celular (WhatsApp)" required>
-          <input type="text" id="customer-address" placeholder="Dirección y Ciudad" required>
+          <div class="checkout-form">
+  <h3>Datos de Envío y Facturación</h3>
+  <input type="text" id="customer-name" placeholder="Nombre completo o Razon Social" required />
+  <input type="text" id="customer-id" placeholder="Cédula (CC) o NIT" required />
+  <input type="email" id="customer-email" placeholder="Correo electrónico" required />
+  <input type="tel" id="customer-phone" placeholder="Teléfono / WhatsApp" required />
+  <input type="text" id="customer-city" placeholder="Ciudad / Municipio" required />
+  <input type="text" id="customer-address" placeholder="Dirección completa y barrio" required />
+  <textarea id="customer-notes" placeholder="Notas adicionales (ej: Apto 302, dejar en portería)" rows="2"></textarea>
+</div>
         </div>
 
         <button id="btn-wompi-pay" class="btn-checkout">
