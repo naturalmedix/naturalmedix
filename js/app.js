@@ -213,7 +213,7 @@ ${notes ? `• *Notas:* ${notes}` : ''}
 _Pago verificado exitosamente vía Wompi._`;
 
         const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        const whatsappUrl = `https://wa.me/${573171495091}?text=${encodedMessage}`;
 
         alert(`¡Pago Aprobado con éxito! Presiona Aceptar para enviar la confirmación de envío por WhatsApp.`);
         
