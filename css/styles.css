@@ -207,3 +207,20 @@ body {
 .back-to-top:active {
   transform: scale(0.92);
 }
+/* Estilo para emojis animados tipo Telegram */
+.animated-emoji {
+  width: 22px;
+  height: 22px;
+  vertical-align: sub;
+  display: inline-block;
+  object-fit: contain;
+}
+
+/* Para etiquetas de ahorro o destacados */
+.savings-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #d97706; /* Color cálido para el ahorro */
+}
