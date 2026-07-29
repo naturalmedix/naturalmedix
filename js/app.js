@@ -1,4 +1,13 @@
 const PRODUCTS = [
+ {
+    id: "vcol-colageno",
+    name: "Chupa Panza",
+    badge: "Estrella",
+    description: "Colágeno Hidrolizado Premium enriquecido con biotina y vitamina C.",
+    price: 11000,
+    originalPrice: 22000,
+    unit: "Frasco x 100 Capsulas 500mg"
+  },
   {
     id: "vcol-colageno",
     name: "Chupa Panza",
