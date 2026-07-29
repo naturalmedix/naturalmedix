@@ -44,22 +44,34 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBackToTop();
 });
 
+// URLs de emojis animados en alta calidad (Telegram / Fluent 3D style)
+const EMOJIS = {
+  fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",      // 🔥 Fuego animado
+  package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.webp",   // 📦 Paquete
+  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ed/512.webp",   // 🏭 Fábrica
+  shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6e1_fe0f/512.webp", // 🛡️ Escudo
+  sparkles: "https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.webp",  // ✨ Destellos
+  calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"  // 📅 Calendario
+};
+
 function renderProducts() {
   const container = document.getElementById("product-grid");
   container.innerHTML = PRODUCTS.map(product => {
     const ahorro = product.originalPrice - product.price;
-    const ahorroFormateado = ahorro > 0 ? `🔥 ¡Ahorras $${ahorro.toLocaleString("es-CO")}!` : '';
+    const ahorroFormateado = ahorro > 0 
+      ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
+      : '';
 
     return `
       <div class="product-card">
         <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
           
-          <!-- 1. FABRICANTE / LABORATORIO ARRIBA -->
-          <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
-            🏭 Fabricado por: ${product.brand}
+          <!-- FABRICANTE CON EMOJI ANIMADO -->
+          <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
+            <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fábrica"> Fabricado por: ${product.brand}
           </div>
 
-          <!-- 2. TÍTULO Y BADGE DEBAJO DEL FABRICANTE -->
+          <!-- TÍTULO Y BADGE -->
           <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 2px;">
             <h4 class="product-title" style="margin: 0;">${product.name}</h4>
             ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
@@ -68,14 +80,18 @@ function renderProducts() {
         </div>
 
         <div style="font-size:0.85rem; color:#334155; margin: 0.8rem 0; line-height: 1.4;">
-          <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600;">📦 ${product.netContent}</p>
+          <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600; display: flex; align-items: center; gap: 4px;">
+            <img src="${EMOJIS.package}" class="animated-emoji" alt="Paquete"> ${product.netContent}
+          </p>
           ${product.description ? `<p style="margin-bottom:0.3rem; color:#475569;">${product.description}</p>` : ''}
           ${product.benefit ? `<p style="margin-bottom:0.3rem;"><strong>• Beneficio:</strong> ${product.benefit}</p>` : ''}
           <p style="margin-bottom:0.3rem;"><strong>• Uso:</strong> ${product.usage}</p>
           
           ${product.keyIngredients ? `
             <div style="display:flex; flex-direction: column; gap: 0.2rem; margin-top: 0.5rem; font-size:0.82rem;">
-              <p style="color:#0f172a; font-weight:600; margin:0;">✨ Ingredientes clave:</p>
+              <p style="color:#0f172a; font-weight:600; margin:0; display: flex; align-items: center; gap: 4px;">
+                <img src="${EMOJIS.sparkles}" class="animated-emoji" alt="Destellos"> Ingredientes clave:
+              </p>
               <p style="color:#1d4ed8; font-weight:500; margin:0;">${product.keyIngredients.join(' | ')}</p>
             </div>
           ` : ''}
@@ -87,9 +103,9 @@ function renderProducts() {
             </div>
           ` : ''}
 
-          <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem;">
-            ${product.invima ? `<span style="color:#166534; font-weight:600;">🛡️ Invima: ${product.invima}</span>` : ''}
-            ${product.expiry ? `<span style="color:#b45309; font-weight:600;">📅 Vence: ${product.expiry}</span>` : ''}
+          <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem; align-items: center;">
+            ${product.invima ? `<span style="color:#166534; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.shield}" class="animated-emoji" alt="Escudo"> Invima: ${product.invima}</span>` : ''}
+            ${product.expiry ? `<span style="color:#b45309; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.calendar}" class="animated-emoji" alt="Calendario"> Vence: ${product.expiry}</span>` : ''}
           </div>
         </div>
         
@@ -98,7 +114,7 @@ function renderProducts() {
             <span class="product-price">$${product.price.toLocaleString("es-CO")} COP</span>
             <span class="original-price">$${product.originalPrice.toLocaleString("es-CO")}</span>
           </div>
-          ${ahorro > 0 ? `<span class="savings-tag">${ahorroFormateado}</span>` : ''}
+          ${ahorroFormateado}
         </div>
 
         <div class="product-footer" style="margin-top: 0.8rem;">
@@ -108,7 +124,6 @@ function renderProducts() {
     `;
   }).join("");
 }
-
 function addToCart(productId) {
   const existing = cart.find(item => item.id === productId);
   if (existing) { existing.qty += 1; } 
