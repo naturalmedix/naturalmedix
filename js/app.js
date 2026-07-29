@@ -19,7 +19,7 @@ const PRODUCTS = [
   }
 ];
 
-let cart = JSON.parse(localStorage.getItem("starnatural_cart") || "[]");
+let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
 let deferredPrompt = null;
 
 // Configuración de Wompi
@@ -84,7 +84,7 @@ function updateQty(productId, delta) {
 }
 
 function saveAndRefreshCart() {
-  localStorage.setItem("starnatural_cart", JSON.stringify(cart));
+  localStorage.setItem("naturalmedix_cart", JSON.stringify(cart));
   updateCartUI();
 }
 
@@ -173,7 +173,7 @@ async function handleWompiCheckout() {
         phoneNumber: phone,
         phoneNumberPrefix: '+57'
       },
-      redirectUrl: 'https://starnatural.app/'
+      redirectUrl: 'https://naturalmedix.app/'
     });
 
     checkout.open(function ( result ) {
