@@ -139,12 +139,18 @@ async function handleWompiCheckout() {
     return;
   }
 
+  // Capturar datos del formulario
   const name = document.getElementById("customer-name").value.trim();
+  const idNum = document.getElementById("customer-id").value.trim();
+  const email = document.getElementById("customer-email").value.trim();
   const phone = document.getElementById("customer-phone").value.trim();
+  const city = document.getElementById("customer-city").value.trim();
   const address = document.getElementById("customer-address").value.trim();
+  const notes = document.getElementById("customer-notes").value.trim();
 
-  if (!name || !phone || !address) {
-    alert("Por favor completa tus datos de envío.");
+  // Validación de campos obligatorios
+  if (!name || !idNum || !email || !phone || !city || !address) {
+    alert("Por favor completa todos los datos de envío (Nombre, CC/NIT, Correo, Teléfono, Ciudad y Dirección).");
     return;
   }
 
@@ -158,8 +164,9 @@ async function handleWompiCheckout() {
   const currency = "COP";
   const reference = `SN-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
+  const orderSummary = cart.map(i => `• ${i.name} (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}`).join("\n");
+
   try {
-    // Generar la firma SHA-256 en tiempo real
     const signature = await generateIntegritySignature(reference, amountInCents, currency, WOMPI_INTEGRITY_SECRET);
 
     const checkout = new WidgetCheckout({
@@ -167,22 +174,55 @@ async function handleWompiCheckout() {
       amountInCents: amountInCents,
       reference: reference,
       publicKey: WOMPI_PUBLIC_KEY,
-      signature: { integrity: signature }, // <-- Firma enviada correctamente a Wompi
+      signature: { integrity: signature },
       customerData: {
+        email: email, // Correo enviado a Wompi
         fullName: name,
         phoneNumber: phone,
-        phoneNumberPrefix: '+57'
+        phoneNumberPrefix: '+57',
+        legalId: idNum,
+        legalIdType: 'CC' // Puedes cambiarlo según corresponda
       },
-      redirectUrl: 'https://naturalmedix.app/'
+      redirectUrl: 'https://starnatural.app/'
     });
 
     checkout.open(function ( result ) {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
-        alert(`¡Pago Aprobado! Gracias ${name}. Procesaremos tu pedido de inmediato.`);
+
+        // Mensaje detallado para tu WhatsApp con CC y Correo
+        const message = 
+`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+----------------------------------
+📌 *Referencia Wompi:* ${transaction.id || reference}
+💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
+
+🛒 *PRODUCTOS:*
+${orderSummary}
+
+👤 *DATOS DE ENVÍO Y FACTURACIÓN:*
+• *Nombre/Razón Social:* ${name}
+• *CC / NIT:* ${idNum}
+• *Correo:* ${email}
+• *Teléfono:* ${phone}
+• *Ciudad:* ${city}
+• *Dirección:* ${address}
+${notes ? `• *Notas:* ${notes}` : ''}
+
+----------------------------------
+_Pago verificado exitosamente vía Wompi._`;
+
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+        alert(`¡Pago Aprobado con éxito! Presiona Aceptar para enviar la confirmación de envío por WhatsApp.`);
+        
         cart = [];
         saveAndRefreshCart();
         closeCartModal();
+
+        window.open(whatsappUrl, '_blank');
+
       } else if (transaction.status === 'DECLINED') {
         alert("La transacción fue rechazada por la entidad financiera.");
       }
