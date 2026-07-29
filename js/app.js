@@ -1,33 +1,34 @@
 const PRODUCTS = [
- {
-    id: "vcol-colageno",
-    name: "Chupa Panza",
-    badge: "Estrella",
-    description: "Colágeno Hidrolizado Premium enriquecido con biotina y vitamina C.",
-    price: 11000,
-    originalPrice: 22000,
-    unit: "Frasco x 100 Capsulas 500mg"
-  },
   {
-    id: "vcol-colageno",
-    name: "Chupa Panza",
+    id: "vcol-premium",
+    name: "VCOL",
     badge: "Estrella",
-    description: "Colágeno Hidrolizado Premium enriquecido con biotina y vitamina C.",
-    price: 11000,
-    originalPrice: 22000,
-    unit: "Frasco x 100 Capsulas 500mg"
+    brand: "Star Natural", // Reemplazar con el fabricante real si no es Star Natural
+    netContent: "Cont. Neto: 360mL (Apiox. 12 Porciones)",
+    invima: "Pendiente", // Actualizar cuando tengas el Invima real
+    expiry: "Marzo 2028", // Ajustar según tu inventario actual
+    flavor: "Sabor a: Frutos Rojos",
+    description: "Bebida a base de agua con fruta, cargada de ingredientes funcionales.",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa al día (porción recomendada), preferiblemente en la mañana.",
+    keyIngredients: [
+      "Colágeno Hidrolizado",
+      "Citrato de Magnesio",
+      "Citrato de Potasio",
+      "Cloruro de Magnesio",
+      "Vitamina D3",
+      "Cúrcuma",
+      "Vitamina B1"
+    ],
+    highlights: [
+      "Sin Colorantes",
+      "Sin Azúcares Añadidos"
+    ],
+    price: 65000,
+    originalPrice: 85000
   },
-  {
-    id: "origen-disco",
-    name: "Fenogreco",
-    badge: "Línea Nutricional",
-    description: "Alimento funcional prensado a base de fibra natural y extractos botánicos.",
-    price: 11000,
-    originalPrice: 22000,
-    unit: "Frasco x 100 Capsulas 500mg"
-  }
+  // ... (Aquí va tu producto ORIGEN ya actualizado)
 ];
-
 let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
 let deferredPrompt = null;
 
@@ -51,14 +52,46 @@ function renderProducts() {
 
     return `
       <div class="product-card">
-        <div class="product-header">
-          <div>
-            <h4 class="product-title">${product.name}</h4>
-            <span style="font-size:0.8rem; color:#64748b;">${product.unit}</span>
+        <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
+          
+          <!-- 1. FABRICANTE / LABORATORIO ARRIBA -->
+          <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+            🏭 Fabricado por: ${product.brand}
           </div>
-          ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+
+          <!-- 2. TÍTULO Y BADGE DEBAJO DEL FABRICANTE -->
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 2px;">
+            <h4 class="product-title" style="margin: 0;">${product.name}</h4>
+            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+          </div>
+
         </div>
-        <p class="product-desc">${product.description}</p>
+
+        <div style="font-size:0.85rem; color:#334155; margin: 0.8rem 0; line-height: 1.4;">
+          <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600;">📦 ${product.netContent}</p>
+          ${product.description ? `<p style="margin-bottom:0.3rem; color:#475569;">${product.description}</p>` : ''}
+          ${product.benefit ? `<p style="margin-bottom:0.3rem;"><strong>• Beneficio:</strong> ${product.benefit}</p>` : ''}
+          <p style="margin-bottom:0.3rem;"><strong>• Uso:</strong> ${product.usage}</p>
+          
+          ${product.keyIngredients ? `
+            <div style="display:flex; flex-direction: column; gap: 0.2rem; margin-top: 0.5rem; font-size:0.82rem;">
+              <p style="color:#0f172a; font-weight:600; margin:0;">✨ Ingredientes clave:</p>
+              <p style="color:#1d4ed8; font-weight:500; margin:0;">${product.keyIngredients.join(' | ')}</p>
+            </div>
+          ` : ''}
+
+          ${product.highlights ? `
+            <div style="display:flex; gap: 0.5rem; font-size:0.78rem; font-weight:600; margin-top:0.4rem;">
+              <span style="background-color:#f1f5f9; padding: 2px 6px; border-radius: 4px; color:#0f172a;">✅ ${product.highlights[0]}</span>
+              <span style="background-color:#f1f5f9; padding: 2px 6px; border-radius: 4px; color:#0f172a;">✅ ${product.highlights[1]}</span>
+            </div>
+          ` : ''}
+
+          <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem;">
+            ${product.invima ? `<span style="color:#166534; font-weight:600;">🛡️ Invima: ${product.invima}</span>` : ''}
+            ${product.expiry ? `<span style="color:#b45309; font-weight:600;">📅 Vence: ${product.expiry}</span>` : ''}
+          </div>
+        </div>
         
         <div class="price-container">
           <div class="prices-row">
