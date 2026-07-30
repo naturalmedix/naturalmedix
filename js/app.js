@@ -5,7 +5,7 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "Natural Medix (Peru)",
     netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
-    invima: "PSA-0690-2025",
+    invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
