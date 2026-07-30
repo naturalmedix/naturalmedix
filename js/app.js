@@ -7,7 +7,7 @@ const PRODUCTS = [
     netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
     invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 15600,
     originalPrice: 22300,
     image: "assets/images/natural-medix.mp4"
@@ -33,7 +33,7 @@ const PRODUCTS = [
     netContent: "Cont. Neto: 360mL (12 Porciones)",
     invima: "RSA-0034995-2024",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 15600,
     originalPrice: 22300,
     image: "assets/images/origen-360ml.mp4"
@@ -46,7 +46,7 @@ const PRODUCTS = [
     netContent: "Cont. Neto: 400mL (13 Porciones)",
     invima: "RSAV12136011",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 15600,
     originalPrice: 22300,
     image: "assets/images/origen-400ml.mp4"
@@ -59,7 +59,7 @@ const PRODUCTS = [
     netContent: "Cont. Neto: 360mL (12 Porciones)",
     invima: "RSA-0034995-2024",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 15600,
     originalPrice: 22300,
     image: "assets/images/vcol.mp4"
