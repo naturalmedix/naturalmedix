@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const EMOJIS = {
   fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",      // 🔥 Fuego animado
   package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.webp",   // 📦 Paquete
-  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ed/512.webp",   // 🏭 Fábrica
+  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ed/512.webp",   // 🏭 Vendido Por
   shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6e1_fe0f/512.webp", // 🛡️ Escudo
   sparkles: "https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.webp",  // ✨ Destellos
   calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"  // 📅 Calendario
@@ -68,7 +68,7 @@ function renderProducts() {
           
           <!-- FABRICANTE CON EMOJI ANIMADO -->
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
-            <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fábrica"> Fabricado por: ${product.brand}
+            <img src="${EMOJIS.factory}" class="animated-emoji" alt="Vendido Por"> Fabricado por: ${product.brand}
           </div>
 
           <!-- TÍTULO Y BADGE -->
