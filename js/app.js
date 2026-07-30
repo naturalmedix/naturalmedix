@@ -1,40 +1,86 @@
 const PRODUCTS = [
   {
-    id: "vcol-premium",
-    name: "VCOL",
+    id: "gaf-plus-colageno",
+    name: "GAF-PLUS 300mL",
     badge: "Estrella",
-    brand: "Natural Medix", // Reemplazar con el fabricante real si no es Natural Medix
-    netContent: "Cont. Neto: 360mL (Apiox. 12 Porciones)",
-    invima: "Pendiente", // Actualizar cuando tengas el Invima real
-    expiry: "Marzo 2028", // Ajustar según tu inventario actual
-    flavor: "Sabor a: Frutos Rojos",
-    description: "Bebida a base de agua con fruta, cargada de ingredientes funcionales.",
+    fabricado: "GrenLab",
+    netContent: "Cont. Neto: 300mL (10 Porciones)",
+    invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 1 copa al día (porción recomendada), preferiblemente en la mañana.",
-    keyIngredients: [
-      "Colágeno Hidrolizado",
-      "Citrato de Magnesio",
-      "Citrato de Potasio",
-      "Cloruro de Magnesio",
-      "Vitamina D3",
-      "Cúrcuma",
-      "Vitamina B1"
-    ],
-    highlights: [
-      "Sin Colorantes",
-      "Sin Azúcares Añadidos"
-    ],
-    price: 65000,
-    originalPrice: 85000
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/natural-medix.mp4"
   },
-  // ... (Aquí va tu producto ORIGEN ya actualizado)
+  {
+    id: "origen-disco",
+    name: "ORIGEN 15 Discos",
+    badge: "Línea ORIGEN",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: Frasco x 15 Discos (15 Porciones)",
+    invima: "PSA-0005343-2024",
+    benefit: "Alimento funcional con fibra natural que mejora la digestión y el tránsito intestinal.",
+    usage: "Disolver 1 disco en un vaso de agua caliente al día.",
+    price: 17800,
+    originalPrice: 25450,
+    image: "assets/images/origen-disco.mp4"
+  },
+  {
+    id: "origen-360ml-colageno",
+    name: "ORIGEN 360mL",
+    badge: "Línea ORIGEN",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: 360mL (12 Porciones)",
+    invima: "RSA-0034995-2024",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/origen-360ml.mp4"
+  },
+  {
+    id: "origen-400ml-colageno",
+    name: "ORIGEN 400mL",
+    badge: "Línea ORIGEN",
+    fabricado: "Laboratorios vanier",
+    netContent: "Cont. Neto: 400mL (13 Porciones)",
+    invima: "RSAV12136011",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/origen-400ml.mp4"
+  },
+  {
+    id: "vcol-colageno",
+    name: "VCOL 360mL",
+    badge: "Estrella",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: 360mL (12 Porciones)",
+    invima: "RSA-0034995-2024",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/vcol.mp4"
+  }
 ];
+
 let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
 let deferredPrompt = null;
 
 // Configuración de Wompi
 const WOMPI_PUBLIC_KEY = "pub_prod_hTKZ7t71m1Xue0eFgOc3vSvKTvcUl1gZ"; 
 const WOMPI_INTEGRITY_SECRET = "prod_integrity_DcxdEMXNcfNVP0vLgE2RDmIK61d3ldNU";
+
+// URLs de emojis animados
+const EMOJIS = {
+  fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",
+  package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f37e/512.webp",
+  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp",
+  shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/2705/512.webp",
+  calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
@@ -44,18 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBackToTop();
 });
 
-// URLs de emojis animados en alta calidad (Telegram / Fluent 3D style)
-const EMOJIS = {
-  fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",      // 🔥 Fuego animado
-  package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4e6/512.webp",   // 📦 Paquete
-  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ed/512.webp",   // 🏭 Vendido Por
-  shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6e1_fe0f/512.webp", // 🛡️ Escudo
-  sparkles: "https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.webp",  // ✨ Destellos
-  calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"  // 📅 Calendario
-};
-
 function renderProducts() {
   const container = document.getElementById("product-grid");
+  if (!container) return;
+
   container.innerHTML = PRODUCTS.map(product => {
     const ahorro = product.originalPrice - product.price;
     const ahorroFormateado = ahorro > 0 
@@ -64,48 +102,33 @@ function renderProducts() {
 
     return `
       <div class="product-card">
+        ${product.image ? `
+          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
+            <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
+            <span class="expand-badge">🔍 Ampliar</span>
+          </div>
+        ` : ''}
+
         <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
-          
-          <!-- FABRICANTE CON EMOJI ANIMADO -->
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
-            <img src="${EMOJIS.factory}" class="animated-emoji" alt="Vendido Por"> Fabricado por: ${product.brand}
+            <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${product.fabricado}
           </div>
 
-          <!-- TÍTULO Y BADGE -->
           <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 2px;">
             <h4 class="product-title" style="margin: 0;">${product.name}</h4>
             ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
           </div>
-
         </div>
 
         <div style="font-size:0.85rem; color:#334155; margin: 0.8rem 0; line-height: 1.4;">
           <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600; display: flex; align-items: center; gap: 4px;">
-            <img src="${EMOJIS.package}" class="animated-emoji" alt="Paquete"> ${product.netContent}
+            <img src="${EMOJIS.package}" class="animated-emoji" alt="Contenido"> ${product.netContent}
           </p>
-          ${product.description ? `<p style="margin-bottom:0.3rem; color:#475569;">${product.description}</p>` : ''}
           ${product.benefit ? `<p style="margin-bottom:0.3rem;"><strong>• Beneficio:</strong> ${product.benefit}</p>` : ''}
-          <p style="margin-bottom:0.3rem;"><strong>• Uso:</strong> ${product.usage}</p>
-          
-          ${product.keyIngredients ? `
-            <div style="display:flex; flex-direction: column; gap: 0.2rem; margin-top: 0.5rem; font-size:0.82rem;">
-              <p style="color:#0f172a; font-weight:600; margin:0; display: flex; align-items: center; gap: 4px;">
-                <img src="${EMOJIS.sparkles}" class="animated-emoji" alt="Destellos"> Ingredientes clave:
-              </p>
-              <p style="color:#1d4ed8; font-weight:500; margin:0;">${product.keyIngredients.join(' | ')}</p>
-            </div>
-          ` : ''}
-
-          ${product.highlights ? `
-            <div style="display:flex; gap: 0.5rem; font-size:0.78rem; font-weight:600; margin-top:0.4rem;">
-              <span style="background-color:#f1f5f9; padding: 2px 6px; border-radius: 4px; color:#0f172a;">✅ ${product.highlights[0]}</span>
-              <span style="background-color:#f1f5f9; padding: 2px 6px; border-radius: 4px; color:#0f172a;">✅ ${product.highlights[1]}</span>
-            </div>
-          ` : ''}
+          <p style="margin-bottom:0.3rem;"><strong>• Modo de Uso:</strong> ${product.usage}</p>
 
           <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem; align-items: center;">
             ${product.invima ? `<span style="color:#166534; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.shield}" class="animated-emoji" alt="Escudo"> Invima: ${product.invima}</span>` : ''}
-            ${product.expiry ? `<span style="color:#b45309; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.calendar}" class="animated-emoji" alt="Calendario"> Vence: ${product.expiry}</span>` : ''}
           </div>
         </div>
         
@@ -124,10 +147,42 @@ function renderProducts() {
     `;
   }).join("");
 }
+
+// --- MODAL DE REPRODUCCIÓN EN PANTALLA COMPLETA 9:16 ---
+function openMediaModal(src, title) {
+  const modal = document.getElementById("image-modal");
+  const modalContent = document.querySelector(".image-modal-content");
+  const modalCaption = document.getElementById("modal-img-caption");
+
+  if (modal && modalContent) {
+    modalContent.innerHTML = `
+      <div class="modal-media-wrapper">
+        <video src="${src}" autoplay loop muted playsinline></video>
+      </div>
+    `;
+    if (modalCaption) modalCaption.innerText = title || "";
+    modal.classList.remove("hidden");
+  }
+}
+
+function closeImageModal() {
+  const modal = document.getElementById("image-modal");
+  if (modal) {
+    modal.classList.add("hidden");
+    const modalContent = document.querySelector(".image-modal-content");
+    if (modalContent) modalContent.innerHTML = ""; // Limpia el video al cerrar para ahorrar consumo de memoria
+  }
+}
+
+// --- LÓGICA DEL CARRITO ---
 function addToCart(productId) {
   const existing = cart.find(item => item.id === productId);
-  if (existing) { existing.qty += 1; } 
-  else { cart.push({ ...PRODUCTS.find(p => p.id === productId), qty: 1 }); }
+  if (existing) { 
+    existing.qty += 1; 
+  } else { 
+    const itemToAdd = PRODUCTS.find(p => p.id === productId);
+    if (itemToAdd) cart.push({ ...itemToAdd, qty: 1 }); 
+  }
   saveAndRefreshCart();
   openCartModal();
 }
@@ -136,7 +191,9 @@ function updateQty(productId, delta) {
   const item = cart.find(i => i.id === productId);
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) { cart = cart.filter(i => i.id !== productId); }
+  if (item.qty <= 0) { 
+    cart = cart.filter(i => i.id !== productId); 
+  }
   saveAndRefreshCart();
 }
 
@@ -149,39 +206,58 @@ function updateCartUI() {
   const totalCount = cart.reduce((acc, i) => acc + i.qty, 0);
   const totalPrice = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
 
-  document.getElementById("cart-count").innerText = totalCount;
-  document.getElementById("cart-total").innerText = `$${totalPrice.toLocaleString("es-CO")} COP`;
+  const cartCountEl = document.getElementById("cart-count");
+  const cartTotalEl = document.getElementById("cart-total");
+  if (cartCountEl) cartCountEl.innerText = totalCount;
+  if (cartTotalEl) cartTotalEl.innerText = `$${totalPrice.toLocaleString("es-CO")} COP`;
 
   const itemsContainer = document.getElementById("cart-items-container");
-  if (cart.length === 0) {
-    itemsContainer.innerHTML = `<p style="text-align:center; color:#64748b; padding:1rem;">Tu carrito está vacío</p>`;
-  } else {
-    itemsContainer.innerHTML = cart.map(item => `
-      <div class="cart-item">
-        <div>
-          <div style="font-weight:700;">${item.name}</div>
-          <div style="font-size:0.85rem; color:#64748b;">$${(item.price * item.qty).toLocaleString("es-CO")} COP</div>
+  if (itemsContainer) {
+    if (cart.length === 0) {
+      itemsContainer.innerHTML = `<p style="text-align:center; color:#64748b; padding:1rem;">Tu carrito está vacío</p>`;
+    } else {
+      itemsContainer.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div>
+            <div style="font-weight:700;">${item.name}</div>
+            <div style="font-size:0.85rem; color:#64748b;">$${(item.price * item.qty).toLocaleString("es-CO")} COP</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
+          </div>
         </div>
-        <div class="qty-controls">
-          <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
-          <span>${item.qty}</span>
-          <button class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
-        </div>
-      </div>
-    `).join("");
+      `).join("");
+    }
   }
 }
 
-function openCartModal() { document.getElementById("cart-modal").classList.remove("hidden"); }
-function closeCartModal() { document.getElementById("cart-modal").classList.add("hidden"); }
+function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
+function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
 function setupEventListeners() {
-  document.getElementById("cart-icon-btn").addEventListener("click", openCartModal);
-  document.getElementById("close-cart-btn").addEventListener("click", closeCartModal);
-  document.getElementById("btn-wompi-pay").addEventListener("click", handleWompiCheckout);
+  document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
+  document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
+  document.getElementById("btn-wompi-pay")?.addEventListener("click", handleWompiCheckout);
+  document.getElementById("close-image-modal")?.addEventListener("click", closeImageModal);
+  
+  const imageModal = document.getElementById("image-modal");
+  if (imageModal) {
+    imageModal.addEventListener("click", (e) => {
+      if (e.target === imageModal) closeImageModal();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeImageModal();
+      closeCartModal();
+    }
+  });
 }
 
-// Función Criptográfica para calcular la Firma SHA-256 exigida por Wompi
+// --- PASARELA DE PAGO WOMPI ---
 async function generateIntegritySignature(reference, amountInCents, currency, secret) {
   const cadenaConcatenada = `${reference}${amountInCents}${currency}${secret}`;
   const encondedText = new TextEncoder().encode(cadenaConcatenada);
@@ -196,16 +272,14 @@ async function handleWompiCheckout() {
     return;
   }
 
-  // Capturar datos del formulario
-  const name = document.getElementById("customer-name").value.trim();
-  const idNum = document.getElementById("customer-id").value.trim();
-  const email = document.getElementById("customer-email").value.trim();
-  const phone = document.getElementById("customer-phone").value.trim();
-  const city = document.getElementById("customer-city").value.trim();
-  const address = document.getElementById("customer-address").value.trim();
-  const notes = document.getElementById("customer-notes").value.trim();
+  const name = document.getElementById("customer-name")?.value.trim() || "";
+  const idNum = document.getElementById("customer-id")?.value.trim() || "";
+  const email = document.getElementById("customer-email")?.value.trim() || "";
+  const phone = document.getElementById("customer-phone")?.value.trim() || "";
+  const city = document.getElementById("customer-city")?.value.trim() || "";
+  const address = document.getElementById("customer-address")?.value.trim() || "";
+  const notes = document.getElementById("customer-notes")?.value.trim() || "";
 
-  // Validación de campos obligatorios
   if (!name || !idNum || !email || !phone || !city || !address) {
     alert("Por favor completa todos los datos de envío (Nombre, CC/NIT, Correo, Teléfono, Ciudad y Dirección).");
     return;
@@ -220,7 +294,6 @@ async function handleWompiCheckout() {
   const amountInCents = Math.round(totalPrice * 100);
   const currency = "COP";
   const reference = `SN-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
   const orderSummary = cart.map(i => `• ${i.name} (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}`).join("\n");
 
   try {
@@ -233,12 +306,12 @@ async function handleWompiCheckout() {
       publicKey: WOMPI_PUBLIC_KEY,
       signature: { integrity: signature },
       customerData: {
-        email: email, // Correo enviado a Wompi
+        email: email,
         fullName: name,
         phoneNumber: phone,
         phoneNumberPrefix: '+57',
         legalId: idNum,
-        legalIdType: 'CC' // Puedes cambiarlo según corresponda
+        legalIdType: 'CC'
       },
       redirectUrl: 'https://naturalmedix.app/'
     });
@@ -246,10 +319,8 @@ async function handleWompiCheckout() {
     checkout.open(function ( result ) {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
-
-        // Mensaje detallado para tu WhatsApp con CC y Correo
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN Natural Medix!*
+`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
@@ -270,7 +341,7 @@ ${notes ? `• *Notas:* ${notes}` : ''}
 _Pago verificado exitosamente vía Wompi._`;
 
         const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${573171495091}?text=${encodedMessage}`;
+        const whatsappUrl = `https://wa.me/573027109685?text=${encodedMessage}`;
 
         alert(`¡Pago Aprobado con éxito! Presiona Aceptar para enviar la confirmación de envío por WhatsApp.`);
         
@@ -279,7 +350,6 @@ _Pago verificado exitosamente vía Wompi._`;
         closeCartModal();
 
         window.open(whatsappUrl, '_blank');
-
       } else if (transaction.status === 'DECLINED') {
         alert("La transacción fue rechazada por la entidad financiera.");
       }
