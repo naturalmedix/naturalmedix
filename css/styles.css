@@ -224,3 +224,102 @@ body {
   font-weight: 700;
   color: #d97706; /* Color cálido para el ahorro */
 }
+/* ==========================================
+   MODAL DE IMAGEN DE PRODUCTO (NATURAL MEDIX)
+   ========================================== */
+
+/* Botón "Ver Foto" dentro de la tarjeta */
+.btn-view-image {
+  background-color: #f0fdf4;
+  color: var(--primary);
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.btn-view-image:hover {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+/* Fondo oscuro / Overlay con efecto borroso */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Ventana emergente */
+.image-modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  animation: scaleUp 0.2s ease-out;
+}
+
+.image-modal-content img {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+.image-modal-title {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Botón cerrar modal */
+.btn-close-modal {
+  width: 100%;
+  background-color: var(--accent-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  background-color: var(--accent-red-hover);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
