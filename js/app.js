@@ -1,7 +1,7 @@
 const PRODUCTS = [
   {
-    id: "gaf-plus-colageno",
-    name: "GAF-PLUS 300mL",
+    id: "aguaje-pawer",
+    name: "AGUAJE pawer",
     badge: "Estrella",
     fabricado: "GrenLab",
     netContent: "Cont. Neto: 300mL (10 Porciones)",
