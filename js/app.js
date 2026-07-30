@@ -4,7 +4,7 @@ const PRODUCTS = [
     name: "AGUAJE pawer",
     badge: "Estrella",
     fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 300mL (10 Porciones)",
+    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
     invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
