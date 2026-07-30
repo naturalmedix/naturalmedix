@@ -3,7 +3,7 @@ const PRODUCTS = [
     id: "aguaje-pawer",
     name: "AGUAJE pawer",
     badge: "Estrella",
-    fabricado: "GrenLab",
+    fabricado: "Natural Medix (Peru)",
     netContent: "Cont. Neto: 300mL (10 Porciones)",
     invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
