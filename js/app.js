@@ -8,8 +8,8 @@ const PRODUCTS = [
     invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 15600,
-    originalPrice: 22300,
+    price: 11000,
+    originalPrice: 22000,
     image: "assets/images/natural-medix.mp4"
   },
   {
@@ -34,8 +34,8 @@ const PRODUCTS = [
     invima: "RSA-0034995-2024",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 15600,
-    originalPrice: 22300,
+    price: 11000,
+    originalPrice: 22000,
     image: "assets/images/origen-360ml.mp4"
   },
   {
@@ -47,8 +47,8 @@ const PRODUCTS = [
     invima: "RSAV12136011",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 15600,
-    originalPrice: 22300,
+    price: 11000,
+    originalPrice: 22000,
     image: "assets/images/origen-400ml.mp4"
   },
   {
@@ -60,8 +60,8 @@ const PRODUCTS = [
     invima: "RSA-0034995-2024",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 15600,
-    originalPrice: 22300,
+    price: 11000,
+    originalPrice: 22000,
     image: "assets/images/vcol.mp4"
   }
 ];
