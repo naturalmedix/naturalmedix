@@ -21,6 +21,7 @@ body {
   padding-bottom: 30px;
 }
 
+/* --- NAVEGACIÓN --- */
 .navbar {
   background: #ffffff;
   position: sticky;
@@ -69,14 +70,42 @@ body {
   border-radius: 10px;
 }
 
-/* PWA Banner */
-.pwa-banner { background: var(--dark); color: white; padding: 0.8rem 1.2rem; }
-.pwa-banner.hidden { display: none; }
-.pwa-content { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-.btn-install { background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-family: 'Urbanist', sans-serif; font-weight: 700; cursor: pointer; }
+/* --- BANNER PWA --- */
+.pwa-banner { 
+  background: var(--dark); 
+  color: white; 
+  padding: 0.8rem 1.2rem; 
+}
 
-/* Main layout */
-.main-container { max-width: 600px; margin: 0 auto; padding: 1.2rem; }
+.pwa-banner.hidden { 
+  display: none; 
+}
+
+.pwa-content { 
+  max-width: 600px; 
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.btn-install { 
+  background: var(--primary); 
+  color: white; 
+  border: none; 
+  padding: 0.5rem 1rem; 
+  border-radius: 8px; 
+  font-family: 'Urbanist', sans-serif; 
+  font-weight: 700; 
+  cursor: pointer; 
+}
+
+/* --- LAYOUT PRINCIPAL --- */
+.main-container { 
+  max-width: 600px; 
+  margin: 0 auto; 
+  padding: 1.2rem; 
+}
 
 .hero-card {
   background: linear-gradient(135deg, #0d9488 0%, #115e59 100%);
@@ -86,12 +115,34 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.hero-tag { background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-.hero-card h2 { font-size: 1.5rem; font-weight: 800; margin: 0.6rem 0 0.4rem 0; }
+.hero-tag { 
+  background: rgba(255,255,255,0.2); 
+  padding: 0.25rem 0.75rem; 
+  border-radius: 20px; 
+  font-size: 0.75rem; 
+  font-weight: 600; 
+  text-transform: uppercase; 
+}
 
-.section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
-.product-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+.hero-card h2 { 
+  font-size: 1.5rem; 
+  font-weight: 800; 
+  margin: 0.6rem 0 0.4rem 0; 
+}
 
+.section-title { 
+  font-size: 1.3rem; 
+  font-weight: 700; 
+  margin-bottom: 1rem; 
+}
+
+.product-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1.2rem; 
+}
+
+/* --- TARJETAS DE PRODUCTO --- */
 .product-card {
   background: var(--card-bg);
   border-radius: var(--border-radius);
@@ -100,14 +151,81 @@ body {
   border: 1px solid #f1f5f9;
 }
 
-.product-header { display: flex; justify-content: space-between; align-items: flex-start; }
-.product-title { font-size: 1.4rem; font-weight: 800; }
-.product-badge { background: #fef3c7; color: #b45309; font-weight: 700; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 6px; }
-.product-desc { font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0; }
-.product-footer { display: flex; justify-content: space-between; align-items: center; }
-.product-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+/* MINIATURA VERTICAL 9:16 COMPACTA */
+.product-image-wrapper {
+  position: relative;
+  width: 140px;            /* Ancho compacto para miniatura */
+  height: 248px;           /* Proporción exacta 9:16 (140 * 16 / 9) */
+  margin: 0 auto 0.8rem;   /* Centrado en la tarjeta */
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-image-wrapper:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.expand-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.product-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+}
+
+.product-title { 
+  font-size: 1.4rem; 
+  font-weight: 800; 
+}
+
+.product-badge { 
+  background: #fef3c7; 
+  color: #b45309; 
+  font-weight: 700; 
+  font-size: 0.7rem; 
+  padding: 0.2rem 0.6rem; 
+  border-radius: 6px; 
+}
+
+.product-desc { 
+  font-size: 0.9rem; 
+  color: var(--text-muted); 
+  margin: 0.5rem 0; 
+}
+
+.product-footer { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
 
 .btn-add-cart {
+  width: 100%;
   background: var(--dark);
   color: white;
   border: none;
@@ -118,24 +236,7 @@ body {
   cursor: pointer;
 }
 
-/* Modal Carrito */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: flex-end; }
-.modal-overlay.hidden { display: none; }
-.modal-content { background: white; width: 100%; max-width: 600px; margin: 0 auto; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 1.5rem; max-height: 85vh; overflow-y: auto; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.close-btn { background: none; border: none; font-size: 1.8rem; color: var(--text-muted); cursor: pointer; }
-
-.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem; background: var(--light-bg); border-radius: 10px; margin-bottom: 0.5rem; }
-.qty-controls { display: flex; align-items: center; gap: 0.5rem; }
-.qty-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #cbd5e1; background: white; font-weight: 700; cursor: pointer; }
-
-.summary-line { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 800; margin: 1rem 0; border-top: 1px solid #e2e8f0; padding-top: 0.8rem; }
-.shipping-form { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
-.shipping-form input { padding: 0.7rem; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Urbanist', sans-serif; }
-
-.btn-checkout { width: 100%; background: var(--primary); color: white; border: none; padding: 1rem; border-radius: 12px; font-family: 'Urbanist', sans-serif; font-weight: 800; font-size: 1rem; cursor: pointer; }
-.footer { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted); }
-/* Estilos para precios con descuento y ahorro */
+/* PRECIOS Y AHORRO */
 .price-container {
   display: flex;
   flex-direction: column;
@@ -163,9 +264,11 @@ body {
 }
 
 .savings-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: #ecfdf5;
-  color: #047857;
+  color: #d97706;
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.15rem 0.5rem;
@@ -173,10 +276,144 @@ body {
   width: fit-content;
 }
 
-.btn-add-cart {
+.animated-emoji {
+  width: 22px;
+  height: 22px;
+  vertical-align: sub;
+  display: inline-block;
+  object-fit: contain;
+}
+
+/* --- MODAL CARRITO Y MULTIMEDIA --- */
+.modal-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(15, 23, 42, 0.75); 
+  backdrop-filter: blur(4px); 
+  z-index: 200; 
+  display: flex; 
+  align-items: flex-end; 
+  justify-content: center;
+}
+
+.modal-overlay.hidden { 
+  display: none; 
+}
+
+.modal-content { 
+  background: white; 
+  width: 100%; 
+  max-width: 600px; 
+  margin: 0 auto; 
+  border-top-left-radius: 24px; 
+  border-top-right-radius: 24px; 
+  padding: 1.5rem; 
+  max-height: 85vh; 
+  overflow-y: auto; 
+}
+
+.modal-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 1rem; 
+}
+
+.close-btn { 
+  background: none; 
+  border: none; 
+  font-size: 1.8rem; 
+  color: var(--text-muted); 
+  cursor: pointer; 
+}
+
+/* MODAL VIDEO EN PANTALLA COMPLETA 9:16 */
+.image-modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
-/* Botón Volver Arriba Flotante */
+
+.modal-media-wrapper video {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  max-height: 80vh;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ELEMENTOS DEL CARRITO */
+.cart-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0.8rem; 
+  background: var(--light-bg); 
+  border-radius: 10px; 
+  margin-bottom: 0.5rem; 
+}
+
+.qty-controls { 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+}
+
+.qty-btn { 
+  width: 28px; 
+  height: 28px; 
+  border-radius: 6px; 
+  border: 1px solid #cbd5e1; 
+  background: white; 
+  font-weight: 700; 
+  cursor: pointer; 
+}
+
+.summary-line { 
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 1.2rem; 
+  font-weight: 800; 
+  margin: 1rem 0; 
+  border-top: 1px solid #e2e8f0; 
+  padding-top: 0.8rem; 
+}
+
+.shipping-form { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.6rem; 
+  margin-bottom: 1rem; 
+}
+
+.shipping-form input { 
+  padding: 0.7rem; 
+  border: 1px solid #cbd5e1; 
+  border-radius: 8px; 
+  font-family: 'Urbanist', sans-serif; 
+}
+
+.btn-checkout { 
+  width: 100%; 
+  background: var(--primary); 
+  color: white; 
+  border: none; 
+  padding: 1rem; 
+  border-radius: 12px; 
+  font-family: 'Urbanist', sans-serif; 
+  font-weight: 800; 
+  font-size: 1rem; 
+  cursor: pointer; 
+}
+
+/* BOTÓN VOLVER ARRIBA */
 .back-to-top {
   position: fixed;
   bottom: 20px;
@@ -207,148 +444,10 @@ body {
 .back-to-top:active {
   transform: scale(0.92);
 }
-/* Estilo para emojis animados tipo Telegram */
-.animated-emoji {
-  width: 22px;
-  height: 22px;
-  vertical-align: sub;
-  display: inline-block;
-  object-fit: contain;
-}
 
-/* Para etiquetas de ahorro o destacados */
-.savings-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  color: #d97706; /* Color cálido para el ahorro */
-}
-/* ==========================================
-   MODAL DE IMAGEN DE PRODUCTO (NATURAL MEDIX)
-   ========================================== */
-
-/* Botón "Ver Foto" dentro de la tarjeta */
-.btn-view-image {
-  background-color: #f0fdf4;
-  color: var(--primary);
-  border: 1px solid #bbf7d0;
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-}
-
-.btn-view-image:hover {
-  background-color: var(--primary);
-  color: #ffffff;
-  border-color: var(--primary);
-}
-
-/* Fondo oscuro / Overlay con efecto borroso */
-.image-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 16px;
-  animation: fadeIn 0.2s ease-out;
-}
-
-/* Ventana emergente */
-.image-modal-content {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  max-width: 380px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-  animation: scaleUp 0.2s ease-out;
-}
-
-.image-modal-content img {
-  width: 100%;
-  max-height: 55vh;
-  object-fit: contain;
-  border-radius: 10px;
-  margin: 12px 0;
-}
-
-.image-modal-title {
-  margin: 0;
-  color: var(--text-main);
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-/* Botón cerrar modal */
-.btn-close-modal {
-  width: 100%;
-  background-color: var(--accent-red);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.btn-close-modal:hover {
-  background-color: var(--accent-red-hover);
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleUp {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.product-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-}
-/* Contenedor adaptado a formato vertical 9:16 */
-.product-image-wrapper {
-  position: relative;
-  width: 100%;
-  /* Proporción 9:16 (16 / 9 = 1.777 -> 177.78% de altura relativa) */
-  padding-top: 177.78%; 
-  background-color: #f8fafc;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-/* El video se posiciona absolutamente para llenar la proporción 9:16 */
-.product-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* o 'contain' si prefieres que no se recorte nada del borde */
-  border-radius: 12px;
+.footer { 
+  text-align: center; 
+  margin-top: 2rem; 
+  font-size: 0.85rem; 
+  color: var(--text-muted); 
 }
