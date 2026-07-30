@@ -1,7 +1,7 @@
 {
   "name": "Natural Medix App",
   "short_name": "NaturalMedix",
-  "description": "App Tienda Oficial de productos naturales Natural Medix.",
+  "description": "App Tienda Oficial Natural Medix.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
