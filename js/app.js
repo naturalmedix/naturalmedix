@@ -13,56 +13,17 @@ const PRODUCTS = [
     image: "assets/images/natural-medix.mp4"
   },
   {
-    id: "origen-disco",
-    name: "ORIGEN 15 Discos",
-    badge: "Línea ORIGEN",
-    fabricado: "Naturalisima",
-    netContent: "Cont. Neto: Frasco x 15 Discos (15 Porciones)",
-    invima: "PSA-0005343-2024",
-    benefit: "Alimento funcional con fibra natural que mejora la digestión y el tránsito intestinal.",
-    usage: "Disolver 1 disco en un vaso de agua caliente al día.",
-    price: 17800,
-    originalPrice: 25450,
-    image: "assets/images/origen-disco.mp4"
-  },
-  {
-    id: "origen-360ml-colageno",
-    name: "ORIGEN 360mL",
-    badge: "Línea ORIGEN",
-    fabricado: "Naturalisima",
-    netContent: "Cont. Neto: 360mL (12 Porciones)",
-    invima: "RSA-0034995-2024",
-    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 11000,
-    originalPrice: 22000,
-    image: "assets/images/origen-360ml.mp4"
-  },
-  {
-    id: "origen-400ml-colageno",
-    name: "ORIGEN 400mL",
-    badge: "Línea ORIGEN",
-    fabricado: "Laboratorios vanier",
-    netContent: "Cont. Neto: 400mL (13 Porciones)",
-    invima: "RSAV12136011",
-    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 11000,
-    originalPrice: 22000,
-    image: "assets/images/origen-400ml.mp4"
-  },
-  {
-    id: "vcol-colageno",
-    name: "VCOL 360mL",
+    id: "aguaje-pawer",
+    name: "AGUAJE pawer",
     badge: "Estrella",
-    fabricado: "Naturalisima",
-    netContent: "Cont. Neto: 360mL (12 Porciones)",
-    invima: "RSA-0034995-2024",
+    fabricado: "Natural Medix (Peru)",
+    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/vcol.mp4"
+    image: "assets/images/natural-medix.mp4"
   }
 ];
 
