@@ -320,7 +320,7 @@ async function handleWompiCheckout() {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+`✅ *¡NUEVO PEDIDO PAGADO EN Natural Medix!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
