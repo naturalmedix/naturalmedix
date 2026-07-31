@@ -333,23 +333,18 @@ body {
     cursor: pointer;
 }
 
-/* MODAL VIDEO EN PANTALLA COMPLETA 9:16 */
-.image-modal-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.modal-media-wrapper video {
-    width: 100%;
-    max-width: 380px;
-    height: auto;
-    max-height: 80vh;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+/* MODAL DE IMAGEN Y VIDEO AMPLIA (PROPORCIÓN 3:4) */
+.modal-media-wrapper video,
+.modal-media-wrapper img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  max-height: 80vh;
+  aspect-ratio: 3 / 4;       /* Misma proporción 3:4 del catálogo */
+  object-fit: contain;       /* Muestra la imagen/video completa sin recortar nada */
+  border-radius: 16px;
+  background-color: #000;    /* Fondo negro si el elemento tiene márgenes */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 /* ELEMENTOS DEL CARRITO */
