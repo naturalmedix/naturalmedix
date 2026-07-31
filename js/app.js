@@ -59,7 +59,7 @@ if (localStorage.getItem("app_version") !== APP_VERSION) {
   window.location.reload(true); 
 }
 
-let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
+let cart = JSON.parse(localStorage.getItem("starnatural_cart") || "[]");
 let deferredPrompt = null;
 
 // Configuración de Wompi
@@ -104,7 +104,7 @@ function renderProducts(filterText = "") {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #64748b;">
         <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No se encontraron productos para "${filterText}"</p>
-        <p style="font-size: 0.9rem;">Intenta con otros términos como "capsulas", "aguaje" o "articulaciones".</p>
+        <p style="font-size: 0.9rem;">Intenta con otros términos como "origen", "vcol" o "colageno".</p>
       </div>
     `;
     return;
@@ -218,7 +218,7 @@ function updateQty(productId, delta) {
 }
 
 function saveAndRefreshCart() {
-  localStorage.setItem("naturalmedix_cart", JSON.stringify(cart));
+  localStorage.setItem("starnatural_cart", JSON.stringify(cart));
   updateCartUI();
 }
 
@@ -256,7 +256,7 @@ function updateCartUI() {
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
-// --- ESCUCHADORES DE EVENTOS Y BUSCADOR (CORREGIDO) ---
+// --- ESCUCHADORES DE EVENTOS Y BUSCADOR ---
 function setupEventListeners() {
   document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
   document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
@@ -271,7 +271,6 @@ function setupEventListeners() {
     });
   }
 
-  // Lógica del buscador (AHORA FUERA DEL MODAL)
   const searchInput = document.getElementById("product-search-input");
   const clearBtn = document.getElementById("clear-search-btn");
 
@@ -345,7 +344,7 @@ async function handleWompiCheckout() {
   const totalPrice = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
   const amountInCents = Math.round(totalPrice * 100);
   const currency = "COP";
-  const reference = `NM-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const reference = `SN-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const orderSummary = cart.map(i => `• ${i.name} (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}`).join("\n");
 
   try {
@@ -364,15 +363,14 @@ async function handleWompiCheckout() {
         phoneNumberPrefix: '+57',
         legalId: idNum,
         legalIdType: 'CC'
-      },
-      redirectUrl: 'https://naturalmedix.app/'
+      }
     });
 
     checkout.open(function ( result ) {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN NATURAL MEDIX!*
+`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
@@ -395,13 +393,13 @@ _Pago verificado exitosamente vía Wompi._`;
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/573027109685?text=${encodedMessage}`;
 
-        alert(`¡Pago Aprobado con éxito! Presiona Aceptar para enviar la confirmación de envío por WhatsApp.`);
-        
         cart = [];
         saveAndRefreshCart();
         closeCartModal();
 
-        window.open(whatsappUrl, '_blank');
+        // REDIRECCIÓN DIRECTA A WHATSAPP (Abre directo en la app de WhatsApp)
+        window.location.href = whatsappUrl;
+
       } else if (transaction.status === 'DECLINED') {
         alert("La transacción fue rechazada por la entidad financiera.");
       }
