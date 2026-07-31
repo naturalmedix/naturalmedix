@@ -678,3 +678,23 @@ body {
 .clear-search-btn:hover {
   color: #d91424; /* Rojo Medix al pasar el cursor */
 }
+/* Estilos para que el modal flotante cubra toda la pantalla */
+#receipt-modal.cart-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
+  backdrop-filter: blur(4px); /* Efecto difuminado elegante */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Asegura que quede por encima de todo */
+  padding: 1rem;
+}
+
+/* Ocultar elementos con la clase .hidden */
+.hidden {
+  display: none !important;
+}
