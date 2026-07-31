@@ -86,8 +86,8 @@ const PRODUCTS = [
     invima: "Producto sin registro",
     benefit: "sirve como un potente suplemento antioxidante que protege a las células contra el daño oxidativo, apoya el sistema inmune y cuida la salud de la piel.",
     usage: "Tomar una cápsula blanda al día con la comida principal.",
-    price: 11000,
-    originalPrice: 22000,
+    price: 38900,
+    originalPrice: 55600,
     image: "assets/images/natural-medix.mp4"
   }
 ];
