@@ -180,19 +180,31 @@ body {
     display: block;
 }
 
+/* BADGE VISTA RÁPIDA (OJO) */
 .expand-badge {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.75);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 10px;
-    white-space: nowrap;
-    pointer-events: none;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85); /* Fondo oscuro semitransparente */
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none; /* Permite que el clic pase a la miniatura */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease;
+}
+
+/* Efecto al pasar el cursor por la tarjeta */
+.product-image-wrapper:hover .expand-badge {
+  background: var(--primary); /* Cambia al color verde de tu marca */
 }
 
 .product-header {
