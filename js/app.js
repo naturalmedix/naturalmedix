@@ -1,5 +1,5 @@
 const PRODUCTS = [
-  {
+   {
     id: "aguaje-pawer",
     name: "AGUAJE pawer",
     badge: "Estrella",
@@ -95,11 +95,10 @@ const PRODUCTS = [
 const APP_VERSION = "1.1.4";
 if (localStorage.getItem("app_version") !== APP_VERSION) {
   localStorage.setItem("app_version", APP_VERSION);
-  // Fuerza la recarga omitiendo la memoria caché
   window.location.reload(true); 
 }
 
-let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
+let cart = JSON.parse(localStorage.getItem("starnatural_cart") || "[]");
 let deferredPrompt = null;
 
 // Configuración de Wompi
@@ -123,11 +122,34 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBackToTop();
 });
 
-function renderProducts() {
+// --- RENDERIZADO CON BUSCADOR ---
+function renderProducts(filterText = "") {
   const container = document.getElementById("product-grid");
   if (!container) return;
 
-  container.innerHTML = PRODUCTS.map(product => {
+  const query = (filterText || "").toLowerCase().trim();
+
+  // Filtrar por nombre, beneficio, fabricante, contenido o invima
+  const filteredProducts = PRODUCTS.filter(p => {
+    if (!query) return true;
+    return (p.name && p.name.toLowerCase().includes(query)) ||
+           (p.benefit && p.benefit.toLowerCase().includes(query)) ||
+           (p.fabricado && p.fabricado.toLowerCase().includes(query)) ||
+           (p.netContent && p.netContent.toLowerCase().includes(query)) ||
+           (p.invima && p.invima.toLowerCase().includes(query));
+  });
+
+  if (filteredProducts.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #64748b;">
+        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No se encontraron productos para "${filterText}"</p>
+        <p style="font-size: 0.9rem;">Intenta con otros términos como "origen", "vcol" o "colageno".</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filteredProducts.map(product => {
     const ahorro = product.originalPrice - product.price;
     const ahorroFormateado = ahorro > 0 
       ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
@@ -181,7 +203,7 @@ function renderProducts() {
   }).join("");
 }
 
-// --- MODAL DE REPRODUCCIÓN VISTA RÁPIDA (ANIMACIÓN LIMPIA) ---
+// --- MODAL VISTA RÁPIDA ---
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   const modalContent = modal?.querySelector(".image-modal-content");
@@ -235,7 +257,7 @@ function updateQty(productId, delta) {
 }
 
 function saveAndRefreshCart() {
-  localStorage.setItem("naturalmedix_cart", JSON.stringify(cart));
+  localStorage.setItem("starnatural_cart", JSON.stringify(cart));
   updateCartUI();
 }
 
@@ -273,6 +295,7 @@ function updateCartUI() {
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
+// --- ESCUCHADORES DE EVENTOS Y BUSCADOR ---
 function setupEventListeners() {
   document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
   document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
@@ -284,6 +307,35 @@ function setupEventListeners() {
       if (e.target === imageModal || e.target.classList.contains("image-modal-content")) {
         closeImageModal();
       }
+    });
+  }
+
+  const searchInput = document.getElementById("product-search-input");
+  const clearBtn = document.getElementById("clear-search-btn");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const value = e.target.value;
+      renderProducts(value);
+
+      if (clearBtn) {
+        if (value.trim().length > 0) {
+          clearBtn.classList.remove("hidden");
+        } else {
+          clearBtn.classList.add("hidden");
+        }
+      }
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (searchInput) {
+        searchInput.value = "";
+        renderProducts("");
+        searchInput.focus();
+      }
+      clearBtn.classList.add("hidden");
     });
   }
 
@@ -350,48 +402,60 @@ async function handleWompiCheckout() {
         phoneNumberPrefix: '+57',
         legalId: idNum,
         legalIdType: 'CC'
-      },
-      redirectUrl: 'https://naturalmedix.app/'
+      }
     });
 
-    checkout.open(function ( result ) {
-      const transaction = result.transaction;
-      if (transaction.status === 'APPROVED') {
-        const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+checkout.open(function ( result ) {
+  const transaction = result.transaction;
+
+  if (transaction.status === 'APPROVED') {
+    const referenceId = transaction.id || reference;
+    
+    // 1. Construir resumen para WhatsApp
+    const orderSummary = cart.map(i => 
+      `• *${i.name}* (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}\n` +
+      `   - Fabricado por: ${i.fabricado || 'N/A'}\n` +
+      `   - Contenido: ${i.netContent || 'N/A'}\n` +
+      `   - Invima: ${i.invima || 'N/A'}`
+    ).join("\n\n");
+
+    const message = 
+`✅ *¡NUEVO PEDIDO PAGADO EN NATURAL MEDIX!*
 ----------------------------------
-📌 *Referencia Wompi:* ${transaction.id || reference}
+📌 *Referencia Wompi:* ${referenceId}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
 
-🛒 *PRODUCTOS:*
+🛒 *DETALLE DE PRODUCTOS:*
 ${orderSummary}
 
-👤 *DATOS DE ENVÍO Y FACTURACIÓN:*
-• *Nombre/Razón Social:* ${name}
-• *CC / NIT:* ${idNum}
-• *Correo:* ${email}
+👤 *DATOS DE ENVÍO:*
+• *Nombre:* ${name}
+• *CC/NIT:* ${idNum}
 • *Teléfono:* ${phone}
 • *Ciudad:* ${city}
 • *Dirección:* ${address}
-${notes ? `• *Notas:* ${notes}` : ''}
+${notes ? `• *Notas:* ${notes}` : ''}`;
 
-----------------------------------
-_Pago verificado exitosamente vía Wompi._`;
+    const whatsappUrl = `https://wa.me/573027109685?text=${encodeURIComponent(message)}`;
 
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/573027109685?text=${encodedMessage}`;
-
-        alert(`¡Pago Aprobado con éxito! Presiona Aceptar para enviar la confirmación de envío por WhatsApp.`);
-        
-        cart = [];
-        saveAndRefreshCart();
-        closeCartModal();
-
-        window.open(whatsappUrl, '_blank');
-      } else if (transaction.status === 'DECLINED') {
-        alert("La transacción fue rechazada por la entidad financiera.");
-      }
+    // 2. Desplegar la pantalla interna de respaldo
+    showOrderReceipt({
+      ref: referenceId,
+      total: totalPrice,
+      cart: [...cart],
+      customer: { name, idNum, email, phone, city, address, notes },
+      whatsappUrl: whatsappUrl
     });
+
+    // 3. Limpiar carrito y cerrar modal del checkout
+    cart = [];
+    saveAndRefreshCart();
+    closeCartModal();
+
+  } else if (transaction.status === 'DECLINED') {
+    alert("La transacción fue rechazada por la entidad financiera.");
+  }
+});
 
   } catch (error) {
     console.error("Error al generar la firma de Wompi:", error);
@@ -439,20 +503,52 @@ function setupPWAInstall() {
     navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
   }
 }
-// Antes: const CACHE_NAME = 'naturalmedix-cache-v1';
-const CACHE_NAME = 'naturalmedix-cache-v1.1.4'; // 👈 Cambia esto
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('Eliminando caché antiguo:', cache);
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
+// --- FUNCIONES DEL MODAL DE CONFIRMACIÓN / RECIBO ---
+function showOrderReceipt(data) {
+  const container = document.getElementById("receipt-details-container");
+  const modal = document.getElementById("receipt-modal");
+  
+  if (!container || !modal) return;
+
+  const itemsHtml = data.cart.map(i => `
+    <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+      <div style="font-weight: 700; color: #0f172a;">${i.name} (x${i.qty})</div>
+      <div style="color: #475569; font-size: 0.8rem;">
+        • Fabricado: ${i.fabricado || 'N/A'}<br>
+        • Contenido: ${i.netContent || 'N/A'}<br>
+        • Invima: ${i.invima || 'N/A'}<br>
+        • Subtotal: $${(i.price * i.qty).toLocaleString("es-CO")} COP
+      </div>
+    </div>
+  `).join("");
+
+  container.innerHTML = `
+    <div style="margin-bottom: 0.8rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
+      <p style="margin: 2px 0;"><strong>Referencia Wompi:</strong> ${data.ref}</p>
+      <p style="margin: 2px 0;"><strong>Fecha:</strong> ${new Date().toLocaleString("es-CO")}</p>
+      <p style="margin: 2px 0; font-size: 1rem; color: #166534;"><strong>Total Pagado:</strong> $${data.total.toLocaleString("es-CO")} COP</p>
+    </div>
+
+    <h4 style="margin: 0.5rem 0; color: #0f172a;">Detalle del Pedido:</h4>
+    ${itemsHtml}
+
+    <h4 style="margin: 0.8rem 0 0.4rem; color: #0f172a;">Datos de Envío:</h4>
+    <p style="margin: 2px 0;"><strong>Cliente:</strong> ${data.customer.name} (CC/NIT: ${data.customer.idNum})</p>
+    <p style="margin: 2px 0;"><strong>Teléfono:</strong> ${data.customer.phone}</p>
+    <p style="margin: 2px 0;"><strong>Correo:</strong> ${data.customer.email}</p>
+    <p style="margin: 2px 0;"><strong>Dirección:</strong> ${data.customer.address}, ${data.customer.city}</p>
+    ${data.customer.notes ? `<p style="margin: 2px 0;"><strong>Notas:</strong> ${data.customer.notes}</p>` : ''}
+  `;
+
+  // Asignar enlace directo de WhatsApp al botón opcional
+  const btnWa = document.getElementById("btn-whatsapp-copy");
+  if (btnWa) {
+    btnWa.href = data.whatsappUrl;
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function closeReceiptModal() {
+  document.getElementById("receipt-modal")?.classList.add("hidden");
+}
