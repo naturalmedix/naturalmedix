@@ -345,18 +345,57 @@ body {
     cursor: pointer;
 }
 
-/* MODAL DE IMAGEN Y VIDEO AMPLIA (PROPORCIÓN 3:4) */
-.modal-media-wrapper video,
-.modal-media-wrapper img {
-  width: 100%;
-  max-width: 380px;
-  height: auto;
+/* Contenedor del Modal de Imagen/Video */
+.modal-media-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 420px;
   max-height: 80vh;
-  aspect-ratio: 3 / 4;       /* Misma proporción 3:4 del catálogo */
-  object-fit: contain;       /* Muestra la imagen/video completa sin recortar nada */
   border-radius: 16px;
-  background-color: #000;    /* Fondo negro si el elemento tiene márgenes */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+/* Botón de cierre X rediseñado */
+.modal-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 50;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.75); /* Fondo oscuro semitransparente */
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px); /* Efecto cristalino */
+  transition: all 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Efecto al presionar o pasar el mouse */
+.modal-close-btn:active,
+.modal-close-btn:hover {
+  background: rgba(220, 38, 38, 0.9); /* Cambia a rojo al interactuar */
+  transform: scale(1.08);
+}
+
+/* Animación limpia para el video */
+.modal-animated-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none; /* Bloquea barra nativa de video */
+  user-select: none;
 }
 
 /* ELEMENTOS DEL CARRITO */
