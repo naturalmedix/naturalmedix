@@ -53,6 +53,13 @@ const PRODUCTS = [
   }
 ];
 
+const APP_VERSION = "1.1.4";
+if (localStorage.getItem("app_version") !== APP_VERSION) {
+  localStorage.setItem("app_version", APP_VERSION);
+  // Fuerza la recarga omitiendo la memoria caché
+  window.location.reload(true); 
+}
+
 let cart = JSON.parse(localStorage.getItem("naturalmedix_cart") || "[]");
 let deferredPrompt = null;
 
