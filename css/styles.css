@@ -698,3 +698,8 @@ body {
 .hidden {
   display: none !important;
 }
+.animated-emoji {
+  display: inline-block;
+  vertical-align: middle;
+  object-fit: contain;
+}
