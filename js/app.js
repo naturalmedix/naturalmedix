@@ -366,44 +366,58 @@ async function handleWompiCheckout() {
       }
     });
 
-    checkout.open(function ( result ) {
-      const transaction = result.transaction;
-      if (transaction.status === 'APPROVED') {
-        const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+checkout.open(function ( result ) {
+  const transaction = result.transaction;
+
+  if (transaction.status === 'APPROVED') {
+    const referenceId = transaction.id || reference;
+    
+    // 1. Construir resumen para WhatsApp
+    const orderSummary = cart.map(i => 
+      `• *${i.name}* (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}\n` +
+      `   - Fabricado por: ${i.fabricado || 'N/A'}\n` +
+      `   - Contenido: ${i.netContent || 'N/A'}\n` +
+      `   - Invima: ${i.invima || 'N/A'}`
+    ).join("\n\n");
+
+    const message = 
+`✅ *¡NUEVO PEDIDO PAGADO EN NATURAL MEDIX!*
 ----------------------------------
-📌 *Referencia Wompi:* ${transaction.id || reference}
+📌 *Referencia Wompi:* ${referenceId}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
 
-🛒 *PRODUCTOS:*
+🛒 *DETALLE DE PRODUCTOS:*
 ${orderSummary}
 
-👤 *DATOS DE ENVÍO Y FACTURACIÓN:*
-• *Nombre/Razón Social:* ${name}
-• *CC / NIT:* ${idNum}
-• *Correo:* ${email}
+👤 *DATOS DE ENVÍO:*
+• *Nombre:* ${name}
+• *CC/NIT:* ${idNum}
 • *Teléfono:* ${phone}
 • *Ciudad:* ${city}
 • *Dirección:* ${address}
-${notes ? `• *Notas:* ${notes}` : ''}
+${notes ? `• *Notas:* ${notes}` : ''}`;
 
-----------------------------------
-_Pago verificado exitosamente vía Wompi._`;
+    const whatsappUrl = `https://wa.me/573171495091?text=${encodeURIComponent(message)}`;
 
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/573027109685?text=${encodedMessage}`;
-
-        cart = [];
-        saveAndRefreshCart();
-        closeCartModal();
-
-        // REDIRECCIÓN DIRECTA A WHATSAPP (Abre directo en la app de WhatsApp)
-        window.location.href = whatsappUrl;
-
-      } else if (transaction.status === 'DECLINED') {
-        alert("La transacción fue rechazada por la entidad financiera.");
-      }
+Natural Medix • Cali
+    // 2. Desplegar la pantalla interna de respaldo
+    showOrderReceipt({
+      ref: referenceId,
+      total: totalPrice,
+      cart: [...cart],
+      customer: { name, idNum, email, phone, city, address, notes },
+      whatsappUrl: whatsappUrl
     });
+
+    // 3. Limpiar carrito y cerrar modal del checkout
+    cart = [];
+    saveAndRefreshCart();
+    closeCartModal();
+
+  } else if (transaction.status === 'DECLINED') {
+    alert("La transacción fue rechazada por la entidad financiera.");
+  }
+});
 
   } catch (error) {
     console.error("Error al generar la firma de Wompi:", error);
