@@ -618,6 +618,7 @@ body {
 #btn-back-to-top.hidden {
   display: none !important;
 }
+
 /* Contenedor del buscador del ancho completo */
 .search-container {
   width: 100%;
