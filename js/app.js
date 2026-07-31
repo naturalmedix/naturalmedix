@@ -273,8 +273,14 @@ function updateCartUI() {
   const itemsContainer = document.getElementById("cart-items-container");
   if (itemsContainer) {
     if (cart.length === 0) {
-      itemsContainer.innerHTML = `<p style="text-align:center; color:#64748b; padding:1rem;">Tu carrito está vacío</p>`;
-    } else {
+  itemsContainer.innerHTML = `
+    <div style="text-align: center; color: #64748b; padding: 2rem 1rem;">
+      <img src="${EMOJIS.cart}" class="animated-emoji" alt="Carrito vacío" style="width: 64px; height: 64px; margin-bottom: 0.5rem;">
+      <p style="font-size: 1rem; font-weight: 600; margin: 0;">Tu carrito está vacío</p>
+      <p style="font-size: 0.85rem; margin-top: 4px;">Agrega productos para comenzar tu compra.</p>
+    </div>
+  `;
+} else {
       itemsContainer.innerHTML = cart.map(item => `
         <div class="cart-item">
           <div>
