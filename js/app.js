@@ -393,3 +393,5 @@ function setupPWAInstall() {
     navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
   }
 }
+// Antes: const CACHE_NAME = 'naturalmedix-cache-v1';
+const CACHE_NAME = 'naturalmedix-cache-v1.1.4'; // 👈 Cambia esto
