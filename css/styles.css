@@ -461,3 +461,19 @@ body {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+/* Deshabilita la interacción con el video para que actúe como GIF/Animación pura */
+.modal-animated-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Bloquea clics y toques para que no salgan controles nativos */
+  user-select: none;
+}
+
+/* Oculta controles nativos residuales en navegadores WebKit/Safari/Chrome */
+.modal-animated-video::-webkit-media-controls {
+  display: none !important;
+}
+.modal-animated-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
