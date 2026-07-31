@@ -62,14 +62,14 @@ function renderProducts() {
       : '';
 
     return `
-      <div class="product-card">
-        ${product.image ? `
-          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
-            <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
-            <span class="expand-badge">👁️ Vista rápida</span>
-          </div>
-        ` : ''}
-
+<div class="product-card">
+    <div class="product-image-wrapper">
+      <img src="${product.image}" alt="${product.title}" class="product-img" />
+      <span class="expand-badge">👁️ Vista rápida</span>
+    </div>
+    <!-- Resto del contenido de la tarjeta -->
+  </div>
+`;
         <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
             <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${product.fabricado}
