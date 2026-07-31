@@ -153,21 +153,19 @@ body {
     border: 1px solid #f1f5f9;
 }
 
-/* MINIATURA VERTICAL 9:16 COMPACTA */
+/* MINIATURA 3:4 (MÁS ANCHA Y VISIBLE) */
 .product-image-wrapper {
-    position: relative;
-    width: 140px;
-    /* Ancho compacto para miniatura */
-    height: 248px;
-    /* Proporción exacta 9:16 (140 * 16 / 9) */
-    margin: 0 auto 0.8rem;
-    /* Centrado en la tarjeta */
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: #000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  width: 100%;            /* Toma el ancho disponible de la tarjeta */
+  max-width: 220px;       /* Ancho cómodo para que no se vea delgada */
+  aspect-ratio: 3 / 4;    /* Proporción 3:4 */
+  margin: 0 auto 0.8rem;   /* Centrado */
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .product-image-wrapper:hover {
