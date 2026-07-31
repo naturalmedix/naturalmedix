@@ -587,3 +587,34 @@ body {
 .hidden {
   display: none !important;
 }
+/* Botón flotante para volver arriba */
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0e7c3a; /* Verde Natural Medix */
+  color: #ffffff !important;  /* Flecha / Texto en Blanco */
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#btn-back-to-top:hover {
+  background-color: #0a5c2b;
+  transform: translateY(-3px);
+}
+
+/* Ocultar cuando tiene la clase hidden */
+#btn-back-to-top.hidden {
+  display: none !important;
+}
