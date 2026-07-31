@@ -112,6 +112,7 @@ const EMOJIS = {
   factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp",
   shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/2705/512.webp",
   calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"
+  hojas: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
