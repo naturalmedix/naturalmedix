@@ -5,14 +5,47 @@
 }
 
 :root {
-    --primary: #0d9488;
-    /* Verde Esmeralda fresco */
-    --dark: #0f172a;
-    /* Pizarra oscuro */
-    --light-bg: #f8fafc;
-    --card-bg: #ffffff;
-    --text-muted: #64748b;
-    --border-radius: 16px;
+  /* Paleta Oficial Natural Medix */
+  --primary-color: #0e7c3a;       /* Verde Natural Medix */
+  --primary-hover: #0a5c2b;
+  --accent-color: #d91424;        /* Rojo Medix (CTA / Agregar al carrito) */
+  --accent-hover: #b30f1c;
+  
+  --bg-body: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #111827;        /* Gris muy oscuro para lectura */
+  --text-muted: #4b5563;
+  --border-color: #e2e8f0;
+
+  --badge-bg: #e6f4ea;            /* Verde suave para fondo de badges */
+  --badge-text: #0e7c3a;
+}
+
+/* Aplicación general de botones con el color de acento Rojo Medix */
+.btn-add-cart,
+#btn-wompi-pay {
+  background-color: var(--accent-color) !important;
+  color: #ffffff !important;
+  border: none;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.btn-add-cart:hover,
+#btn-wompi-pay:hover {
+  background-color: var(--accent-hover) !important;
+}
+
+/* Encabezados y detalles de la marca en Verde Natural Medix */
+.header-bar,
+.product-badge {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.product-price {
+  color: var(--primary-color);
+  font-weight: 800;
 }
 
 body {
