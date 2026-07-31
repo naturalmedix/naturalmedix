@@ -50,7 +50,7 @@ const PRODUCTS = [
     price: 11000,
     originalPrice: 22000,
     image: "assets/images/natural-medix.mp4"
-  }
+  },
   {
     id: "vitamina-a",
     name: "VITAMINA A",
@@ -63,7 +63,7 @@ const PRODUCTS = [
     price: 11000,
     originalPrice: 22000,
     image: "assets/images/natural-medix.mp4"
-  }
+  },
    {
     id: "vitamina-c",
     name: "VITAMINA C",
@@ -76,7 +76,7 @@ const PRODUCTS = [
     price: 11000,
     originalPrice: 22000,
     image: "assets/images/natural-medix.mp4"
-  }
+  },
    {
     id: "vitamina-e-1000-IU",
     name: "VITAMINA E con Selenium de 1000 IU",
