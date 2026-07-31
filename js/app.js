@@ -56,7 +56,6 @@ const PRODUCTS = [
 const APP_VERSION = "1.1.4";
 if (localStorage.getItem("app_version") !== APP_VERSION) {
   localStorage.setItem("app_version", APP_VERSION);
-  // Fuerza la recarga omitiendo la memoria caché
   window.location.reload(true); 
 }
 
@@ -84,24 +83,27 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBackToTop();
 });
 
+// --- RENDERIZADO CON BUSCADOR ---
 function renderProducts(filterText = "") {
   const container = document.getElementById("product-grid");
   if (!container) return;
 
-  const query = filterText.toLowerCase().trim();
+  const query = (filterText || "").toLowerCase().trim();
 
-  // Filtrar por nombre, beneficio, fabricante o contenido
+  // Filtrar por nombre, beneficio, fabricante, contenido o invima
   const filteredProducts = PRODUCTS.filter(p => {
-    return p.name.toLowerCase().includes(query) ||
+    if (!query) return true;
+    return (p.name && p.name.toLowerCase().includes(query)) ||
            (p.benefit && p.benefit.toLowerCase().includes(query)) ||
            (p.fabricado && p.fabricado.toLowerCase().includes(query)) ||
-           (p.netContent && p.netContent.toLowerCase().includes(query));
+           (p.netContent && p.netContent.toLowerCase().includes(query)) ||
+           (p.invima && p.invima.toLowerCase().includes(query));
   });
 
   if (filteredProducts.length === 0) {
     container.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #64748b;">
-        <p style="font-size: 1.1rem; font-weight: 600;">No se encontraron productos para "${filterText}"</p>
+        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No se encontraron productos para "${filterText}"</p>
         <p style="font-size: 0.9rem;">Intenta con otros términos como "capsulas", "aguaje" o "articulaciones".</p>
       </div>
     `;
@@ -162,7 +164,7 @@ function renderProducts(filterText = "") {
   }).join("");
 }
 
-// --- MODAL DE REPRODUCCIÓN VISTA RÁPIDA (ANIMACIÓN LIMPIA) ---
+// --- MODAL VISTA RÁPIDA ---
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   const modalContent = modal?.querySelector(".image-modal-content");
@@ -254,6 +256,7 @@ function updateCartUI() {
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
+// --- ESCUCHADORES DE EVENTOS Y BUSCADOR (CORREGIDO) ---
 function setupEventListeners() {
   document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
   document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
@@ -265,7 +268,10 @@ function setupEventListeners() {
       if (e.target === imageModal || e.target.classList.contains("image-modal-content")) {
         closeImageModal();
       }
-      // Lógica de búsqueda en tiempo real
+    });
+  }
+
+  // Lógica del buscador (AHORA FUERA DEL MODAL)
   const searchInput = document.getElementById("product-search-input");
   const clearBtn = document.getElementById("clear-search-btn");
 
@@ -292,8 +298,6 @@ function setupEventListeners() {
         searchInput.focus();
       }
       clearBtn.classList.add("hidden");
-    });
-  }
     });
   }
 
@@ -341,7 +345,7 @@ async function handleWompiCheckout() {
   const totalPrice = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
   const amountInCents = Math.round(totalPrice * 100);
   const currency = "COP";
-  const reference = `SN-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const reference = `NM-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const orderSummary = cart.map(i => `• ${i.name} (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}`).join("\n");
 
   try {
@@ -368,7 +372,7 @@ async function handleWompiCheckout() {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
+`✅ *¡NUEVO PEDIDO PAGADO EN NATURAL MEDIX!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
@@ -449,20 +453,3 @@ function setupPWAInstall() {
     navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
   }
 }
-// Antes: const CACHE_NAME = 'naturalmedix-cache-v1';
-const CACHE_NAME = 'naturalmedix-cache-v1.1.4'; // 👈 Cambia esto
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('Eliminando caché antiguo:', cache);
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
