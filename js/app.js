@@ -84,11 +84,31 @@ document.addEventListener("DOMContentLoaded", () => {
   setupBackToTop();
 });
 
-function renderProducts() {
+function renderProducts(filterText = "") {
   const container = document.getElementById("product-grid");
   if (!container) return;
 
-  container.innerHTML = PRODUCTS.map(product => {
+  const query = filterText.toLowerCase().trim();
+
+  // Filtrar por nombre, beneficio, fabricante o contenido
+  const filteredProducts = PRODUCTS.filter(p => {
+    return p.name.toLowerCase().includes(query) ||
+           (p.benefit && p.benefit.toLowerCase().includes(query)) ||
+           (p.fabricado && p.fabricado.toLowerCase().includes(query)) ||
+           (p.netContent && p.netContent.toLowerCase().includes(query));
+  });
+
+  if (filteredProducts.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #64748b;">
+        <p style="font-size: 1.1rem; font-weight: 600;">No se encontraron productos para "${filterText}"</p>
+        <p style="font-size: 0.9rem;">Intenta con otros términos como "capsulas", "aguaje" o "articulaciones".</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filteredProducts.map(product => {
     const ahorro = product.originalPrice - product.price;
     const ahorroFormateado = ahorro > 0 
       ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
