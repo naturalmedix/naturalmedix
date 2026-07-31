@@ -66,7 +66,7 @@ function renderProducts() {
         ${product.image ? `
           <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
             <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
-            <span class="expand-badge">🔍 Ampliar</span>
+            <span class="expand-badge">👁️ Vista rápida</span>
           </div>
         ` : ''}
 
