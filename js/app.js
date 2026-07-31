@@ -108,7 +108,7 @@ const WOMPI_INTEGRITY_SECRET = "prod_integrity_DcxdEMXNcfNVP0vLgE2RDmIK61d3ldNU"
 // URLs de emojis animados
 const EMOJIS = {
   fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",
-  package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f37e/512.webp",
+  botella: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f37e/512.webp",
   factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp",
   shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/2705/512.webp",
   calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp"
