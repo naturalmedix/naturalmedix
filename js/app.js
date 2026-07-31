@@ -1,29 +1,68 @@
 const PRODUCTS = [
   {
-    id: "aguaje-pawer",
-    name: "AGUAJE pawer",
+    id: "gaf-plus-colageno",
+    name: "GAF-PLUS 300mL",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
-    invima: "Producto sin registro",
+    fabricado: "GrenLab",
+    netContent: "Cont. Neto: 300mL (10 Porciones)",
+    invima: "PSA-0690-2025",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 11000,
-    originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/gaf-plus.mp4"
   },
   {
-    id: "aguaje-pawer",
-    name: "AGUAJE pawer",
-    badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
-    invima: "Producto sin registro",
+    id: "origen-disco",
+    name: "ORIGEN 15 Discos",
+    badge: "Línea ORIGEN",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: Frasco x 15 Discos (15 Porciones)",
+    invima: "PSA-0005343-2024",
+    benefit: "Alimento funcional con fibra natural que mejora la digestión y el tránsito intestinal.",
+    usage: "Disolver 1 disco en un vaso de agua caliente al día.",
+    price: 17800,
+    originalPrice: 25450,
+    image: "assets/images/origen-disco.mp4"
+  },
+  {
+    id: "origen-360ml-colageno",
+    name: "ORIGEN 360mL",
+    badge: "Línea ORIGEN",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: 360mL (12 Porciones)",
+    invima: "RSA-0034995-2024",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
-    price: 11000,
-    originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/origen-360ml.mp4"
+  },
+  {
+    id: "origen-400ml-colageno",
+    name: "ORIGEN 400mL",
+    badge: "Línea ORIGEN",
+    fabricado: "Laboratorios vanier",
+    netContent: "Cont. Neto: 400mL (13 Porciones)",
+    invima: "RSAV12136011",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/origen-400ml.mp4"
+  },
+  {
+    id: "vcol-colageno",
+    name: "VCOL 360mL",
+    badge: "Estrella",
+    fabricado: "Naturalisima",
+    netContent: "Cont. Neto: 360mL (12 Porciones)",
+    invima: "RSA-0034995-2024",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 1 copa (30ml) al día, preferiblemente en la mañana.",
+    price: 15600,
+    originalPrice: 22300,
+    image: "assets/images/vcol.mp4"
   }
 ];
 
@@ -62,14 +101,14 @@ function renderProducts() {
       : '';
 
     return `
-<div class="product-card">
-    <div class="product-image-wrapper">
-      <img src="${product.image}" alt="${product.title}" class="product-img" />
-      <span class="expand-badge">👁️ Vista rápida</span>
-    </div>
-    <!-- Resto del contenido de la tarjeta -->
-  </div>
-`;
+      <div class="product-card">
+        ${product.image ? `
+          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
+            <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
+            <span class="expand-badge">👁️ Vista rápida</span>
+          </div>
+        ` : ''}
+
         <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
             <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${product.fabricado}
@@ -109,29 +148,33 @@ function renderProducts() {
   }).join("");
 }
 
-// --- MODAL DE REPRODUCCIÓN EN PANTALLA COMPLETA 9:16 ---
+// --- MODAL DE REPRODUCCIÓN VISTA RÁPIDA (PROPORCIÓN 3:4) ---
 function openMediaModal(src, title) {
-  const modal = document.getElementById("image-modal");
-  const modalContent = document.querySelector(".image-modal-content");
-  const modalCaption = document.getElementById("modal-img-caption");
+  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
+  const modalContent = modal?.querySelector(".image-modal-content");
 
   if (modal && modalContent) {
+    const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
+    
     modalContent.innerHTML = `
       <div class="modal-media-wrapper">
-        <video src="${src}" autoplay loop muted playsinline></video>
+        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
+        ${isVideo 
+          ? `<video src="${src}" controls autoplay loop playsinline></video>`
+          : `<img src="${src}" alt="${title || 'Producto'}" />`
+        }
       </div>
     `;
-    if (modalCaption) modalCaption.innerText = title || "";
     modal.classList.remove("hidden");
   }
 }
 
 function closeImageModal() {
-  const modal = document.getElementById("image-modal");
+  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (modal) {
     modal.classList.add("hidden");
-    const modalContent = document.querySelector(".image-modal-content");
-    if (modalContent) modalContent.innerHTML = ""; // Limpia el video al cerrar para ahorrar consumo de memoria
+    const modalContent = modal.querySelector(".image-modal-content");
+    if (modalContent) modalContent.innerHTML = ""; // Detiene reproducción del vídeo y ahorra memoria
   }
 }
 
@@ -201,12 +244,13 @@ function setupEventListeners() {
   document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
   document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
   document.getElementById("btn-wompi-pay")?.addEventListener("click", handleWompiCheckout);
-  document.getElementById("close-image-modal")?.addEventListener("click", closeImageModal);
   
-  const imageModal = document.getElementById("image-modal");
+  const imageModal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (imageModal) {
     imageModal.addEventListener("click", (e) => {
-      if (e.target === imageModal) closeImageModal();
+      if (e.target === imageModal || e.target.classList.contains("image-modal-content")) {
+        closeImageModal();
+      }
     });
   }
 
@@ -281,7 +325,7 @@ async function handleWompiCheckout() {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN Natural Medix!*
+`✅ *¡NUEVO PEDIDO PAGADO EN STAR NATURAL!*
 ----------------------------------
 📌 *Referencia Wompi:* ${transaction.id || reference}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
