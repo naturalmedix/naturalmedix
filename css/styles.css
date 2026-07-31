@@ -549,3 +549,41 @@ body {
 .modal-animated-video::-webkit-media-controls-enclosure {
   display: none !important;
 }
+/* Contenedor del banner de instalación */
+#pwa-install-banner {
+  background-color: #0e7c3a; /* Verde Natural Medix */
+  color: #ffffff;
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Botón de instalación dentro del banner */
+#btn-install-app {
+  background-color: #d91424; /* Rojo Medix */
+  color: #ffffff !important;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+#btn-install-app:hover {
+  background-color: #b30f1c;
+  transform: translateY(-1px);
+}
+
+/* Ocultar elementos con la clase hidden */
+.hidden {
+  display: none !important;
+}
