@@ -142,7 +142,7 @@ function renderProducts() {
   }).join("");
 }
 
-// --- MODAL DE REPRODUCCIÓN VISTA RÁPIDA (PROPORCIÓN 3:4) ---
+// --- MODAL DE REPRODUCCIÓN VISTA RÁPIDA (ANIMACIÓN LIMPIA) ---
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   const modalContent = modal?.querySelector(".image-modal-content");
@@ -154,7 +154,7 @@ function openMediaModal(src, title) {
       <div class="modal-media-wrapper">
         <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
         ${isVideo 
-          ? `<video src="${src}" controls autoplay loop playsinline></video>`
+          ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
           : `<img src="${src}" alt="${title || 'Producto'}" />`
         }
       </div>
