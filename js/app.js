@@ -51,6 +51,45 @@ const PRODUCTS = [
     originalPrice: 22000,
     image: "assets/images/natural-medix.mp4"
   }
+  {
+    id: "vitamina-a",
+    name: "VITAMINA A",
+    badge: "Estrella",
+    fabricado: "Natural Medix (Peru)",
+    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    invima: "Producto sin registro",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    price: 11000,
+    originalPrice: 22000,
+    image: "assets/images/natural-medix.mp4"
+  }
+   {
+    id: "vitamina-c",
+    name: "VITAMINA C",
+    badge: "Estrella",
+    fabricado: "Natural Medix (Peru)",
+    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    invima: "Producto sin registro",
+    benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
+    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    price: 11000,
+    originalPrice: 22000,
+    image: "assets/images/natural-medix.mp4"
+  }
+   {
+    id: "vitamina-e-1000-IU",
+    name: "VITAMINA E con Selenium de 1000 IU",
+    badge: "Estrella",
+    fabricado: "Natural encounter (USA)",
+    netContent: "Cont. Neto: 100 SOFTGELS",
+    invima: "Producto sin registro",
+    benefit: "sirve como un potente suplemento antioxidante que protege a las células contra el daño oxidativo, apoya el sistema inmune y cuida la salud de la piel.",
+    usage: "Tomar una cápsula blanda al día con la comida principal.",
+    price: 11000,
+    originalPrice: 22000,
+    image: "assets/images/natural-medix.mp4"
+  }
 ];
 
 const APP_VERSION = "1.1.4";
