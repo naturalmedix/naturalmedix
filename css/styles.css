@@ -1,0 +1,91 @@
+/* ==========================================
+   MODAL DE VISTA RÁPIDA (MULTIMEDIA CENTRADO)
+   ========================================== */
+
+/* Fondo oscuro fijo en pantalla completa */
+#image-modal,
+#imageModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* dvh = Dynamic Viewport Height (adapta el alto según la barra del navegador) */
+  background-color: rgba(15, 23, 42, 0.85); /* Fondo semitransparente oscuro */
+  backdrop-filter: blur(8px); /* Efecto desenfoque elegante */
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  
+  /* Centrado perfecto vertical y horizontal */
+  display: block;
+  text-align: center;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* Ocultar modal */
+#image-modal.hidden,
+#imageModal.hidden {
+  display: none !important;
+}
+
+/* Contenedor central alineado en el medio */
+.image-modal-content {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+  max-height: 80dvh;
+  margin: 5dvh auto;
+}
+
+/* Wrapper del medio audiovisual */
+.modal-media-wrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  background-color: #000;
+}
+
+/* Estilos para el video e imagen ampliada */
+.modal-animated-video,
+.modal-animated-image,
+.modal-media-wrapper img,
+.modal-media-wrapper video {
+  display: block;
+  max-width: 85vw;
+  max-height: 75vh;
+  max-height: 75dvh;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 16px;
+}
+
+/* Botón flotante para cerrar (X) */
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+  display: block;
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:active {
+  background-color: #ef4444; /* Rojo al presionar o pasar el ratón */
+  transform: scale(1.1);
+}
