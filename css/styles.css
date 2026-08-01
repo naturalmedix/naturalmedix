@@ -3,3 +3,61 @@
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
 }
+/* ==========================================
+   ESTILOS LOGO NATURALMEDIX.APP
+   ========================================== */
+
+/* Contenedor del logo alineado */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none !important;
+  user-select: none;
+  font-family: 'Urbanist', system-ui, -apple-system, sans-serif !important;
+  font-style: normal !important;
+}
+
+/* "Natural" en Verde Estilo Logo */
+.brand-natural {
+  color: #15803d !important; /* Verde oscuro orgánico */
+  font-weight: 800 !important;
+  font-size: 1.25rem !important;
+  letter-spacing: -0.3px;
+}
+
+/* "medix" en Rojo Estilo Logo */
+.brand-medix {
+  color: #dc2626 !important; /* Rojo vivo del logo */
+  font-weight: 800 !important;
+  font-size: 1.25rem !important;
+  letter-spacing: -0.3px;
+}
+
+/* Extensión ".app" en Verde */
+.brand-ext {
+  color: #16a34a !important; /* Verde brillante */
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+}
+
+/* Imagen de la Hoja en el centro entre Natural y medix */
+.medix-leaf-img {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+  margin: 0 1px !important;
+  transform-origin: bottom center;
+  animation: medixLeafSwing 3s ease-in-out infinite;
+}
+
+/* Animación sutil de viento para la hoja */
+@keyframes medixLeafSwing {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(15deg) scale(1.12);
+  }
+}
