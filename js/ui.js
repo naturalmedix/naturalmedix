@@ -6,7 +6,7 @@ function openCartModal() { document.getElementById("cart-modal")?.classList.remo
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
 /* ==========================================
-   MODAL VISTA RÁPIDA (FLUJO ESTÁTICO SIN DESTELLOS)
+   MODAL VISTA RÁPIDA (CARGA DE IMAGEN GARANTIZADA)
    ========================================== */
 
 function openMediaModal(src, title) {
@@ -18,23 +18,24 @@ function openMediaModal(src, title) {
 
   const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
 
-  // Ocultar ambos elementos mientras asignamos la fuente
-  videoEl.classList.add("hidden");
-  imgEl.classList.add("hidden");
-
   if (isVideo) {
+    // Ocultamos imagen y preparamos video
+    imgEl.style.display = "none";
+    videoEl.style.display = "block";
     videoEl.src = src;
-    videoEl.classList.remove("hidden");
+    videoEl.load();
+    videoEl.play().catch(err => console.log("Auto-play prevenido:", err));
   } else {
+    // Ocultamos video y preparamos imagen
+    videoEl.pause();
+    videoEl.style.display = "none";
+    imgEl.style.display = "block";
     imgEl.src = src;
     imgEl.alt = title || "Producto";
-    imgEl.classList.remove("hidden");
   }
 
-  // Bloquear el scroll de fondo
+  // Bloquear scroll de pantalla y mostrar modal
   document.body.classList.add("modal-open");
-
-  // Mostrar overlay
   modal.classList.remove("hidden");
 }
 
@@ -47,13 +48,14 @@ function closeImageModal() {
     modal.classList.add("hidden");
     document.body.classList.remove("modal-open");
 
-    // Pausar el video para liberar memoria del GPU en móviles
     if (videoEl) {
       videoEl.pause();
       videoEl.src = "";
+      videoEl.style.display = "none";
     }
     if (imgEl) {
       imgEl.src = "";
+      imgEl.style.display = "none";
     }
   }
 }
