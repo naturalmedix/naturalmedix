@@ -1,1 +1,190 @@
+/* ==========================================
+   NAVEGACIÓN, BUSCADOR Y BANNER PWA
+   ========================================== */
 
+/* Barra de Navegación */
+.navbar {
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  padding: 0.8rem 1.2rem;
+}
+
+.nav-container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.brand-name .dot {
+  color: var(--primary-color);
+  font-style: normal;
+}
+
+.cart-btn {
+  background: var(--bg-body);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.9rem;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.cart-badge {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+/* Banner PWA */
+#pwa-install-banner,
+.pwa-banner {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.pwa-content {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+#btn-install-app,
+.btn-install {
+  background-color: var(--accent-color);
+  color: #ffffff !important;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: 'Urbanist', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+#btn-install-app:hover,
+.btn-install:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+/* Buscador de Productos */
+.search-container {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(14, 124, 58, 0.15);
+}
+
+.search-icon {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  color: #64748b;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: #111827;
+  background: transparent;
+}
+
+.search-input-wrapper input::placeholder {
+  color: #94a3b8;
+}
+
+.clear-search-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  line-height: 1;
+}
+
+.clear-search-btn:hover {
+  color: var(--accent-color);
+}
+
+/* Botón Volver Arriba */
+#btn-back-to-top,
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color);
+  color: #ffffff !important;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.3s ease;
+}
+
+#btn-back-to-top:hover,
+.back-to-top:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-3px);
+}
+
+#btn-back-to-top:active,
+.back-to-top:active {
+  transform: scale(0.92);
+}
