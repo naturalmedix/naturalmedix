@@ -1,26 +1,145 @@
-/* ==========================================
-   FIX DE VISIBILIDAD DE CONTENIDO MULTIMEDIA
-   ========================================== */
+/* ============================================================
+   ESTILOS GENERALES Y PWA - STAR NATURAL
+   ============================================================ */
 
+:root {
+  --primary-color: #0d9488;
+  --primary-dark: #0f766e;
+  --bg-dark: #0f172a;
+  --text-light: #f8fafc;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   BLOQUEO DE SCROLL CUANDO EL MODAL ESTÁ ABIERTO
+   ============================================================ */
+body.modal-open {
+  overflow: hidden !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+/* ============================================================
+   MODAL DE VISTA RÁPIDA (OVERLAY Y CENTRADO GRID)
+   ============================================================ */
+
+/* Overlay de pantalla completa con soporte para Safe Areas */
+#image-modal,
+#imageModal,
+.image-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important; /* Dynamic Viewport Height para navegadores móviles */
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 999999 !important;
+
+  /* Centrado geométrico estricto sin recalcular posiciones */
+  display: grid !important;
+  place-items: center !important;
+
+  /* Márgenes de protección para la barra de navegación nativa del teléfono */
+  padding-top: max(20px, env(safe-area-inset-top)) !important;
+  padding-bottom: max(40px, env(safe-area-inset-bottom)) !important;
+  padding-left: max(16px, env(safe-area-inset-left)) !important;
+  padding-right: max(16px, env(safe-area-inset-right)) !important;
+
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Estado oculto del modal */
+#image-modal.hidden,
+#imageModal.hidden,
+.image-modal-overlay.hidden {
+  display: none !important;
+}
+
+/* Contenedor limitante dentro del Modal */
+.image-modal-content {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  max-width: 90vw !important;
+  max-height: 65dvh !important; /* Evita que el modal caiga sobre el menú inferior */
+  margin: auto !important;
+}
+
+/* Marco del elemento multimedia */
 .modal-media-wrapper {
   position: relative !important;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background-color: #0f172a; /* Fondo mientras carga la imagen */
+  background-color: var(--bg-dark); /* Color de fondo mientras carga la imagen */
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  min-width: 250px;  /* Evita que el contenedor colapse a 0px */
+  min-width: 250px; /* Evita que colapse a 0px */
   min-height: 250px;
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 
+/* Imagen y Video dentro del Modal */
 .modal-animated-video,
-.modal-animated-image {
+.modal-animated-image,
+.modal-media-wrapper img,
+.modal-media-wrapper video {
   max-width: 85vw !important;
-  max-height: 60dvh !important;
+  max-height: 60dvh !important; /* Altura máxima segura para pantallas chicas */
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
+}
+
+/* Botón flotante para cerrar (X) */
+.modal-close-btn {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 38px !important;
+  height: 38px !important;
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 50% !important;
+  font-size: 22px !important;
+  font-weight: bold !important;
+  line-height: 36px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-close-btn:active {
+  background-color: #ef4444 !important;
+  transform: scale(0.95);
 }
