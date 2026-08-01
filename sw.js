@@ -1,5 +1,5 @@
 /* ==========================================
-   SERVICE WORKER - STAR NATURAL PWA
+   SERVICE WORKER - NATURAL MEDIX PWA
    ========================================== */
 
 // 1. Nombre de la caché (Sincronizado con la versión de tu app)
