@@ -5,37 +5,59 @@
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
+/* ==========================================
+   MODAL VISTA RÁPIDA (FLUJO ESTÁTICO SIN DESTELLOS)
+   ========================================== */
+
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
-  if (!modal) return;
+  const videoEl = document.getElementById("modal-video-element");
+  const imgEl = document.getElementById("modal-image-element");
+
+  if (!modal || !videoEl || !imgEl) return;
 
   const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
-  
-  modal.innerHTML = `
-    <div class="image-modal-content">
-      <div class="modal-media-wrapper">
-        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()" aria-label="Cerrar">&times;</button>
-        ${isVideo 
-          ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
-          : `<img src="${src}" alt="${title || 'Producto'}" class="modal-animated-image" />`
-        }
-      </div>
-    </div>
-  `;
 
-  // Fijar posición de la pantalla para evitar empujones por la barra de navegación del celular
+  // Ocultar ambos elementos mientras asignamos la fuente
+  videoEl.classList.add("hidden");
+  imgEl.classList.add("hidden");
+
+  if (isVideo) {
+    videoEl.src = src;
+    videoEl.classList.remove("hidden");
+  } else {
+    imgEl.src = src;
+    imgEl.alt = title || "Producto";
+    imgEl.classList.remove("hidden");
+  }
+
+  // Bloquear el scroll de fondo
   document.body.classList.add("modal-open");
+
+  // Mostrar overlay
   modal.classList.remove("hidden");
 }
 
 function closeImageModal() {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
+  const videoEl = document.getElementById("modal-video-element");
+  const imgEl = document.getElementById("modal-image-element");
+
   if (modal) {
     modal.classList.add("hidden");
     document.body.classList.remove("modal-open");
-    modal.innerHTML = "";
+
+    // Pausar el video para liberar memoria del GPU en móviles
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.src = "";
+    }
+    if (imgEl) {
+      imgEl.src = "";
+    }
   }
 }
+
 // --- MODAL DE RECIBO / CONFIRMACIÓN ---
 function showOrderReceipt(data) {
   const container = document.getElementById("receipt-details-container");
