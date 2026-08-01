@@ -1,1 +1,63 @@
 
+/* ==========================================
+   VARIABLES GLOBALES Y RESETS DE MARCA
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Paleta Oficial Natural Medix */
+  --primary-color: #0e7c3a;       /* Verde Natural Medix */
+  --primary-hover: #0a5c2b;
+  --accent-color: #d91424;        /* Rojo Medix (CTA / Agregar al carrito) */
+  --accent-hover: #b30f1c;
+  
+  --bg-body: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #111827;        /* Gris muy oscuro para lectura */
+  --text-muted: #4b5563;
+  --border-color: #e2e8f0;
+
+  --badge-bg: #e6f4ea;            /* Verde suave para fondo de badges */
+  --badge-text: #0e7c3a;
+
+  /* Aliases para compatibilidad */
+  --primary: var(--primary-color);
+  --dark: var(--text-primary);
+  --light-bg: var(--bg-body);
+  --card-bg: var(--bg-card);
+  --border-radius: 12px;
+}
+
+body {
+  font-family: 'Urbanist', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  line-height: 1.5;
+  padding-bottom: 30px;
+}
+
+/* Ocultar elementos */
+.hidden {
+  display: none !important;
+}
+
+/* Emojis animados */
+.animated-emoji {
+  width: 22px;
+  height: 22px;
+  vertical-align: sub;
+  display: inline-block;
+  object-fit: contain;
+}
+
+/* Footer general */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
