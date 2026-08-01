@@ -20,8 +20,7 @@ function openMediaModal(src, title) {
   const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
   const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
 
-  // 1. Iniciar modal invisible pero ya posicionado en el centro
-  modal.style.cssText = `
+modal.style.cssText = `
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -39,8 +38,9 @@ function openMediaModal(src, title) {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
+    -webkit-tap-highlight-color: transparent !important; /* <--- AQUÍ: Elimina la sombra azul en celulares */
   `;
-
+   
   // Function helper para hacer visible el modal suavemente sin destello
   const revealModal = () => {
     document.body.style.overflow = "hidden";
