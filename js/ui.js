@@ -5,36 +5,101 @@
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
-// --- MODAL VISTA RÁPIDA MULTIMEDIA ---
-function openMediaModal(src, title) {
-  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
-  const modalContent = modal?.querySelector(".image-modal-content");
+/* ==========================================
+   MODAL VISTA RÁPIDA - SOLUCIÓN BLINDADA
+   ========================================== */
 
-  if (modal && modalContent) {
-    const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
-    
-    modalContent.innerHTML = `
-      <div class="modal-media-wrapper">
-        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
-        ${isVideo 
-          ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
-          : `<img src="${src}" alt="${title || 'Producto'}" />`
-        }
-      </div>
-    `;
-    modal.classList.remove("hidden");
+function openMediaModal(src, title) {
+  // 1. Verificar o crear el contenedor principal si no existe
+  let modal = document.getElementById("image-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "image-modal";
+    document.body.appendChild(modal);
   }
+
+  // 2. Normalizar la ruta de la imagen o video
+  const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
+  const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
+
+  // 3. Estilos de pantalla completa aplicados directamente por JS (Anula cualquier CSS previo)
+  modal.style.cssText = `
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    background-color: rgba(15, 23, 42, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    z-index: 9999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  `;
+
+  // 4. Inyectar el contenido con manejador de errores de imagen
+  modal.innerHTML = `
+    <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
+      <button onclick="closeImageModal()" style="
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 40px;
+        height: 40px;
+        background: #ef4444;
+        color: #ffffff;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 10000000;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      ">&times;</button>
+      
+      ${isVideo ? `
+        <video src="${cleanSrc}" autoplay loop muted playsinline style="
+          max-width: 85vw;
+          max-height: 65dvh;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+          border-radius: 12px;
+          background: #000;
+        "></video>
+      ` : `
+        <img src="${cleanSrc}" alt="${title || 'Producto'}" 
+          onerror="console.error('Error cargando imagen en:', this.src); alert('No se pudo cargar la imagen: ' + this.src);"
+          style="
+            max-width: 85vw;
+            max-height: 65dvh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #000;
+            display: block !important;
+        " />
+      `}
+    </div>
+  `;
+
+  // Bloquear scroll de fondo
+  document.body.style.overflow = "hidden";
 }
 
 function closeImageModal() {
-  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
+  const modal = document.getElementById("image-modal");
   if (modal) {
-    modal.classList.add("hidden");
-    const modalContent = modal.querySelector(".image-modal-content");
-    if (modalContent) modalContent.innerHTML = "";
+    modal.style.display = "none";
+    modal.innerHTML = "";
+    document.body.style.overflow = "";
   }
 }
-
 // --- MODAL DE RECIBO / CONFIRMACIÓN ---
 function showOrderReceipt(data) {
   const container = document.getElementById("receipt-details-container");
