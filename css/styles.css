@@ -34,9 +34,9 @@
   letter-spacing: -0.3px;
 }
 
-/* Extensión ".app" en Verde */
+/* Extensión ".app" en gris oscuro / negro elegante */
 .brand-ext {
-  color: #16a34a !important; /* Verde brillante */
+  color: #334155 !important; /* Gris oscuro / casi negro (Slate 700) */
   font-weight: 700 !important;
   font-size: 1.1rem !important;
 }
