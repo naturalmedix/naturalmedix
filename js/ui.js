@@ -6,11 +6,10 @@ function openCartModal() { document.getElementById("cart-modal")?.classList.remo
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
 /* ==========================================
-   MODAL VISTA RÁPIDA - SOLUCIÓN BLINDADA
+   MODAL VISTA RÁPIDA - CENTRADO Y SIN DESTELLOS
    ========================================== */
 
 function openMediaModal(src, title) {
-  // 1. Verificar o crear el contenedor principal si no existe
   let modal = document.getElementById("image-modal");
   if (!modal) {
     modal = document.createElement("div");
@@ -18,11 +17,10 @@ function openMediaModal(src, title) {
     document.body.appendChild(modal);
   }
 
-  // 2. Normalizar la ruta de la imagen o video
   const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
   const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
 
-  // 3. Estilos de pantalla completa aplicados directamente por JS (Anula cualquier CSS previo)
+  // 1. Iniciar modal invisible pero ya posicionado en el centro
   modal.style.cssText = `
     position: fixed !important;
     top: 0 !important;
@@ -38,66 +36,87 @@ function openMediaModal(src, title) {
     justify-content: center !important;
     padding: 20px !important;
     box-sizing: border-box !important;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
   `;
 
-  // 4. Inyectar el contenido con manejador de errores de imagen
-  modal.innerHTML = `
-    <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-      <button onclick="closeImageModal()" style="
-        position: absolute;
-        top: -15px;
-        right: -15px;
-        width: 40px;
-        height: 40px;
-        background: #ef4444;
-        color: #ffffff;
-        border: 2px solid #ffffff;
-        border-radius: 50%;
-        font-size: 22px;
-        font-weight: bold;
-        line-height: 1;
-        cursor: pointer;
-        z-index: 10000000;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      ">&times;</button>
-      
-      ${isVideo ? `
+  // Function helper para hacer visible el modal suavemente sin destello
+  const revealModal = () => {
+    document.body.style.overflow = "hidden";
+    modal.style.pointerEvents = "auto";
+    requestAnimationFrame(() => {
+      modal.style.opacity = "1";
+    });
+  };
+
+  if (isVideo) {
+    // Si es video, inyectamos y mostramos cuando esté listo para reproducir
+    modal.innerHTML = `
+      <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
+        <button onclick="closeImageModal()" style="
+          position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
+          background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
+          font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        ">&times;</button>
         <video src="${cleanSrc}" autoplay loop muted playsinline style="
-          max-width: 85vw;
-          max-height: 65dvh;
-          width: auto;
-          height: auto;
-          object-fit: contain;
-          border-radius: 12px;
-          background: #000;
+          max-width: 85vw; max-height: 65dvh; width: auto; height: auto;
+          object-fit: contain; border-radius: 12px; background: #000;
         "></video>
-      ` : `
-        <img src="${cleanSrc}" alt="${title || 'Producto'}" 
-          onerror="console.error('Error cargando imagen en:', this.src); alert('No se pudo cargar la imagen: ' + this.src);"
-          style="
-            max-width: 85vw;
-            max-height: 65dvh;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 12px;
-            background: #000;
-            display: block !important;
-        " />
-      `}
-    </div>
-  `;
+      </div>
+    `;
+    const videoEl = modal.querySelector("video");
+    if (videoEl) {
+      videoEl.onloadeddata = revealModal;
+      // Fallback por si el evento de carga tarda en dispararse
+      setTimeout(revealModal, 150);
+    } else {
+      revealModal();
+    }
+  } else {
+    // Si es imagen, la precargamos en memoria en JS antes de dibujarla en pantalla
+    const imgLoader = new Image();
+    imgLoader.src = cleanSrc;
 
-  // Bloquear scroll de fondo
-  document.body.style.overflow = "hidden";
+    const renderImageModal = () => {
+      modal.innerHTML = `
+        <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
+          <button onclick="closeImageModal()" style="
+            position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
+            background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
+            font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+          ">&times;</button>
+          <img src="${cleanSrc}" alt="${title || 'Producto'}" style="
+            max-width: 85vw; max-height: 65dvh; width: auto; height: auto;
+            object-fit: contain; border-radius: 12px; background: #000; display: block !important;
+          " />
+        </div>
+      `;
+      revealModal();
+    };
+
+    if (imgLoader.complete) {
+      renderImageModal();
+    } else {
+      imgLoader.onload = renderImageModal;
+      imgLoader.onerror = renderImageModal; // Si falla la carga, igual abre para mostrar error
+    }
+  }
 }
 
 function closeImageModal() {
   const modal = document.getElementById("image-modal");
   if (modal) {
-    modal.style.display = "none";
-    modal.innerHTML = "";
+    modal.style.opacity = "0";
+    modal.style.pointerEvents = "none";
     document.body.style.overflow = "";
+
+    setTimeout(() => {
+      modal.innerHTML = "";
+      modal.style.display = "none";
+    }, 200);
   }
 }
 
