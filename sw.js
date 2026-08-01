@@ -3,7 +3,7 @@
    ========================================== */
 
 // 1. Nombre de la caché (Sincronizado con la versión de tu app)
-const CACHE_NAME = "starnatural-v1.1.4";
+const CACHE_NAME = "naturalmedix-v1.1.5";
 
 // 2. Lista completa de recursos para funcionamiento offline
 const ASSETS_TO_CACHE = [
