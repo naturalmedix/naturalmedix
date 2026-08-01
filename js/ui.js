@@ -5,7 +5,7 @@
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
-// --- MODAL VISTA RÁPIDA MULTIMEDIA ---
+// --- MODAL VISTA RÁPIDA MULTIMEDIA (CENTRADO PERFECTO) ---
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   const modalContent = modal?.querySelector(".image-modal-content");
@@ -15,14 +15,15 @@ function openMediaModal(src, title) {
     
     modalContent.innerHTML = `
       <div class="modal-media-wrapper">
-        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
+        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()" aria-label="Cerrar">&times;</button>
         ${isVideo 
           ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
-          : `<img src="${src}" alt="${title || 'Producto'}" />`
+          : `<img src="${src}" alt="${title || 'Producto'}" class="modal-animated-image" />`
         }
       </div>
     `;
     modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden"; // Evita el scroll del fondo mientras está abierto
   }
 }
 
@@ -30,6 +31,7 @@ function closeImageModal() {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (modal) {
     modal.classList.add("hidden");
+    document.body.style.overflow = ""; // Restablece el scroll de la página
     const modalContent = modal.querySelector(".image-modal-content");
     if (modalContent) modalContent.innerHTML = "";
   }
