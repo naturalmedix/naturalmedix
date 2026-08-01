@@ -1,0 +1,5 @@
+/* Desactivar el recuadro azul nativo al hacer tap en pantallas táctiles */
+* {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none;
+}
