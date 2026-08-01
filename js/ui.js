@@ -5,17 +5,12 @@
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
-/* ==========================================
-   MODAL VISTA RÁPIDA (CENTRADOR Y SIN DESTELLOS)
-   ========================================== */
-
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (!modal) return;
 
   const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
   
-  // 1. Inyectar estructura fija con la etiqueta directa
   modal.innerHTML = `
     <div class="image-modal-content">
       <div class="modal-media-wrapper">
@@ -28,10 +23,8 @@ function openMediaModal(src, title) {
     </div>
   `;
 
-  // 2. Bloquear scroll de fondo para evitar que se mueva hacia abajo
+  // Fijar posición de la pantalla para evitar empujones por la barra de navegación del celular
   document.body.classList.add("modal-open");
-
-  // 3. Mostrar modal
   modal.classList.remove("hidden");
 }
 
@@ -40,16 +33,9 @@ function closeImageModal() {
   if (modal) {
     modal.classList.add("hidden");
     document.body.classList.remove("modal-open");
-    
-    // Limpieza suave tras la transición
-    setTimeout(() => {
-      if (modal.classList.contains("hidden")) {
-        modal.innerHTML = "";
-      }
-    }, 250);
+    modal.innerHTML = "";
   }
 }
-
 // --- MODAL DE RECIBO / CONFIRMACIÓN ---
 function showOrderReceipt(data) {
   const container = document.getElementById("receipt-details-container");
