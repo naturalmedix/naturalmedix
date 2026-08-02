@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Star Natural | App Tienda Oficial</title>
-
+  <title>Natural Medix | App Tienda Oficial</title>
+  
   <!-- Deshabilitar caché del navegador -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+  
+  <title>Natural Medix</title>
 
+<script src="js/app.js?v=1.1"></script>
   <!-- PWA Metadata -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0d9488">
@@ -20,8 +22,7 @@
   <!-- Google Fonts: Urbanist -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,600;0,700;1,700;1,800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,600;0,700;1,700;1,800&display=swap" rel="stylesheet">
 
   <!-- Módulos CSS Independientes -->
   <link rel="stylesheet" href="css/styles.css">
@@ -30,27 +31,29 @@
   <link rel="stylesheet" href="css/products.css">
   <link rel="stylesheet" href="css/cart.css">
   <link rel="stylesheet" href="css/checkout.css">
-
+  
   <!-- SDK oficial del Widget de Wompi -->
   <script type="text/javascript" src="https://checkout.wompi.co/widget.js"></script>
 </head>
-
 <body>
 
-  <!-- Header principal -->
+<!-- Header principal -->
   <header class="navbar">
     <div class="nav-container">
-      <!-- En el Header y Footer debe lucir exactamente así: -->
+      
+      <!-- LOGO NATURALMEDIX CON HOJA AL MEDIO Y .APP -->
       <a href="#" class="brand-logo">
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp" alt="Estrella" class="star-logo-img" />
-        <span class="brand-name">StarNatural<span class="brand-ext">.app</span></span>
+        <span class="brand-natural">Natural</span>
+        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
+        <span class="brand-medix">medix<span class="brand-ext">.app</span></span>
       </a>
 
+      <!-- BOTÓN DEL CARRITO RESTAURADO -->
       <button id="cart-icon-btn" class="cart-btn" style="display: flex; align-items: center; gap: 6px;">
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp" class="animated-emoji" alt="Carrito"
-          style="width: 24px; height: 24px;">
+        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp" class="animated-emoji" alt="Carrito" style="width: 24px; height: 24px;">
         <span>Carrito (<span id="cart-count">0</span>)</span>
       </button>
+
     </div>
   </header>
 
@@ -58,7 +61,7 @@
   <div id="pwa-install-banner" class="pwa-banner hidden">
     <div class="pwa-content">
       <div class="pwa-text">
-        <strong>Instala StarNatural.app</strong>
+        <strong>Instala NaturalMedix.app</strong>
         <span>Accede más rápido desde tu pantalla de inicio</span>
       </div>
       <button id="btn-install-app" class="btn-install">Instalar</button>
@@ -68,21 +71,30 @@
   <main class="main-container">
     <!-- Seccion Hero / Banner -->
     <section class="hero-card">
-      <span class="hero-tag">Salud & BieneStar Natural</span>
+      <span class="hero-tag">Salud & BieneNatural Medix</span>
       <h2>Nutrición avanzada para tu cuerpo</h2>
       <p>Productos con registro sanitario, envío seguro a toda Colombia y pago protegido.</p>
     </section>
 
-    <!-- Buscador de Ancho Completo -->
-    <div class="search-container">
-      <div class="search-input-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="product-search-input" placeholder="Buscar producto, beneficio o ingrediente..."
-          aria-label="Buscar productos" />
-        <button id="clear-search-btn" class="clear-search-btn hidden" aria-label="Limpiar búsqueda">&times;</button>
-      </div>
-    </div>
-
+<!-- Buscador de Ancho Completo con Lupa Animada -->
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <!-- LUPA ANIMADA (Noto Emoji WebP) -->
+    <img 
+      src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f50e/512.webp" 
+      alt="Lupa de Búsqueda" 
+      class="search-animated-icon" 
+    />
+    <input 
+      type="text" 
+      id="product-search-input" 
+      placeholder="Buscar producto, beneficio o ingrediente..." 
+      aria-label="Buscar productos"
+    />
+    <button id="clear-search-btn" class="clear-search-btn hidden" aria-label="Limpiar búsqueda">&times;</button>
+  </div>
+</div>
+    
     <!-- Catálogo de Productos -->
     <section class="catalog-section">
       <h3 class="section-title">Nuestros Productos</h3>
@@ -109,20 +121,19 @@
           <span>Subtotal:</span>
           <strong id="cart-total">$0 COP</strong>
         </div>
-
+        
         <!-- Datos de Envío -->
         <div class="shipping-form">
           <div class="checkout-form">
-            <h3>Datos de Envío y Facturación</h3>
-            <input type="text" id="customer-name" placeholder="Nombre completo o Razon Social" required />
-            <input type="text" id="customer-id" placeholder="Cédula (CC) o NIT" required />
-            <input type="email" id="customer-email" placeholder="Correo electrónico" required />
-            <input type="tel" id="customer-phone" placeholder="Teléfono / WhatsApp" required />
-            <input type="text" id="customer-city" placeholder="Ciudad / Municipio" required />
-            <input type="text" id="customer-address" placeholder="Dirección completa y barrio" required />
-            <textarea id="customer-notes" placeholder="Notas adicionales (ej: Apto 302, dejar en portería)"
-              rows="2"></textarea>
-          </div>
+  <h3>Datos de Envío y Facturación</h3>
+  <input type="text" id="customer-name" placeholder="Nombre completo o Razon Social" required />
+  <input type="text" id="customer-id" placeholder="Cédula (CC) o NIT" required />
+  <input type="email" id="customer-email" placeholder="Correo electrónico" required />
+  <input type="tel" id="customer-phone" placeholder="Teléfono / WhatsApp" required />
+  <input type="text" id="customer-city" placeholder="Ciudad / Municipio" required />
+  <input type="text" id="customer-address" placeholder="Dirección completa y barrio" required />
+  <textarea id="customer-notes" placeholder="Notas adicionales (ej: Apto 302, dejar en portería)" rows="2"></textarea>
+</div>
         </div>
 
         <button id="btn-wompi-pay" class="btn-checkout">
@@ -132,58 +143,71 @@
     </div>
   </div>
 
+ <footer class="footer">
+  <div class="footer-logo-container">
+    <a href="#" class="brand-logo footer-brand">
+      <span class="brand-natural">Natural</span>
+      <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
+      <span class="brand-medix">medix<span class="brand-ext">.app</span></span>
+    </a>
+  </div>
+  <p class="sub">Productos Naturales | www.NaturalMedix.app</p>
+</footer>
+
+  <script src="./js/app.js"></script>
   <!-- Botón Volver Arriba -->
   <button id="btn-back-to-top" class="back-to-top hidden" aria-label="Volver arriba">
     ↑
   </button>
 
   <!-- Modal de Confirmación / Recibo -->
-  <div id="receipt-modal" class="cart-modal hidden">
-    <div class="cart-modal-content"
-      style="background: #ffffff; width: 100%; max-width: 500px; border-radius: 12px; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
-      <div style="text-align: center; margin-bottom: 1rem;">
-        <span style="font-size: 3rem;">🎉</span>
-        <h3 style="margin: 0.5rem 0 0; color: #166534;">¡Pago Confirmado!</h3>
-        <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Tu pedido ha sido procesado con éxito</p>
-      </div>
-
-      <div id="receipt-details-container"
-        style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.85rem; max-height: 350px; overflow-y: auto;">
-        <!-- Se llena dinámicamente -->
-      </div>
-
-      <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
-        <a id="btn-whatsapp-copy" href="#" target="_blank" class="btn-add-cart"
-          style="background-color: #25D366; text-decoration: none; text-align: center; display: block; padding: 0.8rem; border-radius: 6px; color: #fff; font-weight: bold;">
-          📲 Enviar copia por WhatsApp (Opcional)
-        </a>
-        <button onclick="closeReceiptModal()" class="qty-btn"
-          style="width: 100%; padding: 0.8rem; background: #e2e8f0; color: #334155; font-weight: 600; border: none; border-radius: 6px; cursor: pointer;">
-          Cerrar y volver a la tienda
-        </button>
-      </div>
+<div id="receipt-modal" class="cart-modal hidden">
+  <div class="cart-modal-content" style="background: #ffffff; width: 100%; max-width: 500px; border-radius: 12px; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+    
+    <div style="text-align: center; margin-bottom: 1rem;">
+      <span style="font-size: 3rem;">🎉</span>
+      <h3 style="margin: 0.5rem 0 0; color: #166534;">¡Pago Confirmado!</h3>
+      <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Tu pedido ha sido procesado con éxito</p>
     </div>
-  </div>
 
-  <!-- MODAL DE VISTA RÁPIDA (IMAGEN Y VIDEO) -->
-  <div id="image-modal"></div>
+    <div id="receipt-details-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.85rem; max-height: 350px; overflow-y: auto;">
+      <!-- Se llena dinámicamente -->
+    </div>
 
-  <footer class="footer">
-    <div class="footer-logo-container">
-      <a href="#" class="brand-logo footer-brand">
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp" alt="Estrella" class="star-logo-img" />
-        <span class="brand-name">StarNatural<span class="brand-ext">.app</span></span>
+    <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <a id="btn-whatsapp-copy" href="#" target="_blank" class="btn-add-cart" style="background-color: #25D366; text-decoration: none; text-align: center; display: block; padding: 0.8rem; border-radius: 6px; color: #fff; font-weight: bold;">
+        📲 Enviar copia por WhatsApp (Opcional)
       </a>
+      <button onclick="closeReceiptModal()" class="qty-btn" style="width: 100%; padding: 0.8rem; background: #e2e8f0; color: #334155; font-weight: 600; border: none; border-radius: 6px; cursor: pointer;">
+        Cerrar y volver a la tienda
+      </button>
     </div>
-    <p class="sub">Productos Naturales | www.StarNatural.co</p>
-  </footer>
 
-  <!-- Módulos JavaScript (Carga ordenada al final) -->
+  </div>
+</div>
+
+  <script src="./js/app.js"></script>
+  <!-- MODAL PARA AMPLIAR IMAGEN -->
+<div id="image-modal" class="modal-overlay hidden">
+  <div class="image-modal-content">
+    <button id="close-image-modal" class="modal-close-btn">&times;</button>
+    <img id="modal-img-target" src="" alt="Producto" />
+    <p id="modal-img-caption" class="modal-caption"></p>
+  </div>
+</div>
+
+<!-- Pasarela Wompi -->
+  <script type="text/javascript" src="https://checkout.wompi.co/widget.js"></script>
+
+  <!-- Módulos JavaScript -->
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/checkout.js"></script>
   <script src="js/app.js"></script>
 </body>
-
+  
+</body>
+</html>
+</body>
 </html>
