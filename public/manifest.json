@@ -1,8 +1,8 @@
 {
-  "id": "app.starnatural.store",
-  "name": "StarNatural Store",
-  "short_name": "StarNatural",
-  "description": "Tienda oficial de productos naturales, suplementos y cuidado personal StarNatural.",
+  "id": "app.naturalmedix.store",
+  "name": "naturalmedix Store",
+  "short_name": "naturalmedix",
+  "description": "Tienda oficial de productos naturales, suplementos y cuidado personal naturalmedix.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
