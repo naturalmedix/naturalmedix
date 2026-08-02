@@ -10,14 +10,14 @@ const CACHE_NAME = "naturalmedix-v1.1.5";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./css/styles.css",
+  ".public/assets/css/styles.css",
   "./manifest.json",
   // Todos tus módulos JavaScript:
-  "./js/products.js",
-  "./js/cart.js",
-  "./js/ui.js",
-  "./js/checkout.js",
-  "./js/app.js",
+  ".public/assets/js/products.js",
+  ".public/assets/js/cart.js",
+  ".public/assets/js/ui.js",
+  ".public/assets/js/checkout.js",
+  ".public/assets/js/app.js",
   // Script de Wompi (opcional pero recomendado guardar el widget localmente si responde)
   "https://checkout.wompi.co/widget.js"
 ];
