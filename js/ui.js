@@ -1,37 +1,56 @@
 /* ==========================================
-   INTERFAZ DE USUARIO, MODALES Y EVENTOS
+   INTERFAZ DE USUARIO, MODALES Y EVENTOS (js/ui.js)
    ========================================== */
 
-function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
-function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
+// --- MODALES DEL CARRITO ---
+function openCartModal() { 
+  document.getElementById("cart-modal")?.classList.remove("hidden"); 
+}
+
+function closeCartModal() { 
+  document.getElementById("cart-modal")?.classList.add("hidden"); 
+}
 
 // --- MODAL VISTA RÁPIDA MULTIMEDIA ---
+function openQuickView(productId) {
+  if (typeof products === 'undefined') return;
+  const product = products.find(p => p.id === productId);
+  if (product) {
+    // Abre el modal con la imagen/video del producto
+    openMediaModal(product.image, product.name);
+  }
+}
+
 function openMediaModal(src, title) {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
-  const modalContent = modal?.querySelector(".image-modal-content");
+  if (!modal) return;
 
-  if (modal && modalContent) {
-    const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
-    
-    modalContent.innerHTML = `
-      <div class="modal-media-wrapper">
+  const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
+
+  // Inyectamos la estructura completa por si .image-modal-content no existe en el HTML
+  modal.innerHTML = `
+    <div class="modal-overlay" onclick="closeImageModal()">
+      <div class="modal-media-wrapper" onclick="event.stopPropagation()">
         <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
         ${isVideo 
           ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
-          : `<img src="${src}" alt="${title || 'Producto'}" />`
+          : `<img src="${src}" alt="${title || 'Producto'}" style="max-width: 100%; max-height: 80vh; border-radius: 12px;" />`
         }
+        <h3 style="margin-top: 10px; color: #fff; text-align: center;">${title || ''}</h3>
       </div>
-    `;
-    modal.classList.remove("hidden");
-  }
+    </div>
+  `;
+  
+  modal.classList.remove("hidden");
+  modal.style.display = "flex"; // Garantiza visibilidad
 }
 
 function closeImageModal() {
   const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (modal) {
     modal.classList.add("hidden");
-    const modalContent = modal.querySelector(".image-modal-content");
-    if (modalContent) modalContent.innerHTML = "";
+    modal.style.display = "none";
+    modal.innerHTML = "";
   }
 }
 
@@ -102,66 +121,7 @@ function setupBackToTop() {
   });
 }
 
-// --- EVENT LISTENERS GENERALES ---
-function setupEventListeners() {
-  document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
-  document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
-  document.getElementById("btn-wompi-pay")?.addEventListener("click", handleWompiCheckout);
-  
-  const imageModal = document.getElementById("image-modal") || document.getElementById("imageModal");
-  if (imageModal) {
-    imageModal.addEventListener("click", (e) => {
-      if (e.target === imageModal || e.target.classList.contains("image-modal-content")) {
-        closeImageModal();
-      }
-    });
-  }
-
-  const searchInput = document.getElementById("product-search-input");
-  const clearBtn = document.getElementById("clear-search-btn");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const value = e.target.value;
-      renderProducts(value);
-
-      if (clearBtn) {
-        if (value.trim().length > 0) {
-          clearBtn.classList.remove("hidden");
-        } else {
-          clearBtn.classList.add("hidden");
-        }
-      }
-    });
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      if (searchInput) {
-        searchInput.value = "";
-        renderProducts("");
-        searchInput.focus();
-      }
-      clearBtn.classList.add("hidden");
-    });
-  }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeImageModal();
-      closeCartModal();
-    }
-  });
-}
-
-// En js/ui.js
-function displayProducts(productsArray) {
-  const container = document.getElementById('product-grid'); // Debe decir product-grid
-  if (!container) return;
-  container.innerHTML = productsArray.map(product => renderProductCard(product)).join('');
-}
-
-// js/ui.js
+// --- RENDERIZADO DE PRODUCTOS ---
 function renderProductCard(product) {
   const optionsHTML = product.options.map((opt) => 
     `<option value="${opt.price}">${opt.size} - $${opt.price.toLocaleString('es-CO')} COP (${opt.label})</option>`
@@ -193,4 +153,73 @@ function renderProductCard(product) {
       </button>
     </div>
   `;
+}
+
+function displayProducts(productsArray) {
+  const container = document.getElementById('product-grid');
+  if (!container) return;
+  
+  if (!productsArray || productsArray.length === 0) {
+    container.innerHTML = `<p class="no-results" style="grid-column: 1/-1; text-align: center; padding: 2rem;">No se encontraron productos.</p>`;
+    return;
+  }
+
+  container.innerHTML = productsArray.map(product => renderProductCard(product)).join('');
+}
+
+// --- EVENT LISTENERS GENERALES ---
+function setupEventListeners() {
+  document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
+  document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
+  
+  // Si existe el botón de pago con Wompi
+  if (typeof handleWompiCheckout === 'function') {
+    document.getElementById("btn-wompi-pay")?.addEventListener("click", handleWompiCheckout);
+  }
+  
+  setupBackToTop();
+
+  const searchInput = document.getElementById("product-search-input");
+  const clearBtn = document.getElementById("clear-search-btn");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      
+      // Filtrar productos por nombre o descripción
+      const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.tagline.toLowerCase().includes(query) ||
+        (p.description && p.description.toLowerCase().includes(query))
+      );
+
+      displayProducts(filtered);
+
+      if (clearBtn) {
+        if (query.length > 0) {
+          clearBtn.classList.remove("hidden");
+        } else {
+          clearBtn.classList.add("hidden");
+        }
+      }
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      if (searchInput) {
+        searchInput.value = "";
+        displayProducts(products);
+        searchInput.focus();
+      }
+      clearBtn.classList.add("hidden");
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeImageModal();
+      closeCartModal();
+    }
+  });
 }
