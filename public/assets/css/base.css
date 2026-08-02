@@ -1,7 +1,8 @@
 
 /* ==========================================
-   VARIABLES GLOBALES Y RESETS DE MARCA
+   VARIABLES GLOBALES Y RESETS DE MARCA - STARNATURAL
    ========================================== */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,20 +10,20 @@
 }
 
 :root {
-  /* Paleta Oficial Natural Medix */
-  --primary-color: #0e7c3a;       /* Verde Natural Medix */
-  --primary-hover: #0a5c2b;
-  --accent-color: #d91424;        /* Rojo Medix (CTA / Agregar al carrito) */
-  --accent-hover: #b30f1c;
+  /* Paleta Oficial StarNatural Store */
+  --primary-color: #0d9488;        /* Verde Esmeralda / Teal StarNatural */
+  --primary-hover: #0f766e;
+  --accent-color: #059669;         /* Verde CTA para 'Agregar al carrito' */
+  --accent-hover: #047857;
   
   --bg-body: #f8fafc;
   --bg-card: #ffffff;
-  --text-primary: #111827;        /* Gris muy oscuro para lectura */
-  --text-muted: #4b5563;
+  --text-primary: #0f172a;        /* Gris muy oscuro/Slate para lectura alta */
+  --text-muted: #64748b;
   --border-color: #e2e8f0;
 
-  --badge-bg: #e6f4ea;            /* Verde suave para fondo de badges */
-  --badge-text: #0e7c3a;
+  --badge-bg: #ccfbf1;            /* Fondo verde suave para Badges */
+  --badge-text: #0f766e;
 
   /* Aliases para compatibilidad */
   --primary: var(--primary-color);
@@ -32,12 +33,19 @@
   --border-radius: 12px;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  font-family: 'Urbanist', sans-serif;
+  font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-body);
   color: var(--text-primary);
   line-height: 1.5;
   padding-bottom: 30px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Ocultar elementos */
@@ -45,7 +53,7 @@ body {
   display: none !important;
 }
 
-/* Emojis animados */
+/* Emojis animados Noto Emoji */
 .animated-emoji {
   width: 22px;
   height: 22px;
