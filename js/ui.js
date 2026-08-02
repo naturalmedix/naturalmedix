@@ -153,3 +153,10 @@ function setupEventListeners() {
     }
   });
 }
+
+// En js/ui.js
+function displayProducts(productsArray) {
+  const container = document.getElementById('product-grid'); // Debe decir product-grid
+  if (!container) return;
+  container.innerHTML = productsArray.map(product => renderProductCard(product)).join('');
+}
