@@ -3,6 +3,7 @@
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
 }
+
 /* ==========================================
    ESTILOS LOGO NATURALMEDIX.APP
    ========================================== */
@@ -20,7 +21,8 @@
 
 /* "Natural" en Verde Estilo Logo */
 .brand-natural {
-  color: #15803d !important; /* Verde oscuro orgánico */
+  color: #15803d !important;
+  /* Verde oscuro orgánico */
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
@@ -28,7 +30,8 @@
 
 /* "medix" en Rojo Estilo Logo */
 .brand-medix {
-  color: #dc2626 !important; /* Rojo vivo del logo */
+  color: #dc2626 !important;
+  /* Rojo vivo del logo */
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
@@ -36,7 +39,8 @@
 
 /* Extensión ".app" en gris oscuro / negro elegante */
 .brand-ext {
-  color: #334155 !important; /* Gris oscuro / casi negro (Slate 700) */
+  color: #334155 !important;
+  /* Gris oscuro / casi negro (Slate 700) */
   font-weight: 700 !important;
   font-size: 1.1rem !important;
 }
@@ -54,56 +58,17 @@
 
 /* Animación sutil de viento para la hoja */
 @keyframes medixLeafSwing {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotate(0deg) scale(1);
   }
+
   50% {
     transform: rotate(15deg) scale(1.12);
   }
 }
-/* ==========================================
-   ESTILOS OJO ANIMADO EN VISTA RÁPIDA
-   ========================================== */
 
-/* Botón de vista rápida */
-.btn-quick-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px; /* Espacio entre el ojo y el texto */
-  /* ... tus otros estilos para el botón (color, padding, etc.) ... */
-}
-
-/* Icono del ojo animado */
-.quick-view-animated-icon {
-  width: 22px !important;
-  height: 22px !important;
-  object-fit: contain !important;
-  display: inline-block !important;
-  animation: eyeBlinkAndLook 4s ease-in-out infinite;
-}
-
-/* Animación sutil para el ojo (parpadeo y movimiento) */
-@keyframes eyeBlinkAndLook {
-  0%, 10%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  5% {
-    transform: scale(1, 0.1); /* Efecto parpadeo (se aplana) */
-    opacity: 0.7;
-  }
-  15% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  30%, 50% {
-    transform: scale(1) translateX(2px); /* Mira un poco a la derecha */
-  }
-  70%, 90% {
-    transform: scale(1) translateX(-2px); /* Mira un poco a la izquierda */
-  }
-}
 /* ==========================================
    ESTILOS LUPA ANIMADA EN BUSCADOR
    ========================================== */
@@ -123,7 +88,8 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* Permite hacer clic en el input a través de la imagen */
+  pointer-events: none;
+  /* Permite hacer clic en el input a través de la imagen */
   animation: searchIconPulse 2.5s ease-in-out infinite;
 }
 
@@ -134,9 +100,12 @@
 
 /* Animación sutil de zoom/movimiento para la lupa */
 @keyframes searchIconPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(-50%) scale(1) rotate(0deg);
   }
+
   50% {
     transform: translateY(-50%) scale(1.15) rotate(-10deg);
   }
