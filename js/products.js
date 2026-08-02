@@ -137,15 +137,25 @@ function renderProducts(filterText = "") {
       ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
       : '';
 
-    return `
-      <div class="product-card">
-        ${product.image ? `
-          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
-            <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
-            <span class="expand-badge">👁️ Vista rápida</span>
-          </div>
-        ` : ''}
+    // Dentro de tu función de renderizado en js/ui.js, asegúrate de que el botón de Vista Rápida se vea así:
 
+return `
+    <div class="product-card">
+        <!-- ... resto de la tarjeta ... -->
+        
+        <div class="product-image-wrapper">
+            <img src="${product.image}" alt="${product.name}" class="product-img" />
+            
+            <!-- NUEVO BOTÓN DE VISTA RÁPIDA CIRCULAR CON OJO ANIMADO -->
+            <button class="btn-quick-view-circular" onclick="openQuickView('${product.id}')" aria-label="Vista Rápida">
+                <!-- OJO ANIMADO (Noto Emoji WebP) -->
+                <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f441/512.webp" alt="Ojo" class="quick-view-eye-icon" />
+            </button>
+        </div>
+
+        <!-- ... resto de la tarjeta ... -->
+    </div>
+`;
         <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
             <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${product.fabricado}
