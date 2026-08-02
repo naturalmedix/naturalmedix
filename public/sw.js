@@ -2,14 +2,14 @@
    SERVICE WORKER - NATURAL MEDIX PWA
    ========================================== */
 
-// 1. Nombre de la caché
-const CACHE_NAME = "naturalmedix-v1.1.5";
+// 1. Nombre de la caché (Incrementa la versión si cambias archivos)
+const CACHE_NAME = "naturalmedix-v1.1.6";
 
 // 2. Lista completa de recursos locales para precachar
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./public/manifest.json",
+  ".public/manifest.json",
   
   // Archivos CSS
   "./public/assets/css/styles.css",
