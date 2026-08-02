@@ -1,15 +1,15 @@
 /* ==========================================
-   SERVICE WORKER - NATURAL MEDIX PWA
+   SERVICE WORKER - STARNATURAL PWA
    ========================================== */
 
-// 1. Nombre de la caché (Incrementa la versión si cambias archivos)
-const CACHE_NAME = "naturalmedix-v1.1.7";
+// 1. Nombre de la caché (Incrementa la versión al modificar archivos)
+const CACHE_NAME = "starnatural-v1.2.1";
 
 // 2. Lista completa de recursos locales para precachar
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  ".public/manifest.json",
+  "./public/manifest.json",
   
   // Archivos CSS
   "./public/assets/css/styles.css",
@@ -24,15 +24,14 @@ const ASSETS_TO_CACHE = [
   "./public/assets/js/cart.js",
   "./public/assets/js/ui.js",
   "./public/assets/js/checkout.js",
-  "./public/assets/js/app.js",
-  "./public/assets/js/script.js"
+  "./public/assets/js/app.js"
 ];
 
 // 3. INSTALACIÓN: Guarda los recursos locales en la caché
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[SW] Precachando archivos de la app...");
+      console.log("[SW] Precachando archivos de la app StarNatural...");
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting()) // Activar inmediatamente
   );
@@ -50,21 +49,27 @@ self.addEventListener("activate", (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim()) // Tomar control de las páginas abiertas
+    }).then(() => self.clients.claim()) // Tomar control inmediato de las páginas abiertas
   );
 });
 
 // 5. INTERCEPTACIÓN DE PETICIONES (Network First con Fallback a Caché)
 self.addEventListener("fetch", (event) => {
-  // Ignorar peticiones que no sean GET o que vayan directo a las APIs en vivo de Wompi
-  if (event.request.method !== "GET" || event.request.url.includes("wompi.co/v1")) {
+  const requestUrl = new URL(event.request.url);
+
+  // Ignorar peticiones no GET, esquemas no HTTP/HTTPS (extensiones) o transacciones vivas de Wompi
+  if (
+    event.request.method !== "GET" || 
+    !requestUrl.protocol.startsWith("http") ||
+    requestUrl.href.includes("wompi.co/v1")
+  ) {
     return;
   }
 
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        // Guardar/Actualizar copia en caché si la respuesta es exitosa
+        // Guardar/Actualizar copia en caché si la respuesta es válida
         if (networkResponse && (networkResponse.status === 200 || networkResponse.type === "opaque")) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -74,8 +79,17 @@ self.addEventListener("fetch", (event) => {
         return networkResponse;
       })
       .catch(() => {
-        // Si falla la red (Modo Offline), busca la respuesta guardada en caché
-        return caches.match(event.request);
+        // Modo Offline: recupera desde la caché si la red falla
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          
+          // Si solicita una página HTML navegable y no hay red, entrega el index.html
+          if (event.request.mode === "navigate") {
+            return caches.match("./index.html");
+          }
+        });
       })
   );
 });
