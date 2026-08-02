@@ -1,72 +1,74 @@
+/* ==========================================
+   DESACTIVACIÓN DE HIGHLIGHT EN MÓVILES
+   ========================================== */
 
-/* Desactivar el recuadro azul nativo al hacer tap en pantallas táctiles */
 * {
-  -webkit-tap-highlight-color: transparent !important;
-  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Permitir selección de texto en campos interactivos */
+input, textarea, [contenteditable="true"] {
+  -webkit-touch-callout: default;
+  user-select: text;
 }
 
 /* ==========================================
-   ESTILOS LOGO NATURALMEDIX.APP
+   ESTILOS LOGO STARNATURAL
    ========================================== */
 
 /* Contenedor del logo alineado */
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  text-decoration: none !important;
+  gap: 3px;
+  text-decoration: none;
   user-select: none;
-  font-family: 'Urbanist', system-ui, -apple-system, sans-serif !important;
-  font-style: normal !important;
+  font-family: 'Urbanist', -apple-system, sans-serif;
+  font-style: normal;
 }
 
-/* "Natural" en Verde Estilo Logo */
+/* "Star" en Color Primario */
+.brand-star {
+  color: var(--primary-color);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+/* "Natural" en Color Texto / Oscuro Elegante */
 .brand-natural {
-  color: #15803d !important;
-  /* Verde oscuro orgánico */
-  font-weight: 800 !important;
-  font-size: 1.25rem !important;
-  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
 }
 
-/* "medix" en Rojo Estilo Logo */
-.brand-medix {
-  color: #dc2626 !important;
-  /* Rojo vivo del logo */
-  font-weight: 800 !important;
-  font-size: 1.25rem !important;
-  letter-spacing: -0.3px;
+/* Extensión opcional o Punto Accent */
+.brand-dot {
+  color: var(--accent-color);
+  font-weight: 900;
+  font-size: 1.35rem;
 }
 
-/* Extensión ".app" en gris oscuro / negro elegante */
-.brand-ext {
-  color: #334155 !important;
-  /* Gris oscuro / casi negro (Slate 700) */
-  font-weight: 700 !important;
-  font-size: 1.1rem !important;
+/* Icono/Insignia Animada del Logo */
+.starnatural-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: inline-block;
+  margin: 0 2px;
+  transform-origin: center;
+  will-change: transform;
+  animation: starIconPulse 3.5s ease-in-out infinite;
 }
 
-/* Imagen de la Hoja en el centro entre Natural y medix */
-.medix-leaf-img {
-  width: 22px !important;
-  height: 22px !important;
-  object-fit: contain !important;
-  display: inline-block !important;
-  margin: 0 1px !important;
-  transform-origin: bottom center;
-  animation: medixLeafSwing 3s ease-in-out infinite;
-}
-
-/* Animación sutil de viento para la hoja */
-@keyframes medixLeafSwing {
-
-  0%,
-  100% {
-    transform: rotate(0deg) scale(1);
+/* Animación sutil de respiración/brillo para la insignia */
+@keyframes starIconPulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
   }
-
   50% {
-    transform: rotate(15deg) scale(1.12);
+    transform: scale(1.12) rotate(12deg);
   }
 }
 
@@ -82,32 +84,29 @@
 }
 
 .search-animated-icon {
-  width: 22px !important;
-  height: 22px !important;
-  object-fit: contain !important;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
   position: absolute;
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none;
-  /* Permite hacer clic en el input a través de la imagen */
-  animation: searchIconPulse 2.5s ease-in-out infinite;
+  pointer-events: none; /* Permite interactuar con el input a través del icono */
+  will-change: transform;
+  animation: searchIconFloat 3s ease-in-out infinite;
 }
 
-/* Espaciado interno del input para que el texto no tape la lupa */
+/* Espaciado interno del input para evitar superposición con el icono */
 .search-input-wrapper input {
-  padding-left: 46px !important;
+  padding-left: 44px;
 }
 
-/* Animación sutil de zoom/movimiento para la lupa */
-@keyframes searchIconPulse {
-
-  0%,
-  100% {
+/* Animación de flotación suave para la lupa */
+@keyframes searchIconFloat {
+  0%, 100% {
     transform: translateY(-50%) scale(1) rotate(0deg);
   }
-
   50% {
-    transform: translateY(-50%) scale(1.15) rotate(-10deg);
+    transform: translateY(-50%) scale(1.1) rotate(-8deg);
   }
 }
