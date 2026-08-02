@@ -1,24 +1,32 @@
 /* ==========================================
-   PASARELA DE PAGO WOMPI Y CHECKOUT
+   PASARELA DE PAGO WOMPI Y CHECKOUT - STARNATURAL
    ========================================== */
 
 const WOMPI_PUBLIC_KEY = "pub_prod_hTKZ7t71m1Xue0eFgOc3vSvKTvcUl1gZ"; 
+
+// ⚠️ NOTA DE SEGURIDAD: 
+// Para producciones estrictas, este hash / secret debe calcularse desde tu servidor backend.
 const WOMPI_INTEGRITY_SECRET = "prod_integrity_DcxdEMXNcfNVP0vLgE2RDmIK61d3ldNU";
 
+/**
+ * Genera la firma SHA-256 exigida por Wompi para asegurar la integridad de la transacción.
+ */
 async function generateIntegritySignature(reference, amountInCents, currency, secret) {
   const cadenaConcatenada = `${reference}${amountInCents}${currency}${secret}`;
-  const encondedText = new TextEncoder().encode(cadenaConcatenada);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', encondedText);
+  const encodedText = new TextEncoder().encode(cadenaConcatenada);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encodedText);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function handleWompiCheckout() {
-  if (cart.length === 0) {
-    alert("Agrega al menos un producto al carrito.");
+  // Validación de carrito no vacío
+  if (!Array.isArray(cart) || cart.length === 0) {
+    alert("Tu carrito está vacío. Agrega al menos un producto antes de pagar.");
     return;
   }
 
+  // Captura y sanitización de campos del formulario
   const name = document.getElementById("customer-name")?.value.trim() || "";
   const idNum = document.getElementById("customer-id")?.value.trim() || "";
   const email = document.getElementById("customer-email")?.value.trim() || "";
@@ -28,12 +36,13 @@ async function handleWompiCheckout() {
   const notes = document.getElementById("customer-notes")?.value.trim() || "";
 
   if (!name || !idNum || !email || !phone || !city || !address) {
-    alert("Por favor completa todos los datos de envío (Nombre, CC/NIT, Correo, Teléfono, Ciudad y Dirección).");
+    alert("Por favor completa todos los campos obligatorios de envío (Nombre, CC/NIT, Correo, Teléfono, Ciudad y Dirección).");
     return;
   }
 
+  // Verificar que el SDK del widget de Wompi se haya cargado
   if (typeof WidgetCheckout === 'undefined') {
-    alert("El sistema de Wompi no se cargó correctamente. Revisa tu conexión.");
+    alert("El sistema de pago Wompi no está disponible. Revisa tu conexión a internet o intenta recargar la página.");
     return;
   }
 
@@ -61,22 +70,22 @@ async function handleWompiCheckout() {
       }
     });
 
-    checkout.open(function ( result ) {
-      const transaction = result.transaction;
+    checkout.open(function (result) {
+      const transaction = result ? (result.transaction || result) : null;
 
-      if (transaction.status === 'APPROVED') {
+      if (transaction && transaction.status === 'APPROVED') {
         const referenceId = transaction.id || reference;
         
-        // 1. Construir resumen para WhatsApp
+        // 1. Construir resumen detallado para WhatsApp
         const orderSummary = cart.map(i => 
           `• *${i.name}* (x${i.qty}) - $${(i.price * i.qty).toLocaleString("es-CO")}\n` +
-          `   - Fabricado por: ${i.fabricado || 'N/A'}\n` +
-          `   - Contenido: ${i.netContent || 'N/A'}\n` +
-          `   - Invima: ${i.invima || 'N/A'}`
+          `    - Fabricado por: ${i.fabricado || 'N/A'}\n` +
+          `    - Contenido: ${i.netContent || 'N/A'}\n` +
+          `    - Invima: ${i.invima || 'N/A'}`
         ).join("\n\n");
 
         const message = 
-`✅ *¡NUEVO PEDIDO PAGADO EN NATURAL MEDIX!*
+`✅ *¡NUEVO PEDIDO PAGADO EN STARNATURAL.APP!*
 ----------------------------------
 📌 *Referencia Wompi:* ${referenceId}
 💰 *Monto Pagado:* $${totalPrice.toLocaleString("es-CO")} COP
@@ -88,33 +97,45 @@ ${orderSummary}
 • *Nombre:* ${name}
 • *CC/NIT:* ${idNum}
 • *Teléfono:* ${phone}
+• *Correo:* ${email}
 • *Ciudad:* ${city}
 • *Dirección:* ${address}
 ${notes ? `• *Notas:* ${notes}` : ''}`;
 
         const whatsappUrl = `https://wa.me/573027109685?text=${encodeURIComponent(message)}`;
 
-        // 2. Desplegar la pantalla interna de respaldo
-        showOrderReceipt({
-          ref: referenceId,
-          total: totalPrice,
-          cart: [...cart],
-          customer: { name, idNum, email, phone, city, address, notes },
-          whatsappUrl: whatsappUrl
-        });
+        // 2. Mostrar la pantalla de recibo/confirmación en la App
+        if (typeof showOrderReceipt === 'function') {
+          showOrderReceipt({
+            ref: referenceId,
+            total: totalPrice,
+            cart: [...cart],
+            customer: { name, idNum, email, phone, city, address, notes },
+            whatsappUrl: whatsappUrl
+          });
+        }
 
-        // 3. Limpiar carrito y cerrar modal del checkout
-        cart = [];
-        saveAndRefreshCart();
-        closeCartModal();
+        // 3. Vaciar el carrito sin reasignar la variable directamente
+        cart.length = 0;
+        if (typeof saveAndRefreshCart === 'function') {
+          saveAndRefreshCart();
+        } else if (typeof updateCartUI === 'function') {
+          updateCartUI();
+        }
 
-      } else if (transaction.status === 'DECLINED') {
-        alert("La transacción fue rechazada por la entidad financiera.");
+        if (typeof closeCartModal === 'function') {
+          closeCartModal();
+        }
+
+      } else if (transaction && transaction.status === 'DECLINED') {
+        alert("La transacción fue rechazada por la entidad financiera. Verifica tus datos o intenta con otro método de pago.");
+      } else if (transaction && transaction.status === 'ERROR') {
+        alert("Ocurrió un inconveniente al procesar el pago con la entidad bancaria.");
       }
     });
 
   } catch (error) {
-    console.error("Error al generar la firma de Wompi:", error);
-    alert("Error al preparar la transacción. Intenta de nuevo.");
+    console.error("[Checkout] Error al iniciar la transacción con Wompi:", error);
+    alert("Ocurrió un error al preparar la transacción. Intenta nuevamente.");
   }
 }
