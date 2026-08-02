@@ -1,15 +1,16 @@
 {
-  "name": "Natural Medix App",
-  "short_name": "NaturalMedix",
-  "description": "App Tienda Oficial Natural Medix.",
-  "start_url": "./",
+  "id": "app.starnatural.store",
+  "name": "StarNatural Store",
+  "short_name": "StarNatural",
+  "description": "Tienda oficial de productos naturales, suplementos y cuidado personal StarNatural.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#0d9488",
-  "categories": ["shopping", "health"],
-"icons": [
+  "categories": ["shopping", "lifestyle", "health"],
+  "icons": [
     {
       "src": "./public/assets/icons/icon-192.png",
       "sizes": "192x192",
@@ -28,4 +29,14 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Carrito",
+      "short_name": "Carrito",
+      "description": "Abre tu carrito de compras",
+      "url": "./index.html?open=cart",
+      "icons": [{ "src": "./public/assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
   ]
+}
