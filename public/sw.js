@@ -9,7 +9,7 @@ const CACHE_NAME = "naturalmedix-v1.1.5";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
-  "./manifest.json",
+  "./public/manifest.json",
   
   // Archivos CSS
   "./public/assets/css/styles.css",
