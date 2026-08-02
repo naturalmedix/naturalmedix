@@ -1,9 +1,8 @@
-
 {
   "name": "Natural Medix App",
-  "short_name": "StarNatural",
+  "short_name": "NaturalMedix",
   "description": "App Tienda Oficial Natural Medix.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
