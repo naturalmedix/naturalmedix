@@ -61,3 +61,46 @@
     transform: rotate(15deg) scale(1.12);
   }
 }
+/* ==========================================
+   ESTILOS OJO ANIMADO EN VISTA RÁPIDA
+   ========================================== */
+
+/* Botón de vista rápida */
+.btn-quick-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espacio entre el ojo y el texto */
+  /* ... tus otros estilos para el botón (color, padding, etc.) ... */
+}
+
+/* Icono del ojo animado */
+.quick-view-animated-icon {
+  width: 22px !important;
+  height: 22px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+  animation: eyeBlinkAndLook 4s ease-in-out infinite;
+}
+
+/* Animación sutil para el ojo (parpadeo y movimiento) */
+@keyframes eyeBlinkAndLook {
+  0%, 10%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  5% {
+    transform: scale(1, 0.1); /* Efecto parpadeo (se aplana) */
+    opacity: 0.7;
+  }
+  15% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30%, 50% {
+    transform: scale(1) translateX(2px); /* Mira un poco a la derecha */
+  }
+  70%, 90% {
+    transform: scale(1) translateX(-2px); /* Mira un poco a la izquierda */
+  }
+}
