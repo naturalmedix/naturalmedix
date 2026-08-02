@@ -5,13 +5,13 @@
 const PRODUCTS = [
   {
     id: "aguaje-pawer",
-    name: "AGUAJE pawer",
+    name: "AGUAJE Pawer",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
@@ -20,11 +20,11 @@ const PRODUCTS = [
     id: "aguaje-plus",
     name: "Aguaje Plus",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
@@ -33,11 +33,11 @@ const PRODUCTS = [
     id: "aguaje-hinojo",
     name: "Aguaje Hinojo",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
@@ -46,11 +46,11 @@ const PRODUCTS = [
     id: "aguaje-siempre-bella",
     name: "Aguaje Siempre Bella",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
@@ -59,36 +59,36 @@ const PRODUCTS = [
     id: "vitamina-a",
     name: "VITAMINA A",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
   },
-   {
+  {
     id: "vitamina-c",
     name: "VITAMINA C",
     badge: "Estrella",
-    fabricado: "Natural Medix (Peru)",
-    netContent: "Cont. Neto: 100 Capsulas | Capsula 500mg.",
+    fabricado: "StarNatural (Perú)",
+    netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
-    usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
+    usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
     image: "public/assets/images/natural-medix.mp4"
   },
-   {
+  {
     id: "vitamina-e-1000-IU",
     name: "VITAMINA E con Selenium de 1000 IU",
     badge: "Estrella",
-    fabricado: "Natural encounter (USA)",
+    fabricado: "Natural Encounter (USA)",
     netContent: "Cont. Neto: 100 SOFTGELS",
     invima: "Producto sin registro",
-    benefit: "sirve como un potente suplemento antioxidante que protege a las células contra el daño oxidativo, apoya el sistema inmune y cuida la salud de la piel.",
+    benefit: "Potente suplemento antioxidante que protege las células contra el daño oxidativo, apoya el sistema inmune y cuida la salud de la piel.",
     usage: "Tomar una cápsula blanda al día con la comida principal.",
     price: 38900,
     originalPrice: 55600,
@@ -96,7 +96,7 @@ const PRODUCTS = [
   }
 ];
 
-// URLs de emojis animados
+// URLs de emojis animados Noto Emoji
 const EMOJIS = {
   fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",
   package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f37e/512.webp",
@@ -105,6 +105,17 @@ const EMOJIS = {
   calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp",
   cart: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp"
 };
+
+/**
+ * Escapa caracteres HTML para evitar fallos con comillas o caracteres especiales
+ */
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 function renderProducts(filterText = "") {
   const container = document.getElementById("product-grid");
@@ -122,10 +133,11 @@ function renderProducts(filterText = "") {
   });
 
   if (filteredProducts.length === 0) {
+    const safeQuery = escapeHTML(filterText);
     container.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #64748b;">
-        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No se encontraron productos para "${filterText}"</p>
-        <p style="font-size: 0.9rem;">Intenta con otros términos como "origen", "vcol" o "colageno".</p>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem 1rem; color: #64748b;">
+        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No se encontraron productos para "${safeQuery}"</p>
+        <p style="font-size: 0.9rem;">Intenta con otros términos como "vitamina", "aguaje" o "salud".</p>
       </div>
     `;
     return;
@@ -134,14 +146,22 @@ function renderProducts(filterText = "") {
   container.innerHTML = filteredProducts.map(product => {
     const ahorro = product.originalPrice - product.price;
     const ahorroFormateado = ahorro > 0 
-      ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
+      ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Ahorro"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
       : '';
+
+    // Detección dinámica de tipo de medio (video vs imagen)
+    const mediaPath = product.image || '';
+    const isVideo = mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm');
+
+    const mediaHtml = isVideo
+      ? `<video src="${mediaPath}" autoplay loop muted playsinline class="product-img"></video>`
+      : `<img src="${mediaPath}" alt="${escapeHTML(product.name)}" class="product-img" loading="lazy" />`;
 
     return `
       <div class="product-card">
         ${product.image ? `
-          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${product.name}')">
-            <video src="${product.image}" autoplay loop muted playsinline class="product-img"></video>
+          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${escapeHTML(product.name)}')">
+            ${mediaHtml}
             <span class="expand-badge">👁️ Vista rápida</span>
           </div>
         ` : ''}
