@@ -40,7 +40,6 @@ modal.style.cssText = `
     pointer-events: none;
     -webkit-tap-highlight-color: transparent !important; /* <--- AQUÍ: Elimina la sombra azul en celulares */
   `;
-   
   // Function helper para hacer visible el modal suavemente sin destello
   const revealModal = () => {
     document.body.style.overflow = "hidden";
