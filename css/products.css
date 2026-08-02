@@ -1,5 +1,6 @@
+
 /* ==========================================
-   CATÁLOGO DE PRODUCTOS Y VISTA PREVIA (CSS)
+   CATÁLOGO DE PRODUCTOS Y VISTA PREVIA
    ========================================== */
 
 .main-container {
@@ -43,10 +44,10 @@
   gap: 1.2rem;
 }
 
-/* --- TARJETA DE PRODUCTO --- */
+/* Tarjeta de Producto */
 .product-card {
-  background: var(--card-bg, #ffffff);
-  border-radius: var(--border-radius, 16px);
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
   padding: 1.2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   border: 1px solid #f1f5f9;
@@ -60,18 +61,15 @@
   aspect-ratio: 3 / 4;
   margin: 0 auto 0.8rem;
   border-radius: 12px;
-  overflow: hidden; /* Mantiene la miniatura limpia */
+  overflow: hidden;
   cursor: pointer;
   background-color: #000;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .product-image-wrapper:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
@@ -82,7 +80,6 @@
   display: block;
 }
 
-/* Badge Vista Rápida Inferior (Etiqueta Flotante) */
 .expand-badge {
   position: absolute;
   bottom: 10px;
@@ -105,41 +102,9 @@
 }
 
 .product-image-wrapper:hover .expand-badge {
-  background: var(--primary, #0d9488);
+  background: var(--primary-color);
 }
 
-/* Botón Circular Flotante del Ojo */
-.btn-quick-view-circular {
-  position: absolute;
-  top: 10px;
-  right: 10px; /* Ajustado para que permanezca dentro de la tarjeta y no se recorte */
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: rgba(13, 148, 136, 0.85); /* Color esmeralda (#0d9488) */
-  border: 2px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  z-index: 5;
-}
-
-.btn-quick-view-circular:hover {
-  transform: scale(1.1);
-  background-color: rgba(13, 148, 136, 1);
-}
-
-.quick-view-eye-icon {
-  width: 24px !important;
-  height: 24px !important;
-  object-fit: contain;
-}
-
-/* --- DETALLES Y TEXTOS DE TARJETA --- */
 .product-header {
   display: flex;
   justify-content: space-between;
@@ -151,9 +116,10 @@
   font-weight: 800;
 }
 
+.header-bar,
 .product-badge {
-  background: #fef3c7;
-  color: #b45309;
+  background-color: var(--primary-color);
+  color: #ffffff;
   font-weight: 700;
   font-size: 0.7rem;
   padding: 0.2rem 0.6rem;
@@ -162,7 +128,7 @@
 
 .product-desc {
   font-size: 0.9rem;
-  color: var(--text-muted, #64748b);
+  color: var(--text-muted);
   margin: 0.5rem 0;
 }
 
@@ -172,7 +138,7 @@
   align-items: center;
 }
 
-/* --- PRECIOS Y AHORRO --- */
+/* Precios y Descuento */
 .price-container {
   display: flex;
   flex-direction: column;
@@ -187,9 +153,9 @@
 }
 
 .product-price {
+  color: var(--primary-color);
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--primary, #0d9488);
 }
 
 .original-price {
@@ -212,7 +178,7 @@
   width: fit-content;
 }
 
-/* --- MODAL MULTIMEDIA (POP-UP) --- */
+/* Modal Multimedia (Vista Previa de Imagen / Video) */
 .modal-media-wrapper {
   position: relative;
   width: 90vw;
