@@ -5,117 +5,33 @@
 function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
 function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
 
-/* ==========================================
-   MODAL VISTA RÁPIDA - CENTRADO Y SIN DESTELLOS
-   ========================================== */
-
+// --- MODAL VISTA RÁPIDA MULTIMEDIA ---
 function openMediaModal(src, title) {
-  let modal = document.getElementById("image-modal");
-  if (!modal) {
-    modal = document.createElement("div");
-    modal.id = "image-modal";
-    document.body.appendChild(modal);
-  }
+  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
+  const modalContent = modal?.querySelector(".image-modal-content");
 
-  const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
-  const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
-
-modal.style.cssText = `
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
-    background-color: rgba(15, 23, 42, 0.95) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    z-index: 9999999 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 20px !important;
-    box-sizing: border-box !important;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    pointer-events: none;
-    -webkit-tap-highlight-color: transparent !important; /* <--- AQUÍ: Elimina la sombra azul en celulares */
-  `;
-  // Function helper para hacer visible el modal suavemente sin destello
-  const revealModal = () => {
-    document.body.style.overflow = "hidden";
-    modal.style.pointerEvents = "auto";
-    requestAnimationFrame(() => {
-      modal.style.opacity = "1";
-    });
-  };
-
-  if (isVideo) {
-    // Si es video, inyectamos y mostramos cuando esté listo para reproducir
-    modal.innerHTML = `
-      <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-        <button onclick="closeImageModal()" style="
-          position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
-          background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
-          font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        ">&times;</button>
-        <video src="${cleanSrc}" autoplay loop muted playsinline style="
-          max-width: 85vw; max-height: 65dvh; width: auto; height: auto;
-          object-fit: contain; border-radius: 12px; background: #000;
-        "></video>
+  if (modal && modalContent) {
+    const isVideo = src.endsWith(".mp4") || src.endsWith(".webm");
+    
+    modalContent.innerHTML = `
+      <div class="modal-media-wrapper">
+        <button id="close-image-modal" class="modal-close-btn" onclick="closeImageModal()">&times;</button>
+        ${isVideo 
+          ? `<video src="${src}" autoplay loop muted playsinline class="modal-animated-video"></video>`
+          : `<img src="${src}" alt="${title || 'Producto'}" />`
+        }
       </div>
     `;
-    const videoEl = modal.querySelector("video");
-    if (videoEl) {
-      videoEl.onloadeddata = revealModal;
-      // Fallback por si el evento de carga tarda en dispararse
-      setTimeout(revealModal, 150);
-    } else {
-      revealModal();
-    }
-  } else {
-    // Si es imagen, la precargamos en memoria en JS antes de dibujarla en pantalla
-    const imgLoader = new Image();
-    imgLoader.src = cleanSrc;
-
-    const renderImageModal = () => {
-      modal.innerHTML = `
-        <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-          <button onclick="closeImageModal()" style="
-            position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
-            background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
-            font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-          ">&times;</button>
-          <img src="${cleanSrc}" alt="${title || 'Producto'}" style="
-            max-width: 85vw; max-height: 65dvh; width: auto; height: auto;
-            object-fit: contain; border-radius: 12px; background: #000; display: block !important;
-          " />
-        </div>
-      `;
-      revealModal();
-    };
-
-    if (imgLoader.complete) {
-      renderImageModal();
-    } else {
-      imgLoader.onload = renderImageModal;
-      imgLoader.onerror = renderImageModal; // Si falla la carga, igual abre para mostrar error
-    }
+    modal.classList.remove("hidden");
   }
 }
 
 function closeImageModal() {
-  const modal = document.getElementById("image-modal");
+  const modal = document.getElementById("image-modal") || document.getElementById("imageModal");
   if (modal) {
-    modal.style.opacity = "0";
-    modal.style.pointerEvents = "none";
-    document.body.style.overflow = "";
-
-    setTimeout(() => {
-      modal.innerHTML = "";
-      modal.style.display = "none";
-    }, 200);
+    modal.classList.add("hidden");
+    const modalContent = modal.querySelector(".image-modal-content");
+    if (modalContent) modalContent.innerHTML = "";
   }
 }
 
