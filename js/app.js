@@ -2,7 +2,7 @@
    INICIALIZACIÓN DE LA APLICACIÓN (ENTRYPOINT)
    ========================================== */
 
-const APP_VERSION = "1.2.6";
+const APP_VERSION = "1.1.4";
 
 if (localStorage.getItem("app_version") !== APP_VERSION) {
   localStorage.setItem("app_version", APP_VERSION);
