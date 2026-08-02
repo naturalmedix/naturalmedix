@@ -160,3 +160,37 @@ function displayProducts(productsArray) {
   if (!container) return;
   container.innerHTML = productsArray.map(product => renderProductCard(product)).join('');
 }
+
+// js/ui.js
+function renderProductCard(product) {
+  const optionsHTML = product.options.map((opt) => 
+    `<option value="${opt.price}">${opt.size} - $${opt.price.toLocaleString('es-CO')} COP (${opt.label})</option>`
+  ).join('');
+
+  return `
+    <div class="product-card">
+      <div class="product-image-wrapper">
+        <img src="${product.image}" alt="${product.name}" class="product-img" />
+        
+        <!-- Botón Circular Flotante con Ojo Animado -->
+        <button class="btn-quick-view-circular" onclick="openQuickView('${product.id}')" aria-label="Vista Rápida">
+          <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f441/512.webp" alt="Ojo" class="quick-view-eye-icon" />
+        </button>
+      </div>
+
+      <h3>${product.name}</h3>
+      <p class="product-tagline">${product.tagline}</p>
+      
+      <div class="size-selector-wrapper">
+        <label for="select-${product.id}">Presentación:</label>
+        <select id="select-${product.id}" class="product-size-select">
+          ${optionsHTML}
+        </select>
+      </div>
+
+      <button class="btn-add-cart" onclick="addToCart('${product.id}')">
+        Agregar al Carrito 🛒
+      </button>
+    </div>
+  `;
+}
