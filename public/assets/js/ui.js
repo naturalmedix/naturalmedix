@@ -2,25 +2,32 @@
    INTERFAZ DE USUARIO, MODALES Y EVENTOS
    ========================================== */
 
-function openCartModal() { document.getElementById("cart-modal")?.classList.remove("hidden"); }
-function closeCartModal() { document.getElementById("cart-modal")?.classList.add("hidden"); }
+function openCartModal() { 
+  document.getElementById("cart-modal")?.classList.remove("hidden"); 
+}
+
+function closeCartModal() { 
+  document.getElementById("cart-modal")?.classList.add("hidden"); 
+}
 
 /* ==========================================
-   MODAL VISTA RÁPIDA - CENTRADO Y SIN DESTELLOS
+   MODAL VISTA RÁPIDA (IMÁGENES Y VIDEOS)
    ========================================== */
 
 function openMediaModal(src, title) {
   let modal = document.getElementById("image-modal");
+  
   if (!modal) {
     modal = document.createElement("div");
     modal.id = "image-modal";
+    modal.className = "modal-overlay hidden";
     document.body.appendChild(modal);
   }
 
   const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
   const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
 
-modal.style.cssText = `
+  modal.style.cssText = `
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -38,12 +45,12 @@ modal.style.cssText = `
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
-    -webkit-tap-highlight-color: transparent !important; /* <--- AQUÍ: Elimina la sombra azul en celulares */
+    -webkit-tap-highlight-color: transparent !important;
   `;
-   
-  // Function helper para hacer visible el modal suavemente sin destello
+    
   const revealModal = () => {
     document.body.style.overflow = "hidden";
+    modal.classList.remove("hidden");
     modal.style.pointerEvents = "auto";
     requestAnimationFrame(() => {
       modal.style.opacity = "1";
@@ -51,10 +58,9 @@ modal.style.cssText = `
   };
 
   if (isVideo) {
-    // Si es video, inyectamos y mostramos cuando esté listo para reproducir
     modal.innerHTML = `
       <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-        <button onclick="closeImageModal()" style="
+        <button onclick="closeMediaModal()" style="
           position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
           background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
           font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
@@ -69,20 +75,18 @@ modal.style.cssText = `
     const videoEl = modal.querySelector("video");
     if (videoEl) {
       videoEl.onloadeddata = revealModal;
-      // Fallback por si el evento de carga tarda en dispararse
       setTimeout(revealModal, 150);
     } else {
       revealModal();
     }
   } else {
-    // Si es imagen, la precargamos en memoria en JS antes de dibujarla en pantalla
     const imgLoader = new Image();
     imgLoader.src = cleanSrc;
 
     const renderImageModal = () => {
       modal.innerHTML = `
         <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-          <button onclick="closeImageModal()" style="
+          <button onclick="closeMediaModal()" style="
             position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
             background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
             font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
@@ -101,12 +105,13 @@ modal.style.cssText = `
       renderImageModal();
     } else {
       imgLoader.onload = renderImageModal;
-      imgLoader.onerror = renderImageModal; // Si falla la carga, igual abre para mostrar error
+      imgLoader.onerror = renderImageModal;
     }
   }
 }
 
-function closeImageModal() {
+// Función principal para cerrar el modal de medios (sincronizada con el HTML)
+function closeMediaModal() {
   const modal = document.getElementById("image-modal");
   if (modal) {
     modal.style.opacity = "0";
@@ -115,12 +120,19 @@ function closeImageModal() {
 
     setTimeout(() => {
       modal.innerHTML = "";
-      modal.style.display = "none";
+      modal.classList.add("hidden");
     }, 200);
   }
 }
 
-// --- MODAL DE RECIBO / CONFIRMACIÓN ---
+// Alias de compatibilidad para evitar fallos si se llama closeImageModal()
+const closeImageModal = closeMediaModal;
+
+
+/* ==========================================
+   MODAL DE RECIBO / CONFIRMACIÓN
+   ========================================== */
+
 function showOrderReceipt(data) {
   const container = document.getElementById("receipt-details-container");
   const modal = document.getElementById("receipt-modal");
@@ -169,7 +181,11 @@ function closeReceiptModal() {
   document.getElementById("receipt-modal")?.classList.add("hidden");
 }
 
-// --- BOTÓN VOLVER ARRIBA ---
+
+/* ==========================================
+   BOTÓN VOLVER ARRIBA
+   ========================================== */
+
 function setupBackToTop() {
   const btnTop = document.getElementById("btn-back-to-top");
   if (!btnTop) return;
@@ -187,17 +203,21 @@ function setupBackToTop() {
   });
 }
 
-// --- EVENT LISTENERS GENERALES ---
+
+/* ==========================================
+   EVENT LISTENERS GENERALES
+   ========================================== */
+
 function setupEventListeners() {
   document.getElementById("cart-icon-btn")?.addEventListener("click", openCartModal);
   document.getElementById("close-cart-btn")?.addEventListener("click", closeCartModal);
-  document.getElementById("btn-wompi-pay")?.addEventListener("click", handleWompiCheckout);
+  document.getElementById("btn-wompi-pay")?.addEventListener("click", typeof handleWompiCheckout === 'function' ? handleWompiCheckout : () => {});
   
-  const imageModal = document.getElementById("image-modal") || document.getElementById("imageModal");
+  const imageModal = document.getElementById("image-modal");
   if (imageModal) {
     imageModal.addEventListener("click", (e) => {
-      if (e.target === imageModal || e.target.classList.contains("image-modal-content")) {
-        closeImageModal();
+      if (e.target === imageModal || e.target.classList.contains("modal-media-wrapper")) {
+        closeMediaModal();
       }
     });
   }
@@ -208,7 +228,9 @@ function setupEventListeners() {
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const value = e.target.value;
-      renderProducts(value);
+      if (typeof renderProducts === 'function') {
+        renderProducts(value);
+      }
 
       if (clearBtn) {
         if (value.trim().length > 0) {
@@ -224,7 +246,9 @@ function setupEventListeners() {
     clearBtn.addEventListener("click", () => {
       if (searchInput) {
         searchInput.value = "";
-        renderProducts("");
+        if (typeof renderProducts === 'function') {
+          renderProducts("");
+        }
         searchInput.focus();
       }
       clearBtn.classList.add("hidden");
@@ -233,8 +257,9 @@ function setupEventListeners() {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      closeImageModal();
+      closeMediaModal();
       closeCartModal();
+      closeReceiptModal();
     }
   });
 }
