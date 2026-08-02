@@ -14,7 +14,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
   {
     id: "aguaje-plus",
@@ -27,7 +27,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
   {
     id: "aguaje-hinojo",
@@ -40,7 +40,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
   {
     id: "aguaje-siempre-bella",
@@ -53,7 +53,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
   {
     id: "vitamina-a",
@@ -66,7 +66,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
    {
     id: "vitamina-c",
@@ -79,7 +79,7 @@ const PRODUCTS = [
     usage: "Tomar 3 capsulas diarias, una cada media hora antes de las comidas.",
     price: 11000,
     originalPrice: 22000,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   },
    {
     id: "vitamina-e-1000-IU",
@@ -92,7 +92,7 @@ const PRODUCTS = [
     usage: "Tomar una cápsula blanda al día con la comida principal.",
     price: 38900,
     originalPrice: 55600,
-    image: "assets/images/natural-medix.mp4"
+    image: "public/assets/images/natural-medix.mp4"
   }
 ];
 
