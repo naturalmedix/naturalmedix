@@ -111,3 +111,91 @@
     transform: translateY(-50%) scale(1.15) rotate(-10deg);
   }
 }
+:root {
+  /* Paleta Corporativa Natural Medix */
+  --color-primary-green: #008037;
+  --color-primary-green-dark: #006029;
+  --color-red-accent: #E31B23;
+  --color-red-hover: #C41219;
+  --color-leaf-green: #72C02C;
+  --color-dark-text: #1A1A1A;
+  --color-muted-text: #555555;
+  --color-bg-light: #F9FBF8;
+  --color-white: #FFFFFF;
+
+  /* Elevaciones y Sombras */
+  --shadow-card: 0 4px 12px rgba(0, 128, 55, 0.08);
+  --shadow-hover: 0 8px 20px rgba(0, 128, 55, 0.15);
+}
+
+/* Aplicación general al catálogo */
+body {
+  background-color: var(--color-bg-light);
+  color: var(--color-dark-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Tarjetas de Producto */
+.product-card {
+  background: var(--color-white);
+  border: 1px solid rgba(0, 128, 55, 0.12);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Títulos con el Verde "Natural" */
+.product-title {
+  color: var(--color-primary-green);
+  font-weight: 700;
+}
+
+/* Precios y Ofertas con el Rojo "medix" */
+.product-price {
+  color: var(--color-red-accent);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+/* Botón de Agregar al Carrito (Rojo de Acción o Verde de Marca) */
+.btn-add-cart {
+  background-color: var(--color-red-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--color-red-hover);
+}
+
+/* Insignias / Badges (Uso del Verde Hoja) */
+.product-badge {
+  background-color: var(--color-leaf-green);
+  color: var(--color-white);
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+}
+
+/* Etiqueta de Ahorro */
+.savings-tag {
+  background-color: rgba(227, 27, 35, 0.1);
+  color: var(--color-red-accent);
+  border: 1px solid rgba(227, 27, 35, 0.2);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
