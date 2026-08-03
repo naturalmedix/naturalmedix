@@ -225,7 +225,7 @@ function renderProducts(filterText = "") {
         <!-- BANNER PROMOCIONAL 21:9 DEBAJO DEL PRODUCTO -->
         <div class="product-banner-container">
           <video 
-            src="public/assets/images/banner_5.mp4" 
+            src="public/assets/images/banner_pastillas.mp4" 
             autoplay 
             loop 
             muted 
