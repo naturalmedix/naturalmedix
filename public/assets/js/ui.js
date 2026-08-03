@@ -4,10 +4,12 @@
 
 function openCartModal() { 
   document.getElementById("cart-modal")?.classList.remove("hidden"); 
+  document.body.style.overflow = "hidden";
 }
 
 function closeCartModal() { 
   document.getElementById("cart-modal")?.classList.add("hidden"); 
+  document.body.style.overflow = "";
 }
 
 /* ==========================================
@@ -15,6 +17,8 @@ function closeCartModal() {
    ========================================== */
 
 function openMediaModal(src, title) {
+  if (!src) return;
+
   let modal = document.getElementById("image-modal");
   
   if (!modal) {
@@ -24,7 +28,9 @@ function openMediaModal(src, title) {
     document.body.appendChild(modal);
   }
 
-  const cleanSrc = src.startsWith("./") ? src : `./${src.replace(/^\/+/, '')}`;
+  // Normalización segura de URLs (soporta absolutas, relativas y CDN)
+  const isExternal = src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:");
+  const cleanSrc = isExternal ? src : `/${src.replace(/^\/+/, '')}`;
   const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
 
   modal.style.cssText = `
@@ -48,7 +54,10 @@ function openMediaModal(src, title) {
     -webkit-tap-highlight-color: transparent !important;
   `;
     
+  let revealed = false;
   const revealModal = () => {
+    if (revealed) return;
+    revealed = true;
     document.body.style.overflow = "hidden";
     modal.classList.remove("hidden");
     modal.style.pointerEvents = "auto";
@@ -60,7 +69,7 @@ function openMediaModal(src, title) {
   if (isVideo) {
     modal.innerHTML = `
       <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-        <button onclick="closeMediaModal()" style="
+        <button onclick="closeMediaModal()" aria-label="Cerrar modal" style="
           position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
           background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
           font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
@@ -75,7 +84,7 @@ function openMediaModal(src, title) {
     const videoEl = modal.querySelector("video");
     if (videoEl) {
       videoEl.onloadeddata = revealModal;
-      setTimeout(revealModal, 150);
+      setTimeout(revealModal, 300);
     } else {
       revealModal();
     }
@@ -86,7 +95,7 @@ function openMediaModal(src, title) {
     const renderImageModal = () => {
       modal.innerHTML = `
         <div style="position: relative; max-width: 90vw; max-height: 70dvh; display: flex; align-items: center; justify-content: center;">
-          <button onclick="closeMediaModal()" style="
+          <button onclick="closeMediaModal()" aria-label="Cerrar modal" style="
             position: absolute; top: -15px; right: -15px; width: 40px; height: 40px;
             background: #ef4444; color: #ffffff; border: 2px solid #ffffff; border-radius: 50%;
             font-size: 22px; font-weight: bold; line-height: 1; cursor: pointer; z-index: 10000000;
@@ -110,10 +119,17 @@ function openMediaModal(src, title) {
   }
 }
 
-// Función principal para cerrar el modal de medios (sincronizada con el HTML)
+// Función principal para cerrar el modal de medios
 function closeMediaModal() {
   const modal = document.getElementById("image-modal");
   if (modal) {
+    // Detener reproducción de video si existiera para liberar recursos/audio
+    const videoEl = modal.querySelector("video");
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.src = "";
+    }
+
     modal.style.opacity = "0";
     modal.style.pointerEvents = "none";
     document.body.style.overflow = "";
@@ -125,9 +141,7 @@ function closeMediaModal() {
   }
 }
 
-// Alias de compatibilidad para evitar fallos si se llama closeImageModal()
 const closeImageModal = closeMediaModal;
-
 
 /* ==========================================
    MODAL DE RECIBO / CONFIRMACIÓN
@@ -139,7 +153,7 @@ function showOrderReceipt(data) {
   
   if (!container || !modal) return;
 
-  const itemsHtml = data.cart.map(i => `
+  const itemsHtml = (data.cart || []).map(i => `
     <div style="border-bottom: 1px dashed #cbd5e1; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
       <div style="font-weight: 700; color: #0f172a;">${i.name} (x${i.qty})</div>
       <div style="color: #475569; font-size: 0.8rem;">
@@ -153,34 +167,35 @@ function showOrderReceipt(data) {
 
   container.innerHTML = `
     <div style="margin-bottom: 0.8rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
-      <p style="margin: 2px 0;"><strong>Referencia Wompi:</strong> ${data.ref}</p>
+      <p style="margin: 2px 0;"><strong>Referencia Wompi:</strong> ${data.ref || 'N/A'}</p>
       <p style="margin: 2px 0;"><strong>Fecha:</strong> ${new Date().toLocaleString("es-CO")}</p>
-      <p style="margin: 2px 0; font-size: 1rem; color: #166534;"><strong>Total Pagado:</strong> $${data.total.toLocaleString("es-CO")} COP</p>
+      <p style="margin: 2px 0; font-size: 1rem; color: #166534;"><strong>Total Pagado:</strong> $${(data.total || 0).toLocaleString("es-CO")} COP</p>
     </div>
 
     <h4 style="margin: 0.5rem 0; color: #0f172a;">Detalle del Pedido:</h4>
     ${itemsHtml}
 
     <h4 style="margin: 0.8rem 0 0.4rem; color: #0f172a;">Datos de Envío:</h4>
-    <p style="margin: 2px 0;"><strong>Cliente:</strong> ${data.customer.name} (CC/NIT: ${data.customer.idNum})</p>
-    <p style="margin: 2px 0;"><strong>Teléfono:</strong> ${data.customer.phone}</p>
-    <p style="margin: 2px 0;"><strong>Correo:</strong> ${data.customer.email}</p>
-    <p style="margin: 2px 0;"><strong>Dirección:</strong> ${data.customer.address}, ${data.customer.city}</p>
-    ${data.customer.notes ? `<p style="margin: 2px 0;"><strong>Notas:</strong> ${data.customer.notes}</p>` : ''}
+    <p style="margin: 2px 0;"><strong>Cliente:</strong> ${data.customer?.name || 'N/A'} (CC/NIT: ${data.customer?.idNum || 'N/A'})</p>
+    <p style="margin: 2px 0;"><strong>Teléfono:</strong> ${data.customer?.phone || 'N/A'}</p>
+    <p style="margin: 2px 0;"><strong>Correo:</strong> ${data.customer?.email || 'N/A'}</p>
+    <p style="margin: 2px 0;"><strong>Dirección:</strong> ${data.customer?.address || 'N/A'}, ${data.customer?.city || 'N/A'}</p>
+    ${data.customer?.notes ? `<p style="margin: 2px 0;"><strong>Notas:</strong> ${data.customer.notes}</p>` : ''}
   `;
 
   const btnWa = document.getElementById("btn-whatsapp-copy");
-  if (btnWa) {
+  if (btnWa && data.whatsappUrl) {
     btnWa.href = data.whatsappUrl;
   }
 
   modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
 }
 
 function closeReceiptModal() {
   document.getElementById("receipt-modal")?.classList.add("hidden");
+  document.body.style.overflow = "";
 }
-
 
 /* ==========================================
    BOTÓN VOLVER ARRIBA
@@ -203,7 +218,6 @@ function setupBackToTop() {
   });
 }
 
-
 /* ==========================================
    EVENT LISTENERS GENERALES
    ========================================== */
@@ -225,12 +239,18 @@ function setupEventListeners() {
   const searchInput = document.getElementById("product-search-input");
   const clearBtn = document.getElementById("clear-search-btn");
 
+  // Búsqueda con pequeña temporización (debounce de 150ms) para mejorar fluidez
+  let searchTimeout;
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const value = e.target.value;
-      if (typeof renderProducts === 'function') {
-        renderProducts(value);
-      }
+
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        if (typeof renderProducts === 'function') {
+          renderProducts(value);
+        }
+      }, 150);
 
       if (clearBtn) {
         if (value.trim().length > 0) {
@@ -255,6 +275,7 @@ function setupEventListeners() {
     });
   }
 
+  // Cierre unificado de modales con tecla ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeMediaModal();
