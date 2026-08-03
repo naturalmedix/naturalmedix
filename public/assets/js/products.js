@@ -107,7 +107,7 @@ const EMOJIS = {
 };
 
 /**
- * Escapa caracteres HTML de forma segura incluyendo comillas simples
+ * Escapa caracteres HTML de forma segura
  */
 function escapeHTML(str) {
   if (typeof str !== 'string') return str;
@@ -166,7 +166,6 @@ function renderProducts(filterText = "") {
     const mediaPath = product.image || '';
     const isVideo = mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm');
 
-    // Se configura preload="metadata" para no saturar el rendimiento con vídeos simultáneos
     const mediaHtml = isVideo
       ? `<video src="${mediaPath}" autoplay loop muted playsinline preload="metadata" class="product-img"></video>`
       : `<img src="${mediaPath}" alt="${escapeHTML(product.name)}" class="product-img" loading="lazy" />`;
@@ -182,7 +181,7 @@ function renderProducts(filterText = "") {
     return `
       <div class="product-card">
         ${product.image ? `
-          <div class="product-image-wrapper" onclick="openMediaModal('${escapeHTML(product.image)}', '${safeName}')">
+          <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${safeName.replace(/'/g, "\\'")}')">
             ${mediaHtml}
             <span class="expand-badge">👁️ Vista rápida</span>
           </div>
@@ -222,133 +221,32 @@ function renderProducts(filterText = "") {
         <div class="product-footer" style="margin-top: 0.8rem;">
           <button class="btn-add-cart" onclick="addToCart('${safeId}')">+ Agregar al Carrito</button>
         </div>
+
+        <!-- BANNER PROMOCIONAL 21:9 DEBAJO DEL PRODUCTO -->
+        <div class="product-banner-container">
+          <video 
+            src="public/assets/images/banner_5.mp4" 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            preload="metadata" 
+            class="product-banner-video"
+          ></video>
+        </div>
       </div>
     `;
   }).join("");
 }
 
-// ... dentro de renderProducts() en products.js:
-
-return `
-  <div class="product-card">
-    ${product.image ? `
-      <div class="product-image-wrapper" onclick="openMediaModal('${escapeHTML(product.image)}', '${safeName}')">
-        ${mediaHtml}
-        <span class="expand-badge">👁️ Vista rápida</span>
-      </div>
-    ` : ''}
-
-    <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
-      <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
-        <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${safeFabricado}
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 2px;">
-        <h4 class="product-title" style="margin: 0;">${safeName}</h4>
-        ${product.badge ? `<span class="product-badge">${escapeHTML(product.badge)}</span>` : ''}
-      </div>
-    </div>
-
-    <div style="font-size:0.85rem; color:#334155; margin: 0.8rem 0; line-height: 1.4;">
-      <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600; display: flex; align-items: center; gap: 4px;">
-        <img src="${EMOJIS.package}" class="animated-emoji" alt="Contenido"> ${safeNetContent}
-      </p>
-      ${safeBenefit ? `<p style="margin-bottom:0.3rem;"><strong>• Beneficio:</strong> ${safeBenefit}</p>` : ''}
-      ${safeUsage ? `<p style="margin-bottom:0.3rem;"><strong>• Modo de Uso:</strong> ${safeUsage}</p>` : ''}
-
-      <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem; align-items: center;">
-        ${safeInvima ? `<span style="color:#166534; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.shield}" class="animated-emoji" alt="Escudo"> Invima: ${safeInvima}</span>` : ''}
-      </div>
-    </div>
-    
-    <div class="price-container">
-      <div class="prices-row">
-        <span class="product-price">$${numPrice.toLocaleString("es-CO")} COP</span>
-        ${numOriginalPrice > numPrice ? `<span class="original-price">$${numOriginalPrice.toLocaleString("es-CO")}</span>` : ''}
-      </div>
-      ${ahorroFormateado}
-    </div>
-
-    <div class="product-footer" style="margin-top: 0.8rem;">
-      <button class="btn-add-cart" onclick="addToCart('${safeId}')">+ Agregar al Carrito</button>
-    </div>
-
-    <!-- BANNER PROMOCIONAL 21:9 DEBAJO DEL PRODUCTO -->
-    <div class="product-banner-container">
-      <video 
-        src="public/assets/images/banner_5.mp4" 
-        autoplay 
-        loop 
-        muted 
-        playsinline 
-        preload="metadata" 
-        class="product-banner-video"
-      ></video>
-    </div>
-  </div>
-`;
-
-// Inicialización
+// Escuchar eventos en el input de búsqueda (si existe en tu HTML)
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
+
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      renderProducts(e.target.value);
+    });
+  }
 });
-// ... dentro de renderProducts() en products.js:
-
-return `
-  <div class="product-card">
-    ${product.image ? `
-      <div class="product-image-wrapper" onclick="openMediaModal('${escapeHTML(product.image)}', '${safeName}')">
-        ${mediaHtml}
-        <span class="expand-badge">👁️ Vista rápida</span>
-      </div>
-    ` : ''}
-
-    <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
-      <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
-        <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${safeFabricado}
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 2px;">
-        <h4 class="product-title" style="margin: 0;">${safeName}</h4>
-        ${product.badge ? `<span class="product-badge">${escapeHTML(product.badge)}</span>` : ''}
-      </div>
-    </div>
-
-    <div style="font-size:0.85rem; color:#334155; margin: 0.8rem 0; line-height: 1.4;">
-      <p style="margin-bottom:0.3rem; color:#0f172a; font-weight:600; display: flex; align-items: center; gap: 4px;">
-        <img src="${EMOJIS.package}" class="animated-emoji" alt="Contenido"> ${safeNetContent}
-      </p>
-      ${safeBenefit ? `<p style="margin-bottom:0.3rem;"><strong>• Beneficio:</strong> ${safeBenefit}</p>` : ''}
-      ${safeUsage ? `<p style="margin-bottom:0.3rem;"><strong>• Modo de Uso:</strong> ${safeUsage}</p>` : ''}
-
-      <div style="display:flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.6rem; font-size:0.8rem; align-items: center;">
-        ${safeInvima ? `<span style="color:#166534; font-weight:600; display: flex; align-items: center; gap: 4px;"><img src="${EMOJIS.shield}" class="animated-emoji" alt="Escudo"> Invima: ${safeInvima}</span>` : ''}
-      </div>
-    </div>
-    
-    <div class="price-container">
-      <div class="prices-row">
-        <span class="product-price">$${numPrice.toLocaleString("es-CO")} COP</span>
-        ${numOriginalPrice > numPrice ? `<span class="original-price">$${numOriginalPrice.toLocaleString("es-CO")}</span>` : ''}
-      </div>
-      ${ahorroFormateado}
-    </div>
-
-    <div class="product-footer" style="margin-top: 0.8rem;">
-      <button class="btn-add-cart" onclick="addToCart('${safeId}')">+ Agregar al Carrito</button>
-    </div>
-
-    <!-- BANNER PROMOCIONAL 21:9 DEBAJO DEL PRODUCTO -->
-    <div class="product-banner-container">
-      <video 
-        src="public/assets/images/banner_5.mp4" 
-        autoplay 
-        loop 
-        muted 
-        playsinline 
-        preload="metadata" 
-        class="product-banner-video"
-      ></video>
-    </div>
-  </div>
-`;
