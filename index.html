@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Natural Medix | App Tienda Oficial</title>
 
-  <!-- Deshabilitar caché del navegador -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-
-  <!-- PWA Metadata (Estándar Moderno + iOS) -->
- <link rel="manifest" href="public/manifest.json">
+  <!-- PWA Metadata -->
+  <link rel="manifest" href="public/manifest.json">
   <meta name="theme-color" content="#0d9488">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Google Fonts: Urbanist -->
+  <!-- Favicons e Íconos PWA (Usa recursos locales para soporte Offline) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="public/assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="public/assets/icons/icon-192.png" />
+  <link rel="shortcut icon" href="public/assets/icons/icon-192.png" type="image/x-icon" />
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,400;0,600;0,700;1,700;1,800&display=swap" rel="stylesheet">
 
-  <!-- Módulos CSS Independientes -->
+  <!-- Módulos CSS -->
   <link rel="stylesheet" href="public/assets/css/styles.css">
   <link rel="stylesheet" href="public/assets/css/base.css">
   <link rel="stylesheet" href="public/assets/css/navbar.css">
@@ -31,38 +30,20 @@
   <link rel="stylesheet" href="public/assets/css/cart.css">
   <link rel="stylesheet" href="public/assets/css/checkout.css">
 
-  <!-- SDK oficial del Widget de Wompi -->
+  <!-- SDK Wompi -->
   <script type="text/javascript" src="https://checkout.wompi.co/widget.js"></script>
-  
-<!-- Favicon Principal (PNG / SVG compatible) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.png" />
-  
-  <!-- Favicon para dispositivos Apple / iOS -->
-  <link rel="apple-touch-icon" href="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.png" />
-
-  <!-- Respaldo en caso de que el navegador busque favicon.ico -->
-  <link rel="shortcut icon" href="./public/assets/icons/icon-192.png" type="image/x-icon" />
-  
-  <!-- Favicon para dispositivos Apple / iOS -->
-  <link rel="apple-touch-icon" href="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.png" />
-
-  <!-- Respaldo en caso de que el navegador busque favicon.ico -->
-  <link rel="shortcut icon" href="./public/assets/icons/icon-192.png" type="image/x-icon" />
 </head>
-
 <body>
 
-  <!-- Header principal -->
+  <!-- Header -->
   <header class="navbar">
     <div class="nav-container">
-      <!-- LOGO NATURALMEDIX CON HOJA AL MEDIO Y .APP -->
       <a href="#" class="brand-logo">
         <span class="brand-natural">Natural</span>
         <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
         <span class="brand-medix">medix<span class="brand-ext">.app</span></span>
       </a>
 
-      <!-- BOTÓN DEL CARRITO -->
       <button id="cart-icon-btn" class="cart-btn" style="display: flex; align-items: center; gap: 6px;">
         <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp" class="animated-emoji" alt="Carrito" style="width: 24px; height: 24px;">
         <span>Carrito (<span id="cart-count">0</span>)</span>
@@ -82,14 +63,13 @@
   </div>
 
   <main class="main-container">
-    <!-- Seccion Hero / Banner -->
     <section class="hero-card">
       <span class="hero-tag">Salud & Bienestar Natural Medix</span>
       <h2>Nutrición avanzada para tu cuerpo</h2>
       <p>Productos con registro sanitario, envío seguro a toda Colombia y pago protegido.</p>
     </section>
 
-    <!-- Buscador de Ancho Completo con Lupa Animada -->
+    <!-- Buscador -->
     <div class="search-container">
       <div class="search-input-wrapper">
         <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f50e/512.webp" alt="Lupa de Búsqueda" class="search-animated-icon" />
@@ -98,12 +78,10 @@
       </div>
     </div>
 
-    <!-- Catálogo de Productos -->
+    <!-- Catálogo -->
     <section class="catalog-section">
       <h3 class="section-title">Nuestros Productos</h3>
-      <div class="product-grid" id="product-grid">
-        <!-- Carga dinámica por JS -->
-      </div>
+      <div class="product-grid" id="product-grid"></div>
     </section>
   </main>
 
@@ -115,9 +93,7 @@
         <button id="close-cart-btn" class="close-btn">&times;</button>
       </div>
 
-      <div id="cart-items-container" class="cart-items">
-        <!-- Elementos del carrito cargados por JS -->
-      </div>
+      <div id="cart-items-container" class="cart-items"></div>
 
       <div class="modal-footer">
         <div class="summary-line">
@@ -125,7 +101,6 @@
           <strong id="cart-total">$0 COP</strong>
         </div>
 
-        <!-- Datos de Envío -->
         <div class="shipping-form">
           <div class="checkout-form">
             <h3>Datos de Envío y Facturación</h3>
@@ -146,12 +121,9 @@
     </div>
   </div>
 
-  <!-- Botón Volver Arriba -->
-  <button id="btn-back-to-top" class="back-to-top hidden" aria-label="Volver arriba">
-    ↑
-  </button>
+  <button id="btn-back-to-top" class="back-to-top hidden" aria-label="Volver arriba">↑</button>
 
-  <!-- Modal de Confirmación / Recibo -->
+  <!-- Modal de Confirmación -->
   <div id="receipt-modal" class="cart-modal hidden">
     <div class="cart-modal-content" style="background: #ffffff; width: 100%; max-width: 500px; border-radius: 12px; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
       <div style="text-align: center; margin-bottom: 1rem;">
@@ -160,9 +132,7 @@
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Tu pedido ha sido procesado con éxito</p>
       </div>
 
-      <div id="receipt-details-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.85rem; max-height: 350px; overflow-y: auto;">
-        <!-- Se llena dinámicamente -->
-      </div>
+      <div id="receipt-details-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.85rem; max-height: 350px; overflow-y: auto;"></div>
 
       <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
         <a id="btn-whatsapp-copy" href="#" target="_blank" class="btn-add-cart" style="background-color: #25D366; text-decoration: none; text-align: center; display: block; padding: 0.8rem; border-radius: 6px; color: #fff; font-weight: bold;">
@@ -175,13 +145,11 @@
     </div>
   </div>
 
-  <!-- MODAL DE VISTA RÁPIDA (MULTIMEDIA) -->
+  <!-- Modal Vista Rápida -->
   <div id="image-modal" class="modal-overlay hidden" onclick="closeMediaModal()">
     <div class="modal-media-wrapper" onclick="event.stopPropagation()">
       <button class="modal-close-btn" onclick="closeMediaModal()">&times;</button>
-      <div id="modal-media-content">
-        <!-- El JavaScript inyecta aquí la imagen o el video -->
-      </div>
+      <div id="modal-media-content"></div>
     </div>
   </div>
 
@@ -196,13 +164,12 @@
     <p class="sub">Productos Naturales | www.NaturalMedix.app</p>
   </footer>
 
-  <!-- Módulos JavaScript (Carga ordenada al final) -->
-  <script src="public/assets/js/products.js"></script>
-  <script src="public/assets/js/cart.js"></script>
-  <script src="public/assets/js/ui.js"></script>
-  <script src="public/assets/js/checkout.js"></script>
-  <script src="public/assets/js/app.js"></script>
-  <script src="public/assets/js/script.js"></script>
+  <!-- Scripts diferidos para ejecución segura -->
+  <script src="public/assets/js/products.js" defer></script>
+  <script src="public/assets/js/cart.js" defer></script>
+  <script src="public/assets/js/ui.js" defer></script>
+  <script src="public/assets/js/checkout.js" defer></script>
+  <script src="public/assets/js/app.js" defer></script>
+  <script src="public/assets/js/script.js" defer></script>
 </body>
-
 </html>
