@@ -106,9 +106,6 @@ const EMOJIS = {
   cart: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp"
 };
 
-/**
- * Escapa caracteres HTML de forma segura
- */
 function escapeHTML(str) {
   if (typeof str !== 'string') return str;
   return str
@@ -138,7 +135,6 @@ function renderProducts(filterText = "") {
       p.usage
     ].filter(Boolean).join(" ").toLowerCase();
 
-    // Comprueba que todos los términos buscados estén presentes
     return searchTokens.every(token => searchableContent.includes(token));
   });
 
@@ -162,7 +158,6 @@ function renderProducts(filterText = "") {
       ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Ahorro"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
       : '';
 
-    // Detección de tipo de medio (video vs imagen)
     const mediaPath = product.image || '';
     const isVideo = mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm');
 
@@ -180,6 +175,7 @@ function renderProducts(filterText = "") {
 
     return `
       <div class="product-card">
+        <!-- CONTENEDOR DE MEDIO DE PRODUCTO CON PROPORCIÓN 4:5 -->
         ${product.image ? `
           <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${safeName.replace(/'/g, "\\'")}')">
             ${mediaHtml}
@@ -187,7 +183,7 @@ function renderProducts(filterText = "") {
           </div>
         ` : ''}
 
-        <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem;">
+        <div class="product-header" style="flex-direction: column; align-items: flex-start; gap: 0.2rem; margin-top: 0.6rem;">
           <div style="font-size:0.8rem; color:#475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
             <img src="${EMOJIS.factory}" class="animated-emoji" alt="Fabricado por"> Fabricado por: ${safeFabricado}
           </div>
@@ -222,10 +218,10 @@ function renderProducts(filterText = "") {
           <button class="btn-add-cart" onclick="addToCart('${safeId}')">+ Agregar al Carrito</button>
         </div>
 
-        <!-- BANNER PROMOCIONAL 21:9 DEBAJO DEL PRODUCTO -->
+        <!-- BANNER PROMOCIONAL CUADRADO 1:1 DEBAJO DEL PRODUCTO -->
         <div class="product-banner-container">
           <video 
-            src="public/assets/images/banner_pastillas.mp4" 
+            src="public/assets/images/banner_5.mp4" 
             autoplay 
             loop 
             muted 
@@ -239,7 +235,6 @@ function renderProducts(filterText = "") {
   }).join("");
 }
 
-// Escuchar eventos en el input de búsqueda (si existe en tu HTML)
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
 
