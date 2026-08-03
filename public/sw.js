@@ -1,95 +1,102 @@
 /* ==========================================
-   SERVICE WORKER - STARNATURAL PWA
+   SERVICE WORKER - NATURALMEDIX PWA
    ========================================== */
 
-// 1. Nombre de la caché (Incrementa la versión al modificar archivos)
-const CACHE_NAME = "starnatural-v1.2.1";
+const CACHE_NAME = "naturalmedix-v1.2.1";
 
-// 2. Lista completa de recursos locales para precachar
+// Lista completa de assets requeridos para funcionamiento Offline
 const ASSETS_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./public/manifest.json",
-  
+  "/",
+  "/index.html",
+  "/public/manifest.json",
+
+  // Íconos PWA
+  "/public/assets/icons/icon-192.png",
+  "/public/assets/icons/icon-512.png",
+
   // Archivos CSS
-  "./public/assets/css/styles.css",
-  "./public/assets/css/base.css",
-  "./public/assets/css/navbar.css",
-  "./public/assets/css/products.css",
-  "./public/assets/css/cart.css",
-  "./public/assets/css/checkout.css",
+  "/public/assets/css/styles.css",
+  "/public/assets/css/base.css",
+  "/public/assets/css/navbar.css",
+  "/public/assets/css/products.css",
+  "/public/assets/css/cart.css",
+  "/public/assets/css/checkout.css",
 
   // Archivos JavaScript
-  "./public/assets/js/products.js",
-  "./public/assets/js/cart.js",
-  "./public/assets/js/ui.js",
-  "./public/assets/js/checkout.js",
-  "./public/assets/js/app.js"
+  "/public/assets/js/products.js",
+  "/public/assets/js/cart.js",
+  "/public/assets/js/ui.js",
+  "/public/assets/js/checkout.js",
+  "/public/assets/js/app.js",
+  "/public/assets/js/script.js"
 ];
 
-// 3. INSTALACIÓN: Guarda los recursos locales en la caché
+// 1. INSTALACIÓN: Precarga segura
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("[SW] Precachando archivos de la app StarNatural...");
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting()) // Activar inmediatamente
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log("[SW] Guardando en caché los archivos base de NaturalMedix...");
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
+      .then(() => self.skipWaiting())
+      .catch((err) => console.error("[SW] Error crítico en el precaché:", err))
   );
 });
 
-// 4. ACTIVACIÓN: Limpia cachés antiguas
+// 2. ACTIVACIÓN: Limpieza de cachés obsoletas
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log("[SW] Borrando caché antigua:", cache);
+            console.log("[SW] Eliminando caché antigua:", cache);
             return caches.delete(cache);
           }
         })
       );
-    }).then(() => self.clients.claim()) // Tomar control inmediato de las páginas abiertas
+    }).then(() => self.clients.claim())
   );
 });
 
-// 5. INTERCEPTACIÓN DE PETICIONES (Network First con Fallback a Caché)
+// 3. ESTRATEGIA DE CACHÉ: Network First con Fallback Offline
 self.addEventListener("fetch", (event) => {
-  const requestUrl = new URL(event.request.url);
+  const request = event.request;
+  const url = new URL(request.url);
 
-  // Ignorar peticiones no GET, esquemas no HTTP/HTTPS (extensiones) o transacciones vivas de Wompi
+  // Excluir peticiones que no sean GET o pasarelas de pago (Wompi)
   if (
-    event.request.method !== "GET" || 
-    !requestUrl.protocol.startsWith("http") ||
-    requestUrl.href.includes("wompi.co/v1")
+    request.method !== "GET" || 
+    !url.protocol.startsWith("http") || 
+    url.hostname.includes("wompi.co")
   ) {
     return;
   }
 
   event.respondWith(
-    fetch(event.request)
+    fetch(request)
       .then((networkResponse) => {
-        // Guardar/Actualizar copia en caché si la respuesta es válida
-        if (networkResponse && (networkResponse.status === 200 || networkResponse.type === "opaque")) {
-          const responseToCache = networkResponse.clone();
+        // Actualizar caché solo para respuestas HTTP válidas de nuestro propio origen
+        if (networkResponse && networkResponse.status === 200 && url.origin === location.origin) {
+          const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+            cache.put(request, responseClone);
           });
         }
         return networkResponse;
       })
-      .catch(() => {
-        // Modo Offline: recupera desde la caché si la red falla
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          
-          // Si solicita una página HTML navegable y no hay red, entrega el index.html
-          if (event.request.mode === "navigate") {
-            return caches.match("./index.html");
-          }
-        });
+      .catch(async () => {
+        // Intenta responder con lo que haya en la caché
+        const cachedResponse = await caches.match(request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        // Si es una navegación de página y no hay red ni caché específica, retorna el index.html
+        if (request.mode === "navigate") {
+          return caches.match("/index.html") || caches.match("/");
+        }
       })
   );
 });
