@@ -199,20 +199,21 @@ body {
   font-size: 0.8rem;
   font-weight: 600;
 }
-/* Banner de Producto (21:9) */
+/* Banner de Producto (640 x 480 / Aspecto 4:3) */
 .product-banner-container {
   width: 100%;
-  aspect-ratio: 21 / 9;
+  max-width: 640px;      /* Limita el ancho máximo a 640px */
+  aspect-ratio: 4 / 3;   /* Mantiene la proporción 640:480 */
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 0.8rem;
+  margin: 0.8rem auto 0;  /* Centra el banner dentro de la tarjeta */
   background-color: #f1f5f9;
-  border: 1px solid rgba(0, 128, 55, 0.15); /* Borde suave verde Natural Medix */
+  border: 1px solid rgba(0, 128, 55, 0.15); /* Borde verde Natural Medix */
 }
 
 .product-banner-video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta el vídeo sin deformar las proporciones */
+  object-fit: cover;     /* Ajusta el vídeo para rellenar los 640x480 sin deformarse */
   display: block;
 }
