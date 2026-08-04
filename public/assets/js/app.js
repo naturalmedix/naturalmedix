@@ -50,22 +50,36 @@ function setupPWAInstall() {
   });
 
   // Acción del botón instalar
-  const btnInstall = document.getElementById("btn-install-app");
-  if (btnInstall) {
-    btnInstall.addEventListener("click", async () => {
-      if (!deferredPrompt) return;
+  let deferredPrompt;
+const installBtn = document.getElementById('btn-install-app');
 
-      // Despliega el diálogo nativo de instalación
-      deferredPrompt.prompt();
-
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`[PWA] Respuesta del usuario: ${outcome}`);
-
-      // Ocultar banner sin importar la decisión y liberar el prompt
-      if (banner) banner.classList.add("hidden");
-      deferredPrompt = null;
-    });
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevenir que el navegador muestre el banner automático por defecto
+  e.preventDefault();
+  deferredPrompt = e;
+  
+  // Mostrar nuestro botón personalizado con la hoja animada
+  if (installBtn) {
+    installBtn.style.display = 'inline-flex';
   }
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    
+    // Mostrar el prompt de instalación nativo
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      console.log('El usuario instaló la aplicación');
+    }
+    
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+  });
+}
 
   // Registro seguro del Service Worker desde la raíz de la app
   if ('serviceWorker' in navigator) {
