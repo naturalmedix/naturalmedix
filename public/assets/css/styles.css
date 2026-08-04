@@ -110,37 +110,65 @@ body {
 }
 
 /* ==========================================
+   VARIABLES GLOBALES (:root) - PALETA DEL LOGO
+   ========================================== */
+:root {
+  /* Marca NaturalMedix (Extraídos del logo oficial) */
+  --brand-green: #008037;      /* Verde "Natural" */
+  --brand-red: #D01B1B;        /* Rojo "medix" */
+  --brand-red-hover: #b91515;  /* Rojo más oscuro para interacción de botones */
+  --brand-dark: #111827;       /* Gris casi negro para ".app" y textos */
+
+  /* UI & Contenedores */
+  --bg-main: #FAFCFA;
+  --bg-card: #FFFFFF;
+  --bg-light-green: #F0FDF4;   /* Verde muy suave para fondos / badges */
+  --border-color: rgba(0, 128, 55, 0.15);
+  
+  --shadow-card: 0 4px 12px rgba(0, 128, 55, 0.08);
+  --shadow-hover: 0 8px 20px rgba(0, 128, 55, 0.15);
+}
+
+/* ==========================================
    ESTILOS LOGO NATURALMEDIX.APP
    ========================================== */
+
+/* Contenedor principal alineado */
 .brand-logo {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   text-decoration: none !important;
   user-select: none;
+  font-family: 'Urbanist', system-ui, -apple-system, sans-serif !important;
   font-style: normal !important;
 }
 
+/* "Natural" en Verde exacto del Logo */
 .brand-natural {
-  color: var(--primary-green) !important;
+  color: var(--brand-green) !important;
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
 }
 
+/* "medix" en Rojo exacto del Logo */
 .brand-medix {
-  color: var(--red-accent) !important;
+  color: var(--brand-red) !important;
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
 }
 
+/* Extensión ".app" en Gris oscuro elegante / casi negro */
 .brand-ext {
-  color: var(--text-dark) !important;
+  color: var(--brand-dark) !important;
   font-weight: 700 !important;
   font-size: 1.1rem !important;
+  opacity: 0.9;
 }
 
+/* Imagen de la Hoja central */
 .medix-leaf-img {
   width: 22px !important;
   height: 22px !important;
@@ -151,6 +179,7 @@ body {
   animation: medixLeafSwing 3s ease-in-out infinite;
 }
 
+/* Animación de la hoja */
 @keyframes medixLeafSwing {
   0%, 100% {
     transform: rotate(0deg) scale(1);
