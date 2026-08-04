@@ -96,14 +96,16 @@ const PRODUCTS = [
   }
 ];
 
-// URLs de emojis animados Noto Emoji
+// Ruta local del nuevo icono webp
+const ICON_PATH = "public/assets/icons/1f343_512.webp";
+
 const EMOJIS = {
-  fire: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp",
-  package: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f37e/512.webp",
-  factory: "https://fonts.gstatic.com/s/e/notoemoji/latest/2b50/512.webp",
-  shield: "https://fonts.gstatic.com/s/e/notoemoji/latest/2705/512.webp",
-  calendar: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.webp",
-  cart: "https://fonts.gstatic.com/s/e/notoemoji/latest/1f6d2/512.webp"
+  fire: ICON_PATH,
+  package: ICON_PATH,
+  factory: ICON_PATH,
+  shield: ICON_PATH,
+  calendar: ICON_PATH,
+  cart: ICON_PATH
 };
 
 function escapeHTML(str) {
@@ -179,7 +181,7 @@ function renderProducts(filterText = "") {
         ${product.image ? `
           <div class="product-image-wrapper" onclick="openMediaModal('${product.image}', '${safeName.replace(/'/g, "\\'")}')">
             ${mediaHtml}
-            <span class="expand-badge">👁️ Vista rápida</span>
+            <span class="expand-badge"><img src="${ICON_PATH}" class="animated-emoji" alt="Ver"> Vista rápida</span>
           </div>
         ` : ''}
 
