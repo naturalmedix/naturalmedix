@@ -2,27 +2,91 @@
    VARIABLES GLOBALES (:root)
    ========================================== */
 :root {
-  /* Marca: Verdes Natural */
-  --primary-green: #15803d;
-  --primary-dark: #2E7D32;
-  --primary-light: #81C784;
-  --bg-light-green: #F1F8E9;
+  /* Paleta Inspirada en la Hoja 🍃 (1f343) */
+  --primary-green: #4CAF50;       /* Verde vibrante principal */
+  --primary-dark: #2E7D32;        /* Verde oscuro para hover y botones principales */
+  --primary-light: #81C784;       /* Verde suave para detalles y bordes */
+  --accent-mint: #A5D6A7;          /* Acento claro */
   
-  /* Marca: Rojos Medix (Acentos / Acción) */
-  --red-accent: #dc2626;
-  --red-hover: #b91c1c;
-  --red-light-bg: rgba(220, 38, 38, 0.1);
+  --bg-main: #FAFCFA;              /* Fondo general de la app */
+  --bg-card: #FFFFFF;              /* Fondo de las tarjetas */
+  --bg-light-green: #F1F8E9;       /* Fondo secundario / badges */
+  
+  --text-primary: #1B5E20;        /* Texto principal */
+  --text-secondary: #43A047;      /* Texto secundario / subtítulos */
+  --text-muted: #66BB6A;          /* Texto suave */
+  
+  --border-color: #C8E6C9;        /* Borde suave en tono verde */
+  --shadow-color: rgba(46, 125, 50, 0.08);
+}
 
-  /* Fondos y Textos */
-  --bg-main: #FAFCFA;
-  --bg-card: #FFFFFF;
-  --text-primary: #1B5E20;
-  --text-dark: #334155;
-  
-  /* Bordes y Sombras */
-  --border-color: rgba(0, 128, 55, 0.15);
-  --shadow-card: 0 4px 12px rgba(46, 125, 50, 0.08);
-  --shadow-hover: 0 8px 20px rgba(46, 125, 50, 0.15);
+/* Aplicación global de fondos y textos */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Tarjeta de Producto */
+.product-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* Badges / Etiquetas */
+.product-badge {
+  background-color: var(--bg-light-green);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-light);
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+/* Botón "Agregar al Carrito" */
+.btn-add-cart {
+  width: 100%;
+  background-color: var(--primary-dark);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--primary-green);
+  transform: translateY(-1px);
+}
+
+/* Contenedores de Banners */
+.product-banner-container {
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-light-green);
+}
+
+/* Títulos de Productos */
+.product-title {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Tag de Ahorro / Descuento */
+.savings-tag {
+  color: var(--primary-dark);
+  background-color: #E8F5E9;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* ==========================================
