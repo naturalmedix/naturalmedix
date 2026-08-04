@@ -330,3 +330,49 @@ body {
   object-fit: cover;
   display: block;
 }
+/* ==========================================
+   BOTÓN E ICONO ANIMADO DE INSTALACIÓN
+   ========================================== */
+
+/* Estilo del botón de instalación */
+.btn-install-pwa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--brand-green, #008037);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 128, 55, 0.2);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-install-pwa:hover {
+  background-color: #00662c;
+  transform: translateY(-2px);
+}
+
+/* Icono de la hoja con animación de viento */
+.install-leaf-icon {
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain !important;
+  display: inline-block !important;
+  transform-origin: bottom center;
+  animation: pwaLeafSwing 2.8s ease-in-out infinite;
+}
+
+/* Animación sutil de balanceo */
+@keyframes pwaLeafSwing {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(18deg) scale(1.15);
+  }
+}
