@@ -1,52 +1,82 @@
+/* ==========================================
+   VARIABLES GLOBALES (:root)
+   ========================================== */
+:root {
+  /* Marca: Verdes Natural */
+  --primary-green: #15803d;
+  --primary-dark: #2E7D32;
+  --primary-light: #81C784;
+  --bg-light-green: #F1F8E9;
+  
+  /* Marca: Rojos Medix (Acentos / Acción) */
+  --red-accent: #dc2626;
+  --red-hover: #b91c1c;
+  --red-light-bg: rgba(220, 38, 38, 0.1);
 
-/* Desactivar el recuadro azul nativo al hacer tap en pantallas táctiles */
+  /* Fondos y Textos */
+  --bg-main: #FAFCFA;
+  --bg-card: #FFFFFF;
+  --text-primary: #1B5E20;
+  --text-dark: #334155;
+  
+  /* Bordes y Sombras */
+  --border-color: rgba(0, 128, 55, 0.15);
+  --shadow-card: 0 4px 12px rgba(46, 125, 50, 0.08);
+  --shadow-hover: 0 8px 20px rgba(46, 125, 50, 0.15);
+}
+
+/* ==========================================
+   RESET & REGLAS GENERALES
+   ========================================== */
 * {
   -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Evitar selección no deseada solo en elementos interactivos */
+button, a, .brand-logo, .product-image-wrapper {
   -webkit-touch-callout: none;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* ==========================================
    ESTILOS LOGO NATURALMEDIX.APP
    ========================================== */
-
-/* Contenedor del logo alineado */
 .brand-logo {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   text-decoration: none !important;
   user-select: none;
-  font-family: 'Urbanist', system-ui, -apple-system, sans-serif !important;
   font-style: normal !important;
 }
 
-/* "Natural" en Verde Estilo Logo */
 .brand-natural {
-  color: #15803d !important;
-  /* Verde oscuro orgánico */
+  color: var(--primary-green) !important;
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
 }
 
-/* "medix" en Rojo Estilo Logo */
 .brand-medix {
-  color: #dc2626 !important;
-  /* Rojo vivo del logo */
+  color: var(--red-accent) !important;
   font-weight: 800 !important;
   font-size: 1.25rem !important;
   letter-spacing: -0.3px;
 }
 
-/* Extensión ".app" en gris oscuro / negro elegante */
 .brand-ext {
-  color: #334155 !important;
-  /* Gris oscuro / casi negro (Slate 700) */
+  color: var(--text-dark) !important;
   font-weight: 700 !important;
   font-size: 1.1rem !important;
 }
 
-/* Imagen de la Hoja en el centro entre Natural y medix */
 .medix-leaf-img {
   width: 22px !important;
   height: 22px !important;
@@ -57,23 +87,18 @@
   animation: medixLeafSwing 3s ease-in-out infinite;
 }
 
-/* Animación sutil de viento para la hoja */
 @keyframes medixLeafSwing {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: rotate(0deg) scale(1);
   }
-
   50% {
     transform: rotate(15deg) scale(1.12);
   }
 }
 
 /* ==========================================
-   ESTILOS LUPA ANIMADA EN BUSCADOR
+   BUSCADOR & LUPA ANIMADA
    ========================================== */
-
 .search-input-wrapper {
   position: relative;
   display: flex;
@@ -90,128 +115,31 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  /* Permite hacer clic en el input a través de la imagen */
   animation: searchIconPulse 2.5s ease-in-out infinite;
 }
 
-/* Espaciado interno del input para que el texto no tape la lupa */
 .search-input-wrapper input {
   padding-left: 46px !important;
 }
 
-/* Animación sutil de zoom/movimiento para la lupa */
 @keyframes searchIconPulse {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(-50%) scale(1) rotate(0deg);
   }
-
   50% {
     transform: translateY(-50%) scale(1.15) rotate(-10deg);
   }
 }
-:root {
-  /* Paleta Inspirada en la Hoja 🍃 (1f343) */
-  --primary-green: #4CAF50;       /* Verde vibrante principal */
-  --primary-dark: #2E7D32;        /* Verde oscuro para hover y botones principales */
-  --primary-light: #81C784;       /* Verde suave para detalles y bordes */
-  --accent-mint: #A5D6A7;          /* Acento claro */
-  
-  --bg-main: #FAFCFA;              /* Fondo general de la app */
-  --bg-card: #FFFFFF;              /* Fondo de las tarjetas */
-  --bg-light-green: #F1F8E9;       /* Fondo secundario / badges */
-  
-  --text-primary: #1B5E20;        /* Texto principal */
-  --text-secondary: #43A047;      /* Texto secundario / subtítulos */
-  --text-muted: #66BB6A;          /* Texto suave */
-  
-  --border-color: #C8E6C9;        /* Borde suave en tono verde */
-  --shadow-color: rgba(46, 125, 50, 0.08);
-}
 
-/* Aplicación global de fondos y textos */
-body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-/* Tarjeta de Producto */
+/* ==========================================
+   TARJETAS DE PRODUCTOS
+   ========================================== */
 .product-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  box-shadow: var(--shadow-card);
   border-radius: 12px;
   padding: 1rem;
-}
-
-/* Badges / Etiquetas */
-.product-badge {
-  background-color: var(--bg-light-green);
-  color: var(--primary-dark);
-  border: 1px solid var(--primary-light);
-  font-weight: 600;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-}
-
-/* Botón "Agregar al Carrito" */
-.btn-add-cart {
-  width: 100%;
-  background-color: var(--primary-dark);
-  color: #FFFFFF;
-  border: none;
-  padding: 0.75rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-add-cart:hover {
-  background-color: var(--primary-green);
-  transform: translateY(-1px);
-}
-
-/* Contenedores de Banners */
-.product-banner-container {
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-light-green);
-}
-
-/* Títulos de Productos */
-.product-title {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-/* Tag de Ahorro / Descuento */
-.savings-tag {
-  color: var(--primary-dark);
-  background-color: #E8F5E9;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Aplicación general al catálogo */
-body {
-  background-color: var(--color-bg-light);
-  color: var(--color-dark-text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-/* Tarjetas de Producto */
-.product-card {
-  background: var(--color-white);
-  border: 1px solid rgba(0, 128, 55, 0.12);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -220,92 +148,92 @@ body {
   box-shadow: var(--shadow-hover);
 }
 
-/* Títulos con el Verde "Natural" */
 .product-title {
-  color: var(--color-primary-green);
+  color: var(--primary-green);
   font-weight: 700;
+  margin: 0.5rem 0;
 }
 
-/* Precios y Ofertas con el Rojo "medix" */
 .product-price {
-  color: var(--color-red-accent);
+  color: var(--red-accent);
   font-size: 1.25rem;
   font-weight: 800;
 }
 
-/* Botón de Agregar al Carrito (Rojo de Acción o Verde de Marca) */
-.btn-add-cart {
-  background-color: var(--color-red-accent);
-  color: var(--color-white);
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.25rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  width: 100%;
-}
-
-.btn-add-cart:hover {
-  background-color: var(--color-red-hover);
-}
-
-/* Insignias / Badges (Uso del Verde Hoja) */
 .product-badge {
-  background-color: var(--color-leaf-green);
-  color: var(--color-white);
+  background-color: var(--bg-light-green);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-light);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: 20px;
   font-size: 0.75rem;
 }
 
-/* Etiqueta de Ahorro */
 .savings-tag {
-  background-color: rgba(227, 27, 35, 0.1);
-  color: var(--color-red-accent);
-  border: 1px solid rgba(227, 27, 35, 0.2);
+  background-color: var(--red-light-bg);
+  color: var(--red-accent);
+  border: 1px solid rgba(220, 38, 38, 0.2);
   border-radius: 6px;
   padding: 0.2rem 0.5rem;
   font-size: 0.8rem;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
-/* ==========================================
-   CONTENEDORES CON ASPECT RATIO 4:5 Y 1:1
-   ========================================== */
 
-/* 1. Imagen/Vídeo del Producto (4:5) */
+/* Botón "Agregar al Carrito" */
+.btn-add-cart {
+  width: 100%;
+  background-color: var(--red-accent);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--red-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================
+   CONTENEDORES CON ASPECT RATIO (4:5 Y 1:1)
+   ========================================== */
 .product-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5; /* Formato vertical optimizado para e-commerce y feed */
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 10px;
-  background-color: #f8fafc;
+  background-color: var(--bg-light-green);
   cursor: pointer;
 }
 
 .product-image-wrapper .product-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Asegura que rellene el 4:5 sin distorsionar */
+  object-fit: cover;
   display: block;
 }
 
-/* 2. Banner Promocional inferior (1:1 Cuadrado) */
 .product-banner-container {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Formato cuadrado 1:1 */
+  aspect-ratio: 1 / 1;
   border-radius: 8px;
   overflow: hidden;
   margin-top: 0.8rem;
-  background-color: #f1f5f9;
-  border: 1px solid rgba(0, 128, 55, 0.15); /* Borde suave verde Natural Medix */
+  background-color: var(--bg-light-green);
+  border: 1px solid var(--border-color);
 }
 
 .product-banner-video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta el vídeo para cubrir el cuadrado sin estirarse */
+  object-fit: cover;
   display: block;
 }
