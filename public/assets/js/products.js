@@ -273,3 +273,28 @@ function getFormattedPUM(price, unitValue, unitType) {
 
   return `${formattedPrice} / ${unitType}`;
 }
+
+// Dentro de la función que renderiza las tarjetas de producto
+function renderProductCard(product) {
+  // Calculamos el PUM
+  const pumText = getFormattedPUM(product.price, product.unitValue, product.unitType);
+
+  return `
+    <div class="product-card">
+      <img src="${product.image}" alt="${product.name}" class="product-img" />
+      <h4 class="product-title">${product.name}</h4>
+      <p class="product-presentation">${product.presentation}</p>
+      
+      <div class="product-price-container">
+        <span class="product-price">$${product.price.toLocaleString('es-CO')} COP</span>
+        
+        <!-- Etiqueta de PUM -->
+        ${pumText ? `<span class="product-pum">PUM: ${pumText}</span>` : ''}
+      </div>
+
+      <button onclick="addToCart('${product.id}')" class="btn-add-cart">
+        Agregar al carrito
+      </button>
+    </div>
+  `;
+}
