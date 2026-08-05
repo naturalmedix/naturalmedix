@@ -376,3 +376,110 @@ body {
     transform: rotate(18deg) scale(1.15);
   }
 }
+/* ==========================================
+   AVISO / BANNER FLOTANTE DE INSTALACIÓN
+   ========================================== */
+.install-app-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 420px;
+  background: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-color, rgba(0, 128, 55, 0.15));
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 20px rgba(0, 128, 55, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 9999;
+  animation: bannerSlideUp 0.4s ease-out;
+}
+
+@keyframes bannerSlideUp {
+  from {
+    transform: translate(-50%, 100px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* HOJA ANIMADA SUSTITUTA DEL ICONO NATIVO */
+.install-leaf-animated {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: contain !important;
+  flex-shrink: 0;
+  transform-origin: bottom center;
+  animation: installLeafSwing 2.6s ease-in-out infinite;
+}
+
+/* Animación sutil de viento */
+@keyframes installLeafSwing {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(16deg) scale(1.15);
+  }
+}
+
+.install-app-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.install-app-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--brand-dark, #111827);
+  margin: 0;
+}
+
+.install-app-desc {
+  font-size: 0.8rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Botón Acción Instalar */
+.btn-install-action {
+  background-color: var(--brand-green, #008037);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-install-action:hover {
+  background-color: #00662c;
+  transform: scale(1.03);
+}
+
+/* Botón Cerrar Aviso */
+.btn-close-banner {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+}
+
+.btn-close-banner:hover {
+  color: var(--brand-dark, #111827);
+}
