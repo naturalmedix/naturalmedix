@@ -231,3 +231,25 @@ function renderProducts(filterText = "") {
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
 });
+
+// Ejemplo de estructura en products.js
+const products = [
+  {
+    id: "prod-1",
+    name: "Multivit Medix",
+    price: 45000,
+    presentation: "Frasco x 60 cápsulas",
+    unitValue: 60,       // Cantidad total de unidades
+    unitType: "cápsula", // Unidad: cápsula, g, ml, tab, etc.
+    // ... otros campos
+  },
+  {
+    id: "prod-2",
+    name: "Aceite de Coco Organico",
+    price: 30000,
+    presentation: "Frasco x 500 ml",
+    unitValue: 500,
+    unitType: "ml",
+    // ... otros campos
+  }
+];
