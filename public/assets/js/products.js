@@ -9,6 +9,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -22,6 +24,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -35,6 +39,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -48,6 +54,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -61,6 +69,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -74,6 +84,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "StarNatural (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
+    unitValue: 100,
+    unitType: "cápsula",
     invima: "Producto sin registro",
     benefit: "Regenera articulaciones, fortalece cabello, uñas y elasticidad de la piel.",
     usage: "Tomar 3 cápsulas diarias, una cada media hora antes de las comidas.",
@@ -87,6 +99,8 @@ const PRODUCTS = [
     badge: "Estrella",
     fabricado: "Natural Encounter (USA)",
     netContent: "Cont. Neto: 100 SOFTGELS",
+    unitValue: 100,
+    unitType: "softgel",
     invima: "Producto sin registro",
     benefit: "Potente suplemento antioxidante que protege las células contra el daño oxidativo, apoya el sistema inmune y cuida la salud de la piel.",
     usage: "Tomar una cápsula blanda al día con la comida principal.",
@@ -119,6 +133,22 @@ function escapeHTML(str) {
     .replace(/'/g, "&#039;");
 }
 
+/**
+ * Calcula y formatea el Precio por Unidad de Medida (PUM)
+ */
+function getFormattedPUM(price, unitValue, unitType) {
+  if (!unitValue || unitValue <= 0 || !unitType) return "";
+  
+  const pumValue = Math.round(price / unitValue);
+  const formattedPrice = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0
+  }).format(pumValue);
+
+  return `${formattedPrice} / ${unitType}`;
+}
+
 function renderProducts(filterText = "") {
   const container = document.getElementById("product-grid");
   if (!container) return;
@@ -138,7 +168,6 @@ function renderProducts(filterText = "") {
       p.usage
     ].filter(Boolean).join(" ").toLowerCase();
 
-    // Comprueba que todos los términos buscados estén presentes
     return searchTokens.every(token => searchableContent.includes(token));
   });
 
@@ -162,11 +191,13 @@ function renderProducts(filterText = "") {
       ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Ahorro"> ¡Ahorras $${ahorro.toLocaleString("es-CO")}!</span>` 
       : '';
 
+    // Cálculo e inyección del PUM
+    const pumText = getFormattedPUM(numPrice, product.unitValue, product.unitType);
+
     // Detección de tipo de medio (video vs imagen)
     const mediaPath = product.image || '';
     const isVideo = mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm');
 
-    // Se configura preload="metadata" para no saturar el rendimiento con vídeos simultáneos
     const mediaHtml = isVideo
       ? `<video src="${mediaPath}" autoplay loop muted playsinline preload="metadata" class="product-img"></video>`
       : `<img src="${mediaPath}" alt="${escapeHTML(product.name)}" class="product-img" loading="lazy" />`;
@@ -211,11 +242,12 @@ function renderProducts(filterText = "") {
           </div>
         </div>
         
-        <div class="price-container">
+        <div class="product-price-container">
           <div class="prices-row">
             <span class="product-price">$${numPrice.toLocaleString("es-CO")} COP</span>
             ${numOriginalPrice > numPrice ? `<span class="original-price">$${numOriginalPrice.toLocaleString("es-CO")}</span>` : ''}
           </div>
+          ${pumText ? `<span class="product-pum">PUM: ${pumText}</span>` : ''}
           ${ahorroFormateado}
         </div>
 
@@ -231,70 +263,3 @@ function renderProducts(filterText = "") {
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
 });
-
-// Ejemplo de estructura en products.js
-const products = [
-  {
-    id: "prod-1",
-    name: "Multivit Medix",
-    price: 45000,
-    presentation: "Frasco x 60 cápsulas",
-    unitValue: 60,       // Cantidad total de unidades
-    unitType: "cápsula", // Unidad: cápsula, g, ml, tab, etc.
-    // ... otros campos
-  },
-  {
-    id: "prod-2",
-    name: "Aceite de Coco Organico",
-    price: 30000,
-    presentation: "Frasco x 500 ml",
-    unitValue: 500,
-    unitType: "ml",
-    // ... otros campos
-  }
-];
-
-/**
- * Calcula y formatea el Precio por Unidad de Medida (PUM)
- * @param {number} price - Precio total del producto
- * @param {number} unitValue - Cantidad de unidades/contenido (ej: 60, 500)
- * @param {string} unitType - Tipo de unidad (ej: 'cápsula', 'g', 'ml')
- * @returns {string} - Texto formateado (ej: "$750 / cápsula")
- */
-function getFormattedPUM(price, unitValue, unitType) {
-  if (!unitValue || unitValue <= 0 || !unitType) return "";
-  
-  const pumValue = Math.round(price / unitValue); // O use Math.round / toFixed(2)
-  const formattedPrice = new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    maximumFractionDigits: 0
-  }).format(pumValue);
-
-  return `${formattedPrice} / ${unitType}`;
-}
-
-// Dentro de la función que renderiza las tarjetas de producto
-function renderProductCard(product) {
-  // Calculamos el PUM
-  const pumText = getFormattedPUM(product.price, product.unitValue, product.unitType);
-
-  return `
-    <div class="product-card">
-      <img src="${product.image}" alt="${product.name}" class="product-img" />
-      <h4 class="product-title">${product.name}</h4>
-      <p class="product-presentation">${product.presentation}</p>
-      
-      <div class="product-price-container">
-        <span class="product-price">$${product.price.toLocaleString('es-CO')} COP</span>
-        
-        <!-- Etiqueta de PUM -->
-        ${pumText ? `<span class="product-pum">PUM: ${pumText}</span>` : ''}
-      </div>
-
-      <button onclick="addToCart('${product.id}')" class="btn-add-cart">
-        Agregar al carrito
-      </button>
-    </div>
-  `;
-}
