@@ -7,7 +7,7 @@ const PRODUCTS = [
     id: "aguaje-pawer",
     name: "AGUAJE Pawer",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -22,7 +22,7 @@ const PRODUCTS = [
     id: "aguaje-plus",
     name: "Aguaje Plus",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -37,7 +37,7 @@ const PRODUCTS = [
     id: "aguaje-hinojo",
     name: "Aguaje Hinojo",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -52,7 +52,7 @@ const PRODUCTS = [
     id: "aguaje-siempre-bella",
     name: "Aguaje Siempre Bella",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -67,7 +67,7 @@ const PRODUCTS = [
     id: "vitamina-a",
     name: "VITAMINA A",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -82,7 +82,7 @@ const PRODUCTS = [
     id: "vitamina-c",
     name: "VITAMINA C",
     badge: "Estrella",
-    fabricado: "StarNatural (Perú)",
+    fabricado: "NATURALMEDIX (Perú)",
     netContent: "Cont. Neto: 100 Cápsulas | Cápsula 500mg.",
     unitValue: 100,
     unitType: "cápsula",
@@ -204,7 +204,7 @@ function renderProducts(filterText = "") {
 
     const safeId = escapeHTML(product.id);
     const safeName = escapeHTML(product.name);
-    const safeFabricado = escapeHTML(product.fabricado || 'StarNatural');
+    const safeFabricado = escapeHTML(product.fabricado || 'NATURALMEDIX');
     const safeNetContent = escapeHTML(product.netContent || '');
     const safeBenefit = product.benefit ? escapeHTML(product.benefit) : '';
     const safeUsage = escapeHTML(product.usage || '');
