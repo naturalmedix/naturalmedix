@@ -28,7 +28,7 @@ function openMediaModal(src, title) {
     document.body.appendChild(modal);
   }
 
-  // Normalización segura de URLs (soporta absolutas, relativas y CDN)
+  // Normalización segura de URLs
   const isExternal = src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:");
   const cleanSrc = isExternal ? src : `/${src.replace(/^\/+/, '')}`;
   const isVideo = cleanSrc.endsWith(".mp4") || cleanSrc.endsWith(".webm");
@@ -119,11 +119,9 @@ function openMediaModal(src, title) {
   }
 }
 
-// Función principal para cerrar el modal de medios
 function closeMediaModal() {
   const modal = document.getElementById("image-modal");
   if (modal) {
-    // Detener reproducción de video si existiera para liberar recursos/audio
     const videoEl = modal.querySelector("video");
     if (videoEl) {
       videoEl.pause();
@@ -140,8 +138,6 @@ function closeMediaModal() {
     }, 200);
   }
 }
-
-const closeImageModal = closeMediaModal;
 
 /* ==========================================
    MODAL DE RECIBO / CONFIRMACIÓN
@@ -239,7 +235,6 @@ function setupEventListeners() {
   const searchInput = document.getElementById("product-search-input");
   const clearBtn = document.getElementById("clear-search-btn");
 
-  // Búsqueda con pequeña temporización (debounce de 150ms) para mejorar fluidez
   let searchTimeout;
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
@@ -253,11 +248,7 @@ function setupEventListeners() {
       }, 150);
 
       if (clearBtn) {
-        if (value.trim().length > 0) {
-          clearBtn.classList.remove("hidden");
-        } else {
-          clearBtn.classList.add("hidden");
-        }
+        clearBtn.classList.toggle("hidden", value.trim().length === 0);
       }
     });
   }
@@ -275,7 +266,6 @@ function setupEventListeners() {
     });
   }
 
-  // Cierre unificado de modales con tecla ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeMediaModal();
@@ -283,29 +273,4 @@ function setupEventListeners() {
       closeReceiptModal();
     }
   });
-}
-
-// Dentro de la función que renderiza las tarjetas de producto
-function renderProductCard(product) {
-  // Calculamos el PUM
-  const pumText = getFormattedPUM(product.price, product.unitValue, product.unitType);
-
-  return `
-    <div class="product-card">
-      <img src="${product.image}" alt="${product.name}" class="product-img" />
-      <h4 class="product-title">${product.name}</h4>
-      <p class="product-presentation">${product.presentation}</p>
-      
-      <div class="product-price-container">
-        <span class="product-price">$${product.price.toLocaleString('es-CO')} COP</span>
-        
-        <!-- Etiqueta de PUM -->
-        ${pumText ? `<span class="product-pum">PUM: ${pumText}</span>` : ''}
-      </div>
-
-      <button onclick="addToCart('${product.id}')" class="btn-add-cart">
-        Agregar al carrito
-      </button>
-    </div>
-  `;
 }
