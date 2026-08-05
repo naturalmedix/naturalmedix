@@ -253,3 +253,23 @@ const products = [
     // ... otros campos
   }
 ];
+
+/**
+ * Calcula y formatea el Precio por Unidad de Medida (PUM)
+ * @param {number} price - Precio total del producto
+ * @param {number} unitValue - Cantidad de unidades/contenido (ej: 60, 500)
+ * @param {string} unitType - Tipo de unidad (ej: 'cápsula', 'g', 'ml')
+ * @returns {string} - Texto formateado (ej: "$750 / cápsula")
+ */
+function getFormattedPUM(price, unitValue, unitType) {
+  if (!unitValue || unitValue <= 0 || !unitType) return "";
+  
+  const pumValue = Math.round(price / unitValue); // O use Math.round / toFixed(2)
+  const formattedPrice = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0
+  }).format(pumValue);
+
+  return `${formattedPrice} / ${unitType}`;
+}
