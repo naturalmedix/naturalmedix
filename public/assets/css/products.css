@@ -244,3 +244,23 @@
 .modal-animated-video::-webkit-media-controls-enclosure {
   display: none !important;
 }
+
+.product-price-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.8rem;
+}
+
+.product-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #008037;
+}
+
+/* Estilo para la etiqueta PUM */
+.product-pum {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 2px;
+}
