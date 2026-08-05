@@ -1,92 +1,22 @@
 /* ==========================================
-   VARIABLES GLOBALES (:root)
+   VARIABLES GLOBALES (:root) - PALETA OFICIAL
    ========================================== */
 :root {
-  /* Paleta Inspirada en la Hoja 🍃 (1f343) */
-  --primary-green: #4CAF50;       /* Verde vibrante principal */
-  --primary-dark: #2E7D32;        /* Verde oscuro para hover y botones principales */
-  --primary-light: #81C784;       /* Verde suave para detalles y bordes */
-  --accent-mint: #A5D6A7;          /* Acento claro */
+  /* Marca NaturalMedix (Extraídos del logo oficial) */
+  --brand-green: #008037;       /* Verde "Natural" */
+  --brand-red: #D01B1B;         /* Rojo "medix" */
+  --brand-red-hover: #b91515;   /* Rojo más oscuro para interacción de botones */
+  --brand-dark: #111827;        /* Gris casi negro para ".app" y textos */
+
+  /* UI & Contenedores */
+  --bg-main: #FAFCFA;
+  --bg-card: #FFFFFF;
+  --bg-light-green: #F0FDF4;    /* Verde muy suave para fondos / badges */
+  --bg-red-light: rgba(208, 27, 27, 0.1); /* Fondo claro para etiquetas de ahorro */
   
-  --bg-main: #FAFCFA;              /* Fondo general de la app */
-  --bg-card: #FFFFFF;              /* Fondo de las tarjetas */
-  --bg-light-green: #F1F8E9;       /* Fondo secundario / badges */
-  
-  --text-primary: #1B5E20;        /* Texto principal */
-  --text-secondary: #43A047;      /* Texto secundario / subtítulos */
-  --text-muted: #66BB6A;          /* Texto suave */
-  
-  --border-color: #C8E6C9;        /* Borde suave en tono verde */
-  --shadow-color: rgba(46, 125, 50, 0.08);
-}
-
-/* Aplicación global de fondos y textos */
-body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-/* Tarjeta de Producto */
-.product-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
-  border-radius: 12px;
-  padding: 1rem;
-}
-
-/* Badges / Etiquetas */
-.product-badge {
-  background-color: var(--bg-light-green);
-  color: var(--primary-dark);
-  border: 1px solid var(--primary-light);
-  font-weight: 600;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-}
-
-/* Botón "Agregar al Carrito" */
-.btn-add-cart {
-  width: 100%;
-  background-color: var(--primary-dark);
-  color: #FFFFFF;
-  border: none;
-  padding: 0.75rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-add-cart:hover {
-  background-color: var(--primary-green);
-  transform: translateY(-1px);
-}
-
-/* Contenedores de Banners */
-.product-banner-container {
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-light-green);
-}
-
-/* Títulos de Productos */
-.product-title {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-/* Tag de Ahorro / Descuento */
-.savings-tag {
-  color: var(--primary-dark);
-  background-color: #E8F5E9;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  --border-color: rgba(0, 128, 55, 0.15);
+  --shadow-card: 0 4px 12px rgba(0, 128, 55, 0.08);
+  --shadow-hover: 0 8px 20px rgba(0, 128, 55, 0.15);
 }
 
 /* ==========================================
@@ -103,37 +33,15 @@ button, a, .brand-logo, .product-image-wrapper {
 
 body {
   background-color: var(--bg-main);
-  color: var(--text-primary);
+  color: var(--brand-dark);
   font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 /* ==========================================
-   VARIABLES GLOBALES (:root) - PALETA DEL LOGO
-   ========================================== */
-:root {
-  /* Marca NaturalMedix (Extraídos del logo oficial) */
-  --brand-green: #008037;      /* Verde "Natural" */
-  --brand-red: #D01B1B;        /* Rojo "medix" */
-  --brand-red-hover: #b91515;  /* Rojo más oscuro para interacción de botones */
-  --brand-dark: #111827;       /* Gris casi negro para ".app" y textos */
-
-  /* UI & Contenedores */
-  --bg-main: #FAFCFA;
-  --bg-card: #FFFFFF;
-  --bg-light-green: #F0FDF4;   /* Verde muy suave para fondos / badges */
-  --border-color: rgba(0, 128, 55, 0.15);
-  
-  --shadow-card: 0 4px 12px rgba(0, 128, 55, 0.08);
-  --shadow-hover: 0 8px 20px rgba(0, 128, 55, 0.15);
-}
-
-/* ==========================================
    ESTILOS LOGO NATURALMEDIX.APP
    ========================================== */
-
-/* Contenedor principal alineado */
 .brand-logo {
   display: inline-flex;
   align-items: center;
@@ -144,7 +52,6 @@ body {
   font-style: normal !important;
 }
 
-/* "Natural" en Verde exacto del Logo */
 .brand-natural {
   color: var(--brand-green) !important;
   font-weight: 800 !important;
@@ -152,7 +59,6 @@ body {
   letter-spacing: -0.3px;
 }
 
-/* "medix" en Rojo exacto del Logo */
 .brand-medix {
   color: var(--brand-red) !important;
   font-weight: 800 !important;
@@ -160,7 +66,6 @@ body {
   letter-spacing: -0.3px;
 }
 
-/* Extensión ".app" en Gris oscuro elegante / casi negro */
 .brand-ext {
   color: var(--brand-dark) !important;
   font-weight: 700 !important;
@@ -168,7 +73,6 @@ body {
   opacity: 0.9;
 }
 
-/* Imagen de la Hoja central */
 .medix-leaf-img {
   width: 22px !important;
   height: 22px !important;
@@ -177,16 +81,6 @@ body {
   margin: 0 1px !important;
   transform-origin: bottom center;
   animation: medixLeafSwing 3s ease-in-out infinite;
-}
-
-/* Animación de la hoja */
-@keyframes medixLeafSwing {
-  0%, 100% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(15deg) scale(1.12);
-  }
 }
 
 /* ==========================================
@@ -242,21 +136,21 @@ body {
 }
 
 .product-title {
-  color: var(--primary-green);
+  color: var(--brand-green);
   font-weight: 700;
   margin: 0.5rem 0;
 }
 
 .product-price {
-  color: var(--red-accent);
+  color: var(--brand-red);
   font-size: 1.25rem;
   font-weight: 800;
 }
 
 .product-badge {
   background-color: var(--bg-light-green);
-  color: var(--primary-dark);
-  border: 1px solid var(--primary-light);
+  color: var(--brand-green);
+  border: 1px solid var(--border-color);
   font-weight: 700;
   padding: 0.25rem 0.6rem;
   border-radius: 20px;
@@ -264,9 +158,9 @@ body {
 }
 
 .savings-tag {
-  background-color: var(--red-light-bg);
-  color: var(--red-accent);
-  border: 1px solid rgba(220, 38, 38, 0.2);
+  background-color: var(--bg-red-light);
+  color: var(--brand-red);
+  border: 1px solid rgba(208, 27, 27, 0.2);
   border-radius: 6px;
   padding: 0.2rem 0.5rem;
   font-size: 0.8rem;
@@ -279,7 +173,7 @@ body {
 /* Botón "Agregar al Carrito" */
 .btn-add-cart {
   width: 100%;
-  background-color: var(--red-accent);
+  background-color: var(--brand-red);
   color: #FFFFFF;
   border: none;
   padding: 0.75rem 1.25rem;
@@ -290,7 +184,7 @@ body {
 }
 
 .btn-add-cart:hover {
-  background-color: var(--red-hover);
+  background-color: var(--brand-red-hover);
   transform: translateY(-1px);
 }
 
@@ -330,17 +224,16 @@ body {
   object-fit: cover;
   display: block;
 }
+
 /* ==========================================
    BOTÓN E ICONO ANIMADO DE INSTALACIÓN
    ========================================== */
-
-/* Estilo del botón de instalación */
 .btn-install-pwa {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--brand-green, #008037);
+  background-color: var(--brand-green);
   color: #FFFFFF;
   font-weight: 700;
   font-size: 0.95rem;
@@ -357,25 +250,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Icono de la hoja con animación de viento */
-.install-leaf-icon {
-  width: 24px !important;
-  height: 24px !important;
-  object-fit: contain !important;
-  display: inline-block !important;
-  transform-origin: bottom center;
-  animation: pwaLeafSwing 2.8s ease-in-out infinite;
-}
-
-/* Animación sutil de balanceo */
-@keyframes pwaLeafSwing {
-  0%, 100% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(18deg) scale(1.15);
-  }
-}
 /* ==========================================
    AVISO / BANNER FLOTANTE DE INSTALACIÓN
    ========================================== */
@@ -386,8 +260,8 @@ body {
   transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 420px;
-  background: var(--bg-card, #FFFFFF);
-  border: 1px solid var(--border-color, rgba(0, 128, 55, 0.15));
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 14px 16px;
   box-shadow: 0 6px 20px rgba(0, 128, 55, 0.15);
@@ -411,17 +285,18 @@ body {
 }
 
 /* HOJA ANIMADA SUSTITUTA DEL ICONO NATIVO */
-.install-leaf-animated {
-  width: 38px !important;
-  height: 38px !important;
+.install-leaf-animated,
+.install-leaf-icon {
+  width: 36px !important;
+  height: 36px !important;
   object-fit: contain !important;
   flex-shrink: 0;
   transform-origin: bottom center;
-  animation: installLeafSwing 2.6s ease-in-out infinite;
+  animation: medixLeafSwing 2.8s ease-in-out infinite;
 }
 
-/* Animación sutil de viento */
-@keyframes installLeafSwing {
+/* Animación unificada de viento para las hojas */
+@keyframes medixLeafSwing {
   0%, 100% {
     transform: rotate(0deg) scale(1);
   }
@@ -440,7 +315,7 @@ body {
 .install-app-title {
   font-size: 0.95rem;
   font-weight: 800;
-  color: var(--brand-dark, #111827);
+  color: var(--brand-dark);
   margin: 0;
 }
 
@@ -452,7 +327,7 @@ body {
 
 /* Botón Acción Instalar */
 .btn-install-action {
-  background-color: var(--brand-green, #008037);
+  background-color: var(--brand-green);
   color: #ffffff;
   border: none;
   border-radius: 20px;
@@ -481,5 +356,5 @@ body {
 }
 
 .btn-close-banner:hover {
-  color: var(--brand-dark, #111827);
+  color: var(--brand-dark);
 }
