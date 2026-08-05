@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> App Natural Medix | App Tienda Oficial</title>
+  <title>App Natural Medix | Tienda Oficial</title>
 
   <!-- PWA Metadata -->
   <link rel="manifest" href="public/manifest.json">
-  <meta name="theme-color" content="#0d9488">
+  <meta name="theme-color" content="#008037">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- Favicon / Icono de la Pestaña -->
-<link rel="icon" type="image/webp" href="public/assets/icons/1f343_512.webp">
-<link rel="apple-touch-icon" href="public/assets/icons/1f343_512.webp">
+  <!-- Favicon / Icono de la Pestaña -->
+  <link rel="icon" type="image/webp" href="public/assets/icons/1f343_512.webp">
+  <link rel="apple-touch-icon" href="public/assets/icons/1f343_512.webp">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,12 +34,12 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header / Barra de Navegación -->
   <header class="navbar">
     <div class="nav-container">
       <a href="#" class="brand-logo">
         <span class="brand-natural">Natural</span>
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
+        <img src="public/assets/icons/1f343_512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
         <span class="brand-medix">medix<span class="brand-ext">.app</span></span>
       </a>
 
@@ -49,25 +49,6 @@
       </button>
     </div>
   </header>
-
-  <!-- Banner de instalación PWA -->
-  <div id="pwa-install-banner" class="pwa-banner hidden">
-    <div class="pwa-content">
-      <div class="pwa-text">
-        <strong>Instala NaturalMedix.app</strong>
-        <span>Accede más rápido desde tu pantalla de inicio</span>
-      </div>
-     <!-- Botón / Banner de Instalación PWA -->
-<button id="btn-install-app" class="btn-install-pwa">
-  <img 
-    src="public/assets/icons/1f343_512.webp" 
-    class="install-leaf-icon" 
-    alt="Instalar App" 
-  />
-  <span>Instalar Aplicación</span>
-</button>
-    </div>
-  </div>
 
   <main class="main-container">
     <section class="hero-card">
@@ -111,7 +92,7 @@
         <div class="shipping-form">
           <div class="checkout-form">
             <h3>Datos de Envío y Facturación</h3>
-            <input type="text" id="customer-name" placeholder="Nombre completo o Razon Social" required />
+            <input type="text" id="customer-name" placeholder="Nombre completo o Razón Social" required />
             <input type="text" id="customer-id" placeholder="Cédula (CC) o NIT" required />
             <input type="email" id="customer-email" placeholder="Correo electrónico" required />
             <input type="tel" id="customer-phone" placeholder="Teléfono / WhatsApp" required />
@@ -130,19 +111,19 @@
 
   <button id="btn-back-to-top" class="back-to-top hidden" aria-label="Volver arriba">↑</button>
 
-  <!-- Modal de Confirmación -->
+  <!-- Modal de Confirmación / Recibo -->
   <div id="receipt-modal" class="cart-modal hidden">
     <div class="cart-modal-content" style="background: #ffffff; width: 100%; max-width: 500px; border-radius: 12px; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
       <div style="text-align: center; margin-bottom: 1rem;">
         <span style="font-size: 3rem;">🎉</span>
-        <h3 style="margin: 0.5rem 0 0; color: #166534;">¡Pago Confirmado!</h3>
+        <h3 style="margin: 0.5rem 0 0; color: #008037;">¡Pago Confirmado!</h3>
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Tu pedido ha sido procesado con éxito</p>
       </div>
 
       <div id="receipt-details-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.85rem; max-height: 350px; overflow-y: auto;"></div>
 
       <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;">
-        <a id="btn-whatsapp-copy" href="#" target="_blank" class="btn-add-cart" style="background-color: #25D366; text-decoration: none; text-align: center; display: block; padding: 0.8rem; border-radius: 6px; color: #fff; font-weight: bold;">
+        <a id="btn-whatsapp-copy" href="#" target="_blank" style="background-color: #25D366; text-decoration: none; text-align: center; display: block; padding: 0.8rem; border-radius: 6px; color: #fff; font-weight: bold;">
           📲 Enviar copia por WhatsApp (Opcional)
         </a>
         <button onclick="closeReceiptModal()" class="qty-btn" style="width: 100%; padding: 0.8rem; background: #e2e8f0; color: #334155; font-weight: 600; border: none; border-radius: 6px; cursor: pointer;">
@@ -152,7 +133,7 @@
     </div>
   </div>
 
-  <!-- Modal Vista Rápida -->
+  <!-- Modal Vista Rápida de Medios -->
   <div id="image-modal" class="modal-overlay hidden" onclick="closeMediaModal()">
     <div class="modal-media-wrapper" onclick="event.stopPropagation()">
       <button class="modal-close-btn" onclick="closeMediaModal()">&times;</button>
@@ -160,36 +141,34 @@
     </div>
   </div>
 
-  <!-- BANNER FLOTANTE DE AVISO DE INSTALACIÓN -->
-<div id="install-pwa-banner" class="install-app-banner">
-  <!-- Hoja animada sustituyendo el icono nativo -->
-  <img 
-    src="public/assets/icons/1f343_512.webp" 
-    class="install-leaf-animated" 
-    alt="NaturalMedix.app Icon"
-  />
-
-  <div class="install-app-info">
-    <h4 class="install-app-title">Instalar NaturalMedix.app</h4>
-    <p class="install-app-desc">Acceso rápido a tu catálogo de productos naturales.</p>
+  <!-- BANNER FLOTANTE DE AVISO DE INSTALACIÓN (PWA) -->
+  <div id="install-pwa-banner" class="install-app-banner">
+    <img 
+      src="public/assets/icons/1f343_512.webp" 
+      class="install-leaf-animated" 
+      alt="NaturalMedix Icon"
+    />
+    <div class="install-app-info">
+      <h4 class="install-app-title">Instalar NaturalMedix.app</h4>
+      <p class="install-app-desc">Acceso rápido a tu catálogo de productos naturales.</p>
+    </div>
+    <button id="btn-install-pwa" class="btn-install-action">Instalar</button>
+    <button id="btn-dismiss-banner" class="btn-close-banner" aria-label="Cerrar">&times;</button>
   </div>
 
-  <button id="btn-install-pwa" class="btn-install-action">Instalar</button>
-  <button id="btn-dismiss-banner" class="btn-close-banner" aria-label="Cerrar">&times;</button>
-</div>
-
+  <!-- Pie de página -->
   <footer class="footer">
     <div class="footer-logo-container">
       <a href="#" class="brand-logo footer-brand">
         <span class="brand-natural">Natural</span>
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f343/512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
+        <img src="public/assets/icons/1f343_512.webp" alt="Hoja NaturalMedix" class="medix-leaf-img" />
         <span class="brand-medix">medix<span class="brand-ext">.app</span></span>
       </a>
     </div>
     <p class="sub">Productos Naturales | www.NaturalMedix.app</p>
   </footer>
 
-  <!-- Scripts diferidos para ejecución segura -->
+  <!-- Scripts diferidos -->
   <script src="public/assets/js/products.js" defer></script>
   <script src="public/assets/js/cart.js" defer></script>
   <script src="public/assets/js/ui.js" defer></script>
