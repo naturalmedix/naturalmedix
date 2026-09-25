@@ -1,63 +1,71 @@
 # NaturalMedix · Cloudflare Workers + D1
 
-La aplicación mantiene Astro como base y añade renderizado server-side para API/admin, con D1 como única base de datos de la aplicación.
+NaturalMedix usa Astro con renderizado en servidor, endpoints API y D1. GitHub Pages solo publica archivos estáticos y no puede ejecutar esta aplicación. El repositorio permanece en GitHub; el sitio se publica en Cloudflare Workers.
 
-## 1. Instalar dependencias
+## Preparar la base D1 de producción
 
-```bash
-npm install
-```
-
-## 2. Crear D1
+Crear una base de producción si todavía no existe:
 
 ```bash
-npx wrangler d1 create tienda-secreta
+npx wrangler d1 create naturalmedix
 ```
 
-Copia el `database_id` que entrega Wrangler a `wrangler.jsonc`.
+Guarda el `database_id` que entrega Wrangler. Para ejecutar migraciones desde tu computadora, coloca ese ID en el campo `database_id` de `wrangler.jsonc`. El ID no es un secreto, pero no subas otros tokens al archivo.
 
-## 3. Crear las tablas
-
-Local:
+Ejecuta las migraciones en la base:
 
 ```bash
-npx wrangler d1 execute tienda-secreta --local --file=./migrations/0001_initial.sql
+npx wrangler d1 migrations apply naturalmedix --remote
 ```
 
-Producción:
+Confirma que la base tenga las tablas y el catálogo que necesita la tienda. La base local con los 81 productos y stock 12 no se copia automáticamente a producción.
 
-```bash
-npx wrangler d1 execute tienda-secreta --remote --file=./migrations/0001_initial.sql
-```
+## Configurar GitHub Actions
 
-## 4. Configurar el token de administrador
+En el repositorio, abre **Settings → Secrets and variables → Actions** y configura:
 
-Local: copia `.dev.vars.example` a `.dev.vars` y cambia el valor.
+- Secret `CLOUDFLARE_ACCOUNT_ID`: identificador de la cuenta Cloudflare.
+- Secret `CLOUDFLARE_API_TOKEN`: token de Cloudflare autorizado para desplegar Workers.
+- Variable `CLOUDFLARE_D1_DATABASE_ID`: identificador real de la base D1 `naturalmedix`.
 
-Producción:
+El workflow está configurado como ejecución manual para evitar publicar hasta que estas credenciales y la base de producción estén listas. Desde **Actions → Deploy NaturalMedix to Cloudflare Workers → Run workflow**, marca la confirmación de producción y ejecútalo. El workflow valida la configuración, coloca el ID de D1 solo en el entorno de compilación y publica con Wrangler.
+
+No agregues tokens privados a archivos del proyecto ni al chat.
+
+## Conectar el dominio
+
+Después de que el Worker se despliegue correctamente, configura `naturalmedix.co` como dominio personalizado del Worker en Cloudflare. Comprueba que el dominio y su zona DNS estén disponibles en la cuenta antes de cambiar la publicación desde GitHub Pages. No cambies los registros DNS hasta verificar primero la URL de prueba `workers.dev` y que el Worker responde bien.
+
+El archivo `CNAME` del repositorio puede permanecer como respaldo; cuando GitHub Pages deje de publicar, ese archivo no dirige el Worker.
+
+## Secretos de la aplicación
+
+Configura también los secretos de runtime requeridos por el panel y el checkout en Cloudflare Workers:
 
 ```bash
 npx wrangler secret put ADMIN_TOKEN
+npx wrangler secret put WOMPI_PRIVATE_KEY
+npx wrangler secret put WOMPI_EVENTS_SECRET
 ```
 
-No pongas el token real en `wrangler.jsonc`, GitHub ni JavaScript del navegador.
+No pongas los valores reales en `wrangler.jsonc`, GitHub ni JavaScript del navegador. Configura en el Dashboard de Wompi el webhook de eventos apuntando a:
 
-## 5. Desarrollo
+```text
+https://naturalmedix.co/api/wompi/events
+```
+
+El endpoint valida el checksum del evento antes de actualizar D1. El evento operativo es `transaction.updated`.
+
+Para desarrollo local, copia `.dev.vars.example` a `.dev.vars` y agrega los secretos de prueba. No los pongas en `public/` ni en Git.
+
+## Desarrollo
 
 ```bash
+npm install
 npm run dev
 ```
 
-## 6. Deploy
-
-```bash
-npm run build
-npx wrangler deploy
-```
-
-El adaptador oficial de Cloudflare usa Workers para el SSR/API y permite acceder a bindings como `DB` desde el runtime. D1 se consulta mediante `env.DB`.
-
-## Admin
+## Panel de administración
 
 - `/admin`
 - `/admin/productos`
@@ -65,32 +73,8 @@ El adaptador oficial de Cloudflare usa Workers para el SSR/API y permite acceder
 - `/admin/categorias`
 - `/admin/pedidos`
 
-El formulario de producto soporta múltiples niveles de precio por cantidad, por ejemplo:
-
-- Desde 1 → $22.000
-- Desde 4 → $18.000
-- Desde 7 → $16.500
-- Desde 13 → $15.600
-
-La cantidad mínima de compra es independiente y se configura por producto.
+El formulario de producto admite precios por cantidad. La cantidad mínima de compra es independiente y se configura por producto.
 
 ## Wompi · Payment Links
 
-El checkout del storefront ya no expone llaves ni firma de integridad en el navegador. El servidor crea un Payment Link de uso único y monto fijo por cada pedido usando la llave privada de Wompi.
-
-Configura estos secretos en Cloudflare:
-
-```bash
-npx wrangler secret put WOMPI_PRIVATE_KEY
-npx wrangler secret put WOMPI_EVENTS_SECRET
-```
-
-Configura en el Dashboard de Wompi el webhook de eventos apuntando a:
-
-```text
-https://TU-DOMINIO/api/wompi/events
-```
-
-El endpoint valida el checksum del evento antes de actualizar D1. El evento operativo es `transaction.updated`.
-
-Para desarrollo local, agrega `WOMPI_PRIVATE_KEY` y `WOMPI_EVENTS_SECRET` a `.dev.vars`. No los pongas en `public/`, en el frontend ni en Git.
+El servidor crea un Payment Link de uso único y monto fijo por pedido usando la llave privada de Wompi. Las llaves y la firma de integridad no se exponen en el navegador.
