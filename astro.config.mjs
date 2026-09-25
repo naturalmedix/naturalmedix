@@ -1,11 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-  output: 'server',
-  adapter: cloudflare(),
-  server: {
-    port: 4321,
-  },
+  site: 'https://naturalmedix.co',
 });
