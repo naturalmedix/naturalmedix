@@ -10,7 +10,9 @@ Crear una base de producción si todavía no existe:
 npx wrangler d1 create naturalmedix
 ```
 
-Guarda el `database_id` que entrega Wrangler. Ejecuta las migraciones en esa base antes de publicar:
+Guarda el `database_id` que entrega Wrangler. Para ejecutar migraciones desde tu computadora, coloca ese ID en el campo `database_id` de `wrangler.jsonc`. El ID no es un secreto, pero no subas otros tokens al archivo.
+
+Ejecuta las migraciones en la base:
 
 ```bash
 npx wrangler d1 migrations apply naturalmedix --remote
