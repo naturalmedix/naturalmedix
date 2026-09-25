@@ -1,42 +1,28 @@
 # NaturalMedix · Cloudflare Workers + D1
 
-NaturalMedix usa Astro con renderizado en servidor, endpoints API y D1. GitHub Pages solo publica archivos estáticos y no puede ejecutar esta aplicación. El repositorio permanece en GitHub; el sitio se publica en Cloudflare Workers.
+NaturalMedix usa Astro con renderizado en servidor, endpoints API y D1. GitHub Pages solo publica archivos estáticos y no puede ejecutar esta aplicación. El código permanece en GitHub y la publicación se hace en Cloudflare Workers.
 
-## Preparar la base D1 de producción
+## Base D1 de producción
 
-Crear una base de producción si todavía no existe:
+La base de producción `naturalmedix` ya fue creada. Su ID y el identificador de la cuenta Cloudflare están configurados en `wrangler.jsonc`; esos identificadores no son contraseñas.
 
-```bash
-npx wrangler d1 create naturalmedix
-```
+Antes del primer despliegue, hay que preparar la base con el esquema y el catálogo correcto. Las migraciones de tablas y el archivo de importación del catálogo son pasos separados del despliegue del Worker. El archivo `db/import_jumpseller_20260924.sql` contiene los datos fuente de los 81 productos, incluyendo stock 12, categorías, descripciones, SKU e imágenes. Aplícalo una sola vez en una base vacía después de revisar los datos y los precios. No ejecutes una importación repetida sobre una base con catálogo.
 
-Guarda el `database_id` que entrega Wrangler. Para ejecutar migraciones desde tu computadora, coloca ese ID en el campo `database_id` de `wrangler.jsonc`. El ID no es un secreto, pero no subas otros tokens al archivo.
+La base local de Wrangler no se copia a producción automáticamente.
 
-Ejecuta las migraciones en la base:
+## Configurar el secreto para GitHub Actions
 
-```bash
-npx wrangler d1 migrations apply naturalmedix --remote
-```
+En el repositorio, abre **Settings → Secrets and variables → Actions** y crea el secreto:
 
-Confirma que la base tenga las tablas y el catálogo que necesita la tienda. La base local con los 81 productos y stock 12 no se copia automáticamente a producción.
+- `CLOUDFLARE_API_TOKEN`: token de Cloudflare autorizado para desplegar Workers.
 
-## Configurar GitHub Actions
+No pegues el token en el chat ni lo agregues a archivos del proyecto.
 
-En el repositorio, abre **Settings → Secrets and variables → Actions** y configura:
-
-- Secret `CLOUDFLARE_ACCOUNT_ID`: identificador de la cuenta Cloudflare.
-- Secret `CLOUDFLARE_API_TOKEN`: token de Cloudflare autorizado para desplegar Workers.
-- Variable `CLOUDFLARE_D1_DATABASE_ID`: identificador real de la base D1 `naturalmedix`.
-
-El workflow está configurado como ejecución manual para evitar publicar hasta que estas credenciales y la base de producción estén listas. Desde **Actions → Deploy NaturalMedix to Cloudflare Workers → Run workflow**, marca la confirmación de producción y ejecútalo. El workflow valida la configuración, coloca el ID de D1 solo en el entorno de compilación y publica con Wrangler.
-
-No agregues tokens privados a archivos del proyecto ni al chat.
+El workflow de GitHub está configurado como ejecución manual. Cuando el secreto y la base estén listos, ve a **Actions → Deploy NaturalMedix to Cloudflare Workers → Run workflow**, marca la confirmación de producción y ejecútalo. El workflow compila Astro y publica con Wrangler.
 
 ## Conectar el dominio
 
-Después de que el Worker se despliegue correctamente, configura `naturalmedix.co` como dominio personalizado del Worker en Cloudflare. Comprueba que el dominio y su zona DNS estén disponibles en la cuenta antes de cambiar la publicación desde GitHub Pages. No cambies los registros DNS hasta verificar primero la URL de prueba `workers.dev` y que el Worker responde bien.
-
-El archivo `CNAME` del repositorio puede permanecer como respaldo; cuando GitHub Pages deje de publicar, ese archivo no dirige el Worker.
+La zona `naturalmedix.co` ya está activa en Cloudflare. Después de desplegar el Worker y confirmar que responde en `workers.dev`, asígnale `naturalmedix.co` como dominio personalizado desde Cloudflare Workers. No hace falta transferir el registro del dominio desde Dynadot.
 
 ## Secretos de la aplicación
 
