@@ -48,7 +48,6 @@ for (const product of products) {
 const sql = [];
 sql.push('-- Catálogo Jumpseller NaturalMedix: 81 productos; stock 12 por producto.');
 sql.push('-- Inserciones OR IGNORE para permitir reanudar una carga incompleta sin reiniciar stock.');
-sql.push('PRAGMA foreign_keys = ON;');
 
 for (const [id, category] of categories) {
   sql.push(`INSERT OR IGNORE INTO categories (id, name, slug, active, sort_order) VALUES (${quote(id)}, ${quote(category.name)}, ${quote(category.slug)}, 1, 0);`);
