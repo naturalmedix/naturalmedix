@@ -26,17 +26,13 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Validar configuración de Cloudflare y D1
+      - name: Validar configuración de Cloudflare
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_D1_DATABASE_ID: ${{ vars.CLOUDFLARE_D1_DATABASE_ID }}
         run: |
           set -euo pipefail
-          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Falta el secreto CLOUDFLARE_ACCOUNT_ID"; exit 1; }
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Falta el secreto CLOUDFLARE_API_TOKEN"; exit 1; }
-          [[ "$CLOUDFLARE_D1_DATABASE_ID" =~ ^[0-9a-fA-F-]{36}$ ]] || { echo "::error::Configura la variable CLOUDFLARE_D1_DATABASE_ID con el ID real de D1"; exit 1; }
-          node --input-type=module -e 'import fs from "node:fs"; const p="wrangler.jsonc"; const s=fs.readFileSync(p,"utf8"); if (!s.includes("REEMPLAZAR_CON_EL_ID_DE_TU_NUEVA_D1")) throw new Error("No se encontró el marcador esperado de D1"); fs.writeFileSync(p,s.replace("REEMPLAZAR_CON_EL_ID_DE_TU_NUEVA_D1",process.env.CLOUDFLARE_D1_DATABASE_ID));'
+          node -e 'const c=JSON.parse(require("node:fs").readFileSync("wrangler.jsonc","utf8")); if (!c.account_id || !/^[0-9a-fA-F-]{36}$/.test(c.d1_databases?.[0]?.database_id ?? "")) throw new Error("Falta el account_id o el ID real de D1 en wrangler.jsonc");'
 
       - name: Instalar dependencias
         run: npm ci
@@ -46,6 +42,5 @@ jobs:
 
       - name: Publicar en Cloudflare Workers
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: npx wrangler deploy
