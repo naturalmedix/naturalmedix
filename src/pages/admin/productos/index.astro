@@ -1,0 +1,36 @@
+---
+export const prerender = false;
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Productos · Admin · NaturalMedix</title>
+  <link rel="stylesheet" href="/css/styles-1.2.8.css" />
+  <style>
+    :root{color-scheme:light}body{margin:0;background:#f8fafc;color:#111827;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.admin{max-width:1180px;margin:0 auto;padding:32px 20px 60px}.top{display:flex;justify-content:space-between;gap:18px;align-items:end;flex-wrap:wrap}.eyebrow{color:#64748b;font-size:.9rem}.title{margin:.2rem 0 0;font-size:2rem}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd5e1;border-radius:10px;padding:10px 14px;text-decoration:none;color:#111827;background:#fff;cursor:pointer;font-weight:600}.btn.primary{background:#111827;color:#fff;border-color:#111827}.toolbar{margin:24px 0;display:flex;gap:10px;flex-wrap:wrap}.search{flex:1;min-width:240px;padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}.select{padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}.grid{display:grid;gap:12px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px;display:grid;grid-template-columns:1fr auto;gap:18px}.name{font-size:1.08rem;font-weight:750;margin:0 0 5px}.muted{color:#64748b;font-size:.92rem}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.chip{display:inline-flex;padding:4px 8px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:.78rem}.status{font-size:.78rem;font-weight:700;padding:5px 8px;border-radius:999px}.on{background:#dcfce7;color:#166534}.off{background:#fee2e2;color:#991b1b}.tiers{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}.tier{border:1px solid #e2e8f0;border-radius:9px;padding:8px 10px;font-size:.88rem}.side{text-align:right;min-width:150px}.price{font-weight:750}.stock{margin-top:5px;color:#475569}.empty,.error{background:#fff;border:1px dashed #cbd5e1;border-radius:14px;padding:24px;color:#64748b}.error{color:#991b1b;border-color:#fecaca}@media(max-width:680px){.card{grid-template-columns:1fr}.side{text-align:left}}
+  </style>
+</head>
+<body>
+<main class="admin">
+  <div class="top">
+    <div><a href="/admin">← Admin</a><div class="eyebrow">Catálogo</div><h1 class="title">Productos</h1></div>
+    <div class="actions"><a class="btn" href="/admin/categorias">Categorías</a><a class="btn primary" href="/admin/productos/nuevo">+ Nuevo producto</a></div>
+  </div>
+  <div class="toolbar"><input id="search" class="search" type="search" placeholder="Buscar por nombre, slug, marca o INVIMA" /><select id="status" class="select"><option value="all">Todos</option><option value="active">Activos</option><option value="inactive">Inactivos</option></select></div>
+  <div id="list" class="grid"><div class="empty">Cargando productos…</div></div>
+</main>
+<script is:inline>
+const token=sessionStorage.getItem('naturalmedix_admin_token')||'';
+const headers={Authorization:'Bearer '+token};
+const list=document.querySelector('#list');const search=document.querySelector('#search');const status=document.querySelector('#status');
+let products=[];
+const money=n=>'$'+Number(n||0).toLocaleString('es-CO');
+const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function render(){const q=search.value.trim().toLowerCase();const st=status.value;const filtered=products.filter(p=>{const hay=[p.name,p.slug,p.brand,p.invima,p.laboratory].join(' ').toLowerCase();return (!q||hay.includes(q))&&(st==='all'||(st==='active'?p.active:!p.active))});if(!filtered.length){list.innerHTML='<div class="empty">No hay productos que coincidan.</div>';return}list.innerHTML=filtered.map(p=>`<article class="card"><div><p class="name">${esc(p.name)} <span class="status ${p.active?'on':'off'}">${p.active?'Activo':'Inactivo'}</span></p><div class="muted">/${esc(p.slug)} · ID: ${esc(p.id)}</div><div class="chips">${(p.categories||[]).map(c=>`<span class="chip">${esc(c.name)}</span>`).join('')||'<span class="chip">Sin categoría</span>'}</div><div class="tiers">${(p.priceTiers||[]).filter(t=>t.active).map(t=>`<span class="tier">Desde ${Number(t.minimumQuantity)} · <strong>${money(t.price)}</strong>${t.label?' · '+esc(t.label):''}</span>`).join('')}</div></div><div class="side"><div class="price">${money((p.priceTiers||[]).find(t=>t.active&&Number(t.minimumQuantity)===1)?.price)}</div><div class="stock">Stock: <strong>${Number(p.stock||0)}</strong></div><a class="btn" style="margin-top:12px" href="/admin/productos/${encodeURIComponent(p.id)}">Editar</a></div></article>`).join('')}
+async function load(){const r=await fetch('/api/admin/products',{headers});const d=await r.json();if(!r.ok){list.innerHTML=`<div class="error">${esc(d.error||'No autorizado')}. Ve a <a href="/admin">/admin</a> y guarda tu token.</div>`;return}products=d.products||[];render()}
+search.addEventListener('input',render);status.addEventListener('change',render);load();
+</script>
+</body>
+</html>

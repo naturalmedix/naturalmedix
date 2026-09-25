@@ -1,0 +1,48 @@
+---
+export const prerender = false;
+const orderId = String(Astro.url.searchParams.get('order') || '');
+---
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Estado del pedido · NaturalMedix</title><link rel="stylesheet" href="/css/styles-1.2.8.css"></head>
+<body>
+<main style="max-width:620px;margin:60px auto;padding:24px;font-family:system-ui;text-align:center">
+  <div style="font-size:3rem">⏳</div>
+  <h1 id="title">Estamos confirmando tu pedido</h1>
+  <p id="message">No cierres esta página. Wompi nos notificará el resultado del pago.</p>
+  <p id="order" style="color:#64748b"></p>
+  <a href="/" style="display:inline-block;margin-top:20px">Volver a NaturalMedix</a>
+</main>
+<script is:inline define:vars={{ orderId }}>
+const id = orderId;
+const title = document.getElementById('title');
+const message = document.getElementById('message');
+const orderEl = document.getElementById('order');
+let tries = 0;
+async function check() {
+  if (!id) { title.textContent = 'Pedido no identificado'; message.textContent = 'Vuelve a la tienda y realiza el proceso nuevamente.'; return; }
+  try {
+    const response = await fetch(`/api/orders/${encodeURIComponent(id)}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Error');
+    const order = data.order;
+    orderEl.textContent = `Pedido: ${order.order_number}`;
+    if (order.payment_status === 'APPROVED') {
+      title.textContent = '¡Pago confirmado! 🎉';
+      message.textContent = 'Tu pedido fue recibido correctamente. Pronto continuaremos con el despacho.';
+      localStorage.removeItem('naturalmedix_cart'); localStorage.removeItem('starnatural_cart');
+      sessionStorage.removeItem('naturalmedix_pending_order');
+      return;
+    }
+    if (['DECLINED','ERROR','VOIDED','PAYMENT_LINK_ERROR','STOCK_ERROR'].includes(order.status)) {
+      title.textContent = order.status === 'STOCK_ERROR' ? 'Pago recibido, pero debemos revisar el stock' : 'El pago no quedó confirmado';
+      message.textContent = order.status === 'STOCK_ERROR' ? 'Nuestro equipo debe revisar el pedido antes de despacharlo.' : 'Puedes volver a la tienda e intentar nuevamente.';
+      return;
+    }
+  } catch {}
+  tries += 1;
+  if (tries < 30) setTimeout(check, 3000);
+}
+check();
+</script>
+</body></html>

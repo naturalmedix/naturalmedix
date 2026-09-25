@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "naturalmedix-pwa",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-09-05",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "naturalmedix",
+      "database_id": "REEMPLAZAR_CON_EL_ID_DE_TU_NUEVA_D1",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
