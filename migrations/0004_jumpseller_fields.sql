@@ -1,0 +1,4 @@
+ALTER TABLE products ADD COLUMN sku TEXT;
+ALTER TABLE products ADD COLUMN cost_cop INTEGER;
+ALTER TABLE products ADD COLUMN images_json TEXT NOT NULL DEFAULT '[]';
+ALTER TABLE products ADD COLUMN source_data_json TEXT NOT NULL DEFAULT '{}';

@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "short_name": "NaturalMedix",
+  "name": "NaturalMedix • App",
+  "icons": [
+    { "src": "/images/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "/images/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "display": "standalone",
+  "orientation": "portrait"
+}

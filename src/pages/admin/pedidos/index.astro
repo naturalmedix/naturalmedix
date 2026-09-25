@@ -1,0 +1,16 @@
+---
+export const prerender = false;
+---
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pedidos · Admin</title><link rel="stylesheet" href="/css/styles-1.2.8.css"></head>
+<body><main style="max-width:1100px;margin:30px auto;padding:20px;font-family:system-ui"><a href="/admin">← Admin</a><h1>Pedidos</h1><p>Pedidos creados desde NaturalMedix y estados reportados por Wompi.</p><div id="status"></div><div id="list"></div></main>
+<script is:inline>
+const token=sessionStorage.getItem('naturalmedix_admin_token')||'';
+const status=document.getElementById('status'); const list=document.getElementById('list');
+function money(n){return Number(n||0).toLocaleString('es-CO')+' COP'}
+async function load(){
+ const r=await fetch('/api/admin/orders',{headers:{Authorization:`Bearer ${token}`}}); const d=await r.json();
+ if(!r.ok){status.textContent=d.error||'No autorizado';return;}
+ list.innerHTML=`<div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>Pedido</th><th>Cliente</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>${d.orders.map(o=>`<tr><td style="padding:10px;border-top:1px solid #e2e8f0"><strong>${o.order_number}</strong><br><small>${o.wompi_reference||''}</small></td><td style="padding:10px;border-top:1px solid #e2e8f0">${o.customer_name||''}<br><small>${o.customer_email||''}</small></td><td style="padding:10px;border-top:1px solid #e2e8f0">${money(o.total_cop)}</td><td style="padding:10px;border-top:1px solid #e2e8f0">${o.payment_status}</td><td style="padding:10px;border-top:1px solid #e2e8f0">${o.status}</td><td style="padding:10px;border-top:1px solid #e2e8f0">${new Date(o.created_at).toLocaleString('es-CO')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+load();
+</script></body></html>

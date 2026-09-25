@@ -1,0 +1,16 @@
+NaturalMedix — precio fijo por paquete de 12
+
+CAMBIO
+- Todo paquete completo de 12 unidades cuesta exactamente $130.000 COP, en cualquier línea.
+- Las combinaciones siguen permitidas dentro de la misma línea. Cada grupo de línea debe completar 12, 24, 36... unidades.
+- El carrito muestra el valor de los paquetes completos; el servidor vuelve a calcular el total antes de crear el link de Wompi.
+- Cuando las cantidades de una línea están incompletas, el checkout sigue bloqueado hasta completarlas.
+- No se modifica el CSV ni se necesita ejecutar SQL.
+
+APLICACIÓN
+1. Conserva una copia de seguridad del proyecto actual.
+2. Extrae el contenido de este ZIP en C:\Users\julio\NaturalMedix-pwa-v1 y acepta reemplazar los cuatro archivos incluidos en public\js y src\pages\api\orders.
+3. Reinicia el servidor de desarrollo y recarga la página con Ctrl+F5. Para el sitio publicado, vuelve a desplegar el proyecto.
+
+Los archivos originales reemplazados se incluyen en backups\ con la misma ruta relativa.
+El campo unit_price_cop en los detalles del pedido guarda un promedio redondeado por unidad; subtotal_cop y total_cop conservan los valores exactos del paquete.

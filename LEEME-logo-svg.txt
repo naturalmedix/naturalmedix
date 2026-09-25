@@ -1,0 +1,11 @@
+Logo SVG para NaturalMedix
+
+Contenido:
+- public/images/logo-naturalmedix.svg: trazados vectoriales escalables, sin PNG incrustado.
+- src/pages/index.astro: muestra el SVG en el encabezado y pie y lo declara favicon.
+- public/css/styles-1.2.8.css: dimensiones responsivas.
+- public/sw.js: precarga SVG y renueva caché de la PWA.
+- backups/: versiones originales de los 3 archivos reemplazados.
+
+Extrae el contenido del ZIP en C:\Users\julio\NaturalMedix-pwa-v1 y acepta reemplazar los 3 archivos. Luego recarga con Ctrl+F5.
+Los PNG de iconos de instalación PWA se conservan como compatibilidad; el logo de la página y el favicon usan SVG.

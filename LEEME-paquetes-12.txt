@@ -1,0 +1,12 @@
+Regla comercial preparada: mínimo y múltiplos de 12 unidades por grupo.
+
+- Los productos de una misma línea se pueden combinar para completar el paquete.
+- Aguaje queda configurado como línea compartida entre los productos jm-002 a jm-005.
+- Los productos sin línea configurada completan paquetes individualmente.
+- El carrito muestra progreso; el navegador y la API de pedidos validan los paquetes.
+- No se modifican precios ni stock.
+
+Aplicar el contenido en la raíz de C:\Users\julio\NaturalMedix-pwa-v1, conservando backups/. Después ejecutar una vez:
+ npx wrangler d1 execute naturalmedix --local --file=./db/configurar_paquetes_12.sql
+
+No se ejecutó el SQL ni se modificó el proyecto original. Los archivos originales están en backups/.

@@ -1,0 +1,7 @@
+# Copia este archivo como .dev.vars para desarrollo local.
+# Nunca subas el valor real a Git.
+ADMIN_TOKEN=pon_aqui_un_token_local_largo
+# Para pruebas locales usa Sandbox: https://sandbox.wompi.co/v1
+WOMPI_API_BASE_URL=https://sandbox.wompi.co/v1
+WOMPI_PRIVATE_KEY=pon_aqui_tu_llave_privada_de_sandbox
+WOMPI_EVENTS_SECRET=pon_aqui_tu_secreto_test_events
