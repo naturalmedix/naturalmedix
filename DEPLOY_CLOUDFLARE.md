@@ -1,46 +1,39 @@
 # NaturalMedix · Cloudflare Workers + D1
 
-NaturalMedix usa Astro con renderizado en servidor, endpoints API y D1. GitHub Pages solo publica archivos estáticos y no puede ejecutar esta aplicación. El repositorio permanece en GitHub; el sitio se publica en Cloudflare Workers.
+NaturalMedix usa Astro con renderizado en servidor, endpoints API y D1. GitHub Pages solo publica archivos estáticos y no puede ejecutar esta aplicación. El código permanece en GitHub y la publicación se hace en Cloudflare Workers.
 
-## Preparar la base D1 de producción
+## Configuración de Cloudflare
 
-Crear una base de producción si todavía no existe:
+La zona `naturalmedix.co` ya está activa en Cloudflare y sus nameservers están delegados desde Dynadot. El identificador de cuenta y la base D1 de producción están configurados en `wrangler.jsonc`; son identificadores, no contraseñas.
 
-```bash
-npx wrangler d1 create naturalmedix
-```
+## Configurar el token de despliegue
 
-Guarda el `database_id` que entrega Wrangler. Para ejecutar migraciones desde tu computadora, coloca ese ID en el campo `database_id` de `wrangler.jsonc`. El ID no es un secreto, pero no subas otros tokens al archivo.
+En el repositorio abre **Settings → Secrets and variables → Actions** y crea el secreto:
 
-Ejecuta las migraciones en la base:
+- `CLOUDFLARE_API_TOKEN`: token de Cloudflare con permisos para editar Workers y D1 en esta cuenta.
 
-```bash
-npx wrangler d1 migrations apply naturalmedix --remote
-```
+No pegues el token en el chat ni lo agregues a archivos del proyecto.
 
-Confirma que la base tenga las tablas y el catálogo que necesita la tienda. La base local con los 81 productos y stock 12 no se copia automáticamente a producción.
+## Primer despliegue e inicialización de D1
 
-## Configurar GitHub Actions
+El workflow aplica las migraciones para crear las tablas. En el primer despliegue, activa las dos confirmaciones del formulario:
 
-En el repositorio, abre **Settings → Secrets and variables → Actions** y configura:
+- `confirm_production`: confirma la publicación de producción.
+- `initialize_catalog`: carga el catálogo por primera vez en la base D1.
 
-- Secret `CLOUDFLARE_ACCOUNT_ID`: identificador de la cuenta Cloudflare.
-- Secret `CLOUDFLARE_API_TOKEN`: token de Cloudflare autorizado para desplegar Workers.
-- Variable `CLOUDFLARE_D1_DATABASE_ID`: identificador real de la base D1 `naturalmedix`.
+La inicialización carga los 81 productos con stock 12, precios fuente, categorías, descripciones, SKU e imágenes. También configura la línea mixta de Aguaje y restaura las etiquetas animadas. Los códigos de barras vacíos se guardan como `NULL`, para respetar la restricción de unicidad de la base.
 
-El workflow está configurado como ejecución manual para evitar publicar hasta que estas credenciales y la base de producción estén listas. Desde **Actions → Deploy NaturalMedix to Cloudflare Workers → Run workflow**, marca la confirmación de producción y ejecútalo. El workflow valida la configuración, coloca el ID de D1 solo en el entorno de compilación y publica con Wrangler.
+La importación usa inserciones que no reinician el stock de productos ya existentes. En ejecuciones posteriores, deja `initialize_catalog` desactivado para evitar volver a sembrar productos eliminados.
 
-No agregues tokens privados a archivos del proyecto ni al chat.
+Para publicar: **Actions → Deploy NaturalMedix to Cloudflare Workers → Run workflow**. El workflow compila Astro y publica con Wrangler.
 
-## Conectar el dominio
+## Conectar el dominio al Worker
 
-Después de que el Worker se despliegue correctamente, configura `naturalmedix.co` como dominio personalizado del Worker en Cloudflare. Comprueba que el dominio y su zona DNS estén disponibles en la cuenta antes de cambiar la publicación desde GitHub Pages. No cambies los registros DNS hasta verificar primero la URL de prueba `workers.dev` y que el Worker responde bien.
-
-El archivo `CNAME` del repositorio puede permanecer como respaldo; cuando GitHub Pages deje de publicar, ese archivo no dirige el Worker.
+Después del despliegue, comprueba que la dirección `workers.dev` responda. Luego, en Cloudflare Workers, asigna `naturalmedix.co` como dominio personalizado del Worker. El dominio permanece registrado en Dynadot; no se transfiere.
 
 ## Secretos de la aplicación
 
-Configura también los secretos de runtime requeridos por el panel y el checkout en Cloudflare Workers:
+Antes de usar el panel administrativo y el checkout, configura en Cloudflare Workers estos secretos de runtime:
 
 ```bash
 npx wrangler secret put ADMIN_TOKEN
@@ -73,7 +66,7 @@ npm run dev
 - `/admin/categorias`
 - `/admin/pedidos`
 
-El formulario de producto admite precios por cantidad. La cantidad mínima de compra es independiente y se configura por producto.
+El pedido mínimo usa paquetes de 12 unidades por producto o por línea mixta. La línea Aguaje permite combinar sus cuatro productos. Cada paquete suma $130.000.
 
 ## Wompi · Payment Links
 
