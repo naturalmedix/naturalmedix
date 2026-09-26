@@ -82,7 +82,8 @@ function getPriceTier(product, qty = 1) {
 }
 
 function getProductUnitPrice(product, qty = 1) {
-  return Number(window.NATURALMEDIX_PACK_PRICE_COP || 130000) / Number(window.NATURALMEDIX_PACK_SIZE || 12);
+  const tier = getPriceTier(product, qty);
+  return Number(tier?.price ?? product?.price ?? 0);
 }
 
 function getMinimumOrderQuantity(product) {
@@ -90,7 +91,19 @@ function getMinimumOrderQuantity(product) {
 }
 
 function formatPriceTierSummary(product) {
-  return '<div class="product-price-tiers">Paquete de 12 unidades: $130.000 COP</div>';
+  const tiers = Array.isArray(product?.priceTiers)
+    ? [...product.priceTiers].sort((a, b) => Number(a.minimumQuantity) - Number(b.minimumQuantity))
+    : [];
+
+  if (tiers.length <= 1) return '';
+
+  return `<div class="product-price-tiers">${tiers.map((tier, index) => {
+    const next = tiers[index + 1];
+    const from = Number(tier.minimumQuantity);
+    const to = next ? Number(next.minimumQuantity) - 1 : null;
+    const range = to ? `${from}–${to} uds.` : `Desde ${from} uds.`;
+    return `<span><strong>${escapeHTML(range)}</strong>: ${currencyFormatter.format(Number(tier.price))}</span>`;
+  }).join('')}</div>`;
 }
 
 function escapeHTML(str) {
@@ -130,7 +143,10 @@ function renderProducts(filterText = "") {
   }
 
   container.innerHTML = filteredProducts.map(product => {
-    const ahorroFormateado = '';
+    const ahorro = product.originalPrice - product.price;
+    const ahorroFormateado = ahorro > 0 
+      ? `<span class="savings-tag"><img src="${EMOJIS.fire}" class="animated-emoji" alt="Fuego"> ¡Ahorras ${currencyFormatter.format(ahorro)}!</span>` 
+      : '';
 
     const isVideo = product.image && product.image.toLowerCase().endsWith('.mp4');
 
@@ -175,7 +191,8 @@ function renderProducts(filterText = "") {
         
         <div class="price-container">
   <div class="prices-row">
-    <span class="product-price" data-product-price="${product.id}">${currencyFormatter.format(130000)} COP / paquete</span>
+    <span class="product-price" data-product-price="${product.id}">${currencyFormatter.format(getProductUnitPrice(product, ((window.cart || []).find(i => i.id === product.id)?.qty || 1)))} COP</span>
+    <span class="original-price">${currencyFormatter.format(product.originalPrice)}</span>
   </div>
 
   ${formatPriceTierSummary(product)}
@@ -226,7 +243,11 @@ function renderProducts(filterText = "") {
   id="product-subtotal-${product.id}"
   style="margin-top: 0.4rem; font-size: 0.85rem; font-weight: 700; color: #0d9488; text-align: center;"
 >
-  Unidades seleccionadas: ${(() => { const cartItem = (window.cart || []).find(i => i.id === product.id); return cartItem ? cartItem.qty : 0; })()}
+  Subtotal: ${(() => {
+    const cartItem = (window.cart || []).find(i => i.id === product.id);
+    const qty = cartItem ? cartItem.qty : 0;
+    return currencyFormatter.format(getProductUnitPrice(product, qty) * qty);
+  })()} COP
 </div>
       </article>
     `;
@@ -257,10 +278,10 @@ function changeProductQty(productId, delta) {
     if (product) {
       const unitPrice = getProductUnitPrice(product, Math.max(qty, 1));
       subtotalElement.textContent =
-        `Unidades seleccionadas: ${qty}`;
+        `Subtotal: ${currencyFormatter.format(unitPrice * qty)} COP`;
 
       const cardPrice = document.querySelector(`.product-card [data-product-price="${product.id}"]`);
-      if (cardPrice) cardPrice.textContent = `${currencyFormatter.format(130000)} COP / paquete`;
+      if (cardPrice) cardPrice.textContent = `${currencyFormatter.format(unitPrice)} COP`;
 
       const pum = document.getElementById(`product-pum-${product.id}`);
       if (pum && product.netWeight > 0) {
@@ -340,7 +361,7 @@ console.log("VIDEO MODAL FORZADO:", videoSrc);
 ">
   <div>
     <span style="font-size: 1.2rem; font-weight: bold; color: #0d9488;">
-      ${currencyFormatter.format(130000)} COP / paquete de 12
+      ${currencyFormatter.format(getProductUnitPrice(product, ((window.cart || []).find(i => i.id === product.id)?.qty || 1)))} COP
     </span>
     ${
       product.netWeight > 0
@@ -390,7 +411,11 @@ console.log("VIDEO MODAL FORZADO:", videoSrc);
   id="modal-product-subtotal-${product.id}"
   style="margin-top: 0.5rem; padding: 5px 9px; font-size: 0.82rem; font-weight: 800; color: #0f766e; background: rgba(204, 251, 241, 0.95); border: 1px solid rgba(13, 148, 136, 0.35); border-radius: 8px; text-align: center; line-height: 1.25; box-shadow: 0 2px 6px rgba(15, 118, 110, 0.12);"
 >
-  Unidades seleccionadas: ${(() => { const cartItem = (window.cart || []).find(i => i.id === product.id); return cartItem ? cartItem.qty : 0; })()}
+  Subtotal: ${(() => {
+    const cartItem = (window.cart || []).find(i => i.id === product.id);
+    const qty = cartItem ? cartItem.qty : 0;
+    return currencyFormatter.format(getProductUnitPrice(product, qty) * qty);
+  })()} COP
 </div>
 
 </div>
@@ -456,12 +481,12 @@ function syncProductQtyDisplays() {
 
     if (productSubtotal) {
       productSubtotal.textContent =
-        `Unidades seleccionadas: ${qty}`;
+        `Subtotal: ${currencyFormatter.format(getProductUnitPrice(product, Math.max(qty, 1)) * qty)} COP`;
     }
 
     const cardPrice = document.querySelector(`.product-card [data-product-price="${product.id}"]`);
     if (cardPrice) {
-      cardPrice.textContent = `${currencyFormatter.format(130000)} COP / paquete`;
+      cardPrice.textContent = `${currencyFormatter.format(getProductUnitPrice(product, Math.max(qty, 1)))} COP`;
     }
 
     const pum = document.getElementById(`product-pum-${product.id}`);
@@ -474,7 +499,8 @@ function syncProductQtyDisplays() {
       document.getElementById(`modal-product-subtotal-${product.id}`);
 
     if (modalSubtotal) {
-      modalSubtotal.textContent = `Unidades seleccionadas: ${qty}`;
+      modalSubtotal.textContent =
+        `Subtotal: ${currencyFormatter.format(getProductUnitPrice(product, Math.max(qty, 1)) * qty)} COP`;
     }
   });
 }

@@ -99,9 +99,12 @@ function saveAndRefreshCart() {
  */
 function updateCartUI() {
   const totalCount = cart.reduce((acc, i) => acc + i.qty, 0);
-  const totalPrice = typeof window.getPackCartTotal === "function"
-    ? window.getPackCartTotal(cart)
-    : 0;
+  const totalPrice = cart.reduce((acc, i) => {
+    const unitPrice = typeof getProductUnitPrice === "function"
+      ? getProductUnitPrice(i, i.qty)
+      : Number(i.price) || 0;
+    return acc + (unitPrice * i.qty);
+  }, 0);
 
   const cartCountEl = document.getElementById("cart-count");
   const cartTotalEl = document.getElementById("cart-total");
@@ -127,7 +130,8 @@ function updateCartUI() {
         <div class="cart-item">
           <div>
             <div style="font-weight:700;">${item.name}</div>
-            <div style="font-size:0.85rem; color:#64748b;">${item.qty} unidades · precio calculado por paquete de 12</div>
+            <div style="font-size:0.85rem; color:#64748b;">$${((typeof getProductUnitPrice === "function" ? getProductUnitPrice(item, item.qty) : item.price) * item.qty).toLocaleString("es-CO")} COP</div>
+            ${typeof getPriceTier === "function" && (item.priceTiers || []).length > 1 ? `<div style="font-size:0.75rem; color:#0f766e; font-weight:700; margin-top:2px;">${escapeHTML(getPriceTier(item, item.qty)?.label || "Precio por cantidad")} · ${getProductUnitPrice(item, item.qty).toLocaleString("es-CO")} c/u</div>` : ""}
           </div>
           <div class="qty-controls">
             <button class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
