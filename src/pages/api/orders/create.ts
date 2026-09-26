@@ -57,9 +57,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   `).bind(...productIds).all();
 
   const byId = new Map((results || []).map((p: any) => [String(p.id), p]));
-  const PACK_SIZE = 12;
-  const PACK_PRICE_COP = 130000;
-  const orderItems: Array<{ id: string; name: string; qty: number; unit: number; subtotal: number; groupKey: string }> = [];
+  const orderItems: Array<{ id: string; name: string; qty: number; unit: number; subtotal: number }> = [];
   const packGroups = new Map<string, { label: string; quantity: number }>();
   let total = 0;
 
@@ -76,37 +74,24 @@ export const POST: APIRoute = async ({ request, url }) => {
       return json({ error: `${product.name}: stock insuficiente.` }, { status: 400 });
     }
 
-    orderItems.push({ id, name: String(product.name), qty, unit: 0, subtotal: 0, groupKey });
+    const tiers = JSON.parse(product.price_tiers || '[]') as Array<{ minimumQuantity: number; price: number }>;
+    const applicable = tiers.filter(t => Number(t.minimumQuantity) <= qty && Number(t.price) >= 0)
+      .sort((a, b) => Number(b.minimumQuantity) - Number(a.minimumQuantity))[0];
+    if (!applicable) return json({ error: `${product.name}: no tiene precio configurado.` }, { status: 400 });
+
+    const unit = Math.floor(Number(applicable.price));
+    const subtotal = unit * qty;
+    total += subtotal;
+    orderItems.push({ id, name: String(product.name), qty, unit, subtotal });
   }
 
   for (const group of packGroups.values()) {
-    const remainder = group.quantity % PACK_SIZE;
-    if (group.quantity < PACK_SIZE) {
-      return json({ error: group.label + ': el paquete mínimo es de 12 unidades; agrega ' + (PACK_SIZE - group.quantity) + ' unidades de la misma línea.' }, { status: 400 });
+    const remainder = group.quantity % 12;
+    if (group.quantity < 12) {
+      return json({ error: group.label + ': el paquete mínimo es de 12 unidades; agrega ' + (12 - group.quantity) + ' unidades de la misma línea.' }, { status: 400 });
     }
     if (remainder !== 0) {
-      return json({ error: group.label + ': la cantidad debe completar paquetes de 12. Agrega ' + (PACK_SIZE - remainder) + ' unidades o quita ' + remainder + '.' }, { status: 400 });
-    }
-  }
-
-  for (const [groupKey, group] of packGroups) {
-    const groupTotal = (group.quantity / PACK_SIZE) * PACK_PRICE_COP;
-    total += groupTotal;
-    const shares = orderItems.filter(item => item.groupKey === groupKey).map(item => {
-      const numerator = PACK_PRICE_COP * item.qty;
-      return { item, subtotal: Math.floor(numerator / PACK_SIZE), remainder: numerator % PACK_SIZE };
-    });
-    const allocated = shares.reduce((sum, share) => sum + share.subtotal, 0);
-    let pesosToAllocate = groupTotal - allocated;
-    shares.sort((a, b) => b.remainder - a.remainder);
-    for (const share of shares) {
-      if (pesosToAllocate <= 0) break;
-      share.subtotal += 1;
-      pesosToAllocate -= 1;
-    }
-    for (const share of shares) {
-      share.item.subtotal = share.subtotal;
-      share.item.unit = Math.round(share.subtotal / share.item.qty);
+      return json({ error: group.label + ': la cantidad debe completar paquetes de 12. Agrega ' + (12 - remainder) + ' unidades o quita ' + remainder + '.' }, { status: 400 });
     }
   }
 
