@@ -1,5 +1,5 @@
 /* Service worker NaturalMedix: lista de recursos existentes y versión renovada. */
-const CACHE_NAME = "naturalmedix-v1.0.3";
+const CACHE_NAME = "naturalmedix-v1.0.2";
 const ASSETS_TO_CACHE = [
   "/",
   "/manifest.json",
@@ -49,5 +49,3 @@ self.addEventListener("fetch", (event) => {
     }).catch(() => caches.match(request))
   );
 });
-
-
