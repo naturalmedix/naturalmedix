@@ -149,3 +149,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     return json({ error: 'No se pudo conectar con Wompi.' }, { status: 502 });
   }
 };
+
+const data: any = await response.json().catch(() => ({}));
+console.log('[WOMPI] status:', response.status, 'body:', JSON.stringify(data));
+if (!response.ok || !data?.data?.id) {
