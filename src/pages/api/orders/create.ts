@@ -128,11 +128,16 @@ export const POST: APIRoute = async ({ request, url }) => {
   };
 
   try {
-    const response = await fetch(`${wompiApiBase}/payment_links`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${privateKey}`, 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
-    });
+   const response = await fetch(`${wompiApiBase}/payment_links`, {
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${privateKey}`,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'User-Agent': 'NaturalMedix/1.0 (+https://naturalmedix.co)',
+  },
+  body: JSON.stringify(payload),
+});
     const data: any = await response.json().catch(() => ({}));
     console.log('[WOMPI] status:', response.status, 'body:', JSON.stringify(data));
     if (!response.ok || !data?.data?.id) {
