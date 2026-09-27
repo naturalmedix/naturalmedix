@@ -134,6 +134,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       body: JSON.stringify(payload),
     });
     const data: any = await response.json().catch(() => ({}));
+    console.log('[WOMPI] status:', response.status, 'body:', JSON.stringify(data));
     if (!response.ok || !data?.data?.id) {
       await db.prepare(`UPDATE orders SET status='PAYMENT_LINK_ERROR', updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(orderId).run();
       return json({ error: data?.error?.reason || data?.error?.messages?.[0] || 'Wompi no pudo crear el link de pago.' }, { status: 502 });
@@ -149,7 +150,3 @@ export const POST: APIRoute = async ({ request, url }) => {
     return json({ error: 'No se pudo conectar con Wompi.' }, { status: 502 });
   }
 };
-
-const data: any = await response.json().catch(() => ({}));
-console.log('[WOMPI] status:', response.status, 'body:', JSON.stringify(data));
-if (!response.ok || !data?.data?.id) {
