@@ -1,15 +1,3 @@
-/* ==========================================================================
-   styles-1.2.7.css
-   HOJA DE ESTILOS UNIFICADA
-   --------------------------------------------------------------------------
-   Consolidación de los CSS compartidos para evitar reglas duplicadas y
-   conflictos de cascada. Se mantiene la apariencia y funcionalidad existente.
-   ========================================================================== */
-
-/* ==========================================================================
-   1. FUENTE VARIABLE + VARIABLES GLOBALES + RESET
-   ========================================================================== */
-
 @font-face {
   font-family: 'Google Sans Flex';
   font-style: normal;
