@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "naturalmedix-pwa",
+  "name": "naturalmedix",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "account_id": "b2891466588d2b3ed3c7c9abb2217380",
   "compatibility_date": "2026-09-05",
