@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import categorias from "../data/categorias.json";
+---
+<Base titulo="Página no encontrada" descripcion="Esta página no existe. Revisa nuestras categorías.">
+  <h1>No encontramos esa página</h1>
+  <p>Puede que el enlace sea viejo. Mira nuestras categorías:</p>
+  <ul>
+    {categorias.map((c) => <li><a href={`/${c.slug}`}>{c.nombre}</a></li>)}
+  </ul>
+  <p><a href="/">Volver al inicio</a></p>
+</Base>
